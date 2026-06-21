@@ -68,6 +68,14 @@ export const languages = {
       feed: "פיד",
       myPosts: "הפוסטים שלי"
     },
+    chat: {
+      title: "צ'אט",
+      join: "כניסה לחדר",
+      room: "חדר",
+      recipient: "נמען",
+      message: "הודעה",
+      send: "שליחה"
+    },
     hero: {
       title: "מרכז הפעילות של הקמפוס",
       body: "כאן ננהל משתמשים, קבוצות, פוסטים, חיפושים, צ'אט וגרפים לפי דרישות הפרויקט."
@@ -141,6 +149,14 @@ export const languages = {
       to: "To",
       feed: "Feed",
       myPosts: "My posts"
+    },
+    chat: {
+      title: "Chat",
+      join: "Join room",
+      room: "Room",
+      recipient: "Recipient",
+      message: "Message",
+      send: "Send"
     },
     hero: {
       title: "Campus activity hub",
