@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import { createCorsOriginDelegate } from "./config/clientOrigins.js";
+import { env } from "./config/env.js";
 import { createAuthController } from "./controllers/authController.js";
 import { createGroupController } from "./controllers/groupController.js";
 import { createPostController } from "./controllers/postController.js";

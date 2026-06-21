@@ -3,6 +3,7 @@ import { getHealth } from "./controllers/healthController.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { notFound } from "./middleware/notFound.js";
 import { createApp } from "./app.js";
+import { createFakeDb } from "./test/fakeDb.js";
 
 describe("express app foundation", () => {
   it("returns health status", () => {
@@ -61,5 +62,9 @@ describe("express app foundation", () => {
 
   it("creates the app with local development CORS enabled", () => {
     expect(() => createApp()).not.toThrow();
+  });
+
+  it("creates the full API app when a database is provided", () => {
+    expect(() => createApp({ db: createFakeDb() })).not.toThrow();
   });
 });
