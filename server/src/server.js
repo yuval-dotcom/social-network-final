@@ -1,6 +1,7 @@
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { createApp } from "./app.js";
+import { createCorsOriginDelegate } from "./config/clientOrigins.js";
 import { connectDatabase } from "./config/database.js";
 import { env } from "./config/env.js";
 import { chatMessageRepository } from "./repositories/chatMessageRepository.js";
@@ -10,7 +11,7 @@ const db = await connectDatabase();
 const app = createApp({ db });
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: env.clientOrigin }
+  cors: { origin: createCorsOriginDelegate() }
 });
 
 registerChatSocket(io, { db, messages: chatMessageRepository });

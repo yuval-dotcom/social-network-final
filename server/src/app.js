@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import { env } from "./config/env.js";
+import { createCorsOriginDelegate } from "./config/clientOrigins.js";
 import { createAuthController } from "./controllers/authController.js";
 import { createGroupController } from "./controllers/groupController.js";
 import { createPostController } from "./controllers/postController.js";
@@ -22,21 +22,9 @@ import { createAuthService } from "./services/authService.js";
 
 export function createApp({ db } = {}) {
   const app = express();
-  const allowedOrigins = new Set([
-    env.clientOrigin,
-    "http://localhost:5173",
-    "http://127.0.0.1:5173"
-  ]);
 
   app.use(cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.has(origin)) {
-        callback(null, true);
-        return;
-      }
-
-      callback(new Error(`CORS origin is not allowed: ${origin}`));
-    }
+    origin: createCorsOriginDelegate()
   }));
   app.use(express.json());
 
