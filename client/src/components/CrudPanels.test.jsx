@@ -105,7 +105,18 @@ describe("CRUD panels", () => {
   });
 
   it("creates groups from the UI", async () => {
-    api.createGroup.mockResolvedValue({ group: { id: "g1", name: "Math" } });
+    api.createGroup.mockResolvedValue({
+      group: {
+        id: "g1",
+        name: "Math",
+        description: "",
+        category: "Math",
+        privacy: "public",
+        ownerId: "user_dana",
+        memberIds: ["user_dana"],
+        pendingMemberIds: []
+      }
+    });
     render(<GroupsPanel copy={languages.he} />);
 
     fireEvent.change(screen.getByLabelText("שם"), { target: { value: "Math" } });
@@ -113,6 +124,7 @@ describe("CRUD panels", () => {
     fireEvent.click(screen.getByRole("button", { name: "יצירה" }));
 
     await waitFor(() => expect(api.createGroup).toHaveBeenCalled());
+    expect(screen.getByText("פריט נבחר: g1")).toBeInTheDocument();
   });
 
   it("fills the group form from a selected result card", async () => {
@@ -180,7 +192,18 @@ describe("CRUD panels", () => {
   });
 
   it("creates posts from the UI", async () => {
-    api.createPost.mockResolvedValue({ post: { id: "p1", content: "Exam tips" } });
+    api.createPost.mockResolvedValue({
+      post: {
+        id: "p1",
+        groupId: "g1",
+        authorId: "user_dana",
+        content: "Exam tips",
+        tags: [],
+        mediaUrl: "",
+        mediaType: "",
+        createdAt: "2026-06-01T09:00:00.000Z"
+      }
+    });
     render(<PostsPanel copy={languages.he} />);
 
     fireEvent.change(screen.getAllByLabelText("מזהה קבוצה")[0], { target: { value: "g1" } });
@@ -188,6 +211,7 @@ describe("CRUD panels", () => {
     fireEvent.click(screen.getByRole("button", { name: "יצירה" }));
 
     await waitFor(() => expect(api.createPost).toHaveBeenCalledWith(expect.objectContaining({ groupId: "g1", content: "Exam tips" })));
+    expect(screen.getByText("פריט נבחר: p1")).toBeInTheDocument();
   });
 
   it("fills the post form from a selected result card", async () => {

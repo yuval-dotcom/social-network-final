@@ -40,6 +40,7 @@ export function GroupsPanel({ copy }) {
     try {
       const result = await api.createGroup(group);
       setGroups((current) => [result.group, ...current]);
+      selectGroup(result.group);
       setMessage(copy.crud.created);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));

@@ -45,6 +45,7 @@ export function PostsPanel({ copy }) {
     try {
       const result = await api.createPost(payload());
       setPosts((current) => [result.post, ...current]);
+      selectPost(result.post);
       setMessage(copy.crud.created);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
