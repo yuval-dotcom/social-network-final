@@ -83,6 +83,14 @@ export const languages = {
       byGroup: "פוסטים לפי קבוצה",
       loaded: "הגרפים נטענו."
     },
+    media: {
+      title: "וידאו וקנבס",
+      draw: "ציור כרטיס",
+      badgeName: "שם לכרטיס",
+      videoUrl: "קישור וידאו",
+      canvasLabel: "כרטיס Canvas",
+      videoLabel: "נגן וידאו"
+    },
     hero: {
       title: "מרכז הפעילות של הקמפוס",
       body: "כאן ננהל משתמשים, קבוצות, פוסטים, חיפושים, צ'אט וגרפים לפי דרישות הפרויקט."
@@ -171,6 +179,14 @@ export const languages = {
       byMonth: "Posts by month",
       byGroup: "Posts by group",
       loaded: "Charts loaded."
+    },
+    media: {
+      title: "Video and Canvas",
+      draw: "Draw badge",
+      badgeName: "Badge name",
+      videoUrl: "Video URL",
+      canvasLabel: "Canvas badge",
+      videoLabel: "Video player"
     },
     hero: {
       title: "Campus activity hub",

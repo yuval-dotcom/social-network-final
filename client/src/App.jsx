@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AuthPanel } from "./components/AuthPanel.jsx";
 import { ChatPanel } from "./components/ChatPanel.jsx";
 import { GroupsPanel } from "./components/GroupsPanel.jsx";
+import { MediaPanel } from "./components/MediaPanel.jsx";
 import { PostsPanel } from "./components/PostsPanel.jsx";
 import { StatsPanel } from "./components/StatsPanel.jsx";
 import { UsersPanel } from "./components/UsersPanel.jsx";
@@ -67,6 +68,7 @@ export default function App() {
       <PostsPanel copy={copy} />
       <ChatPanel copy={copy} />
       <StatsPanel copy={copy} />
+      <MediaPanel copy={copy} />
     </main>
   );
 }
