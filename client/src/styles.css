@@ -206,6 +206,30 @@ button {
   padding: 10px 12px;
 }
 
+.chart-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+}
+
+figure {
+  margin: 0;
+}
+
+figcaption {
+  color: #3b6670;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+svg {
+  background: white;
+  border: 1px solid #dce6ea;
+  border-radius: 8px;
+  min-height: 220px;
+  width: 100%;
+}
+
 @media (max-width: 720px) {
   .app-shell {
     padding: 18px;
@@ -226,6 +250,10 @@ button {
 
   .status-panel {
     margin-top: 20px;
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
   }
 
   .panel-heading,

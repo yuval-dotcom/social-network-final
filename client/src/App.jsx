@@ -3,6 +3,7 @@ import { AuthPanel } from "./components/AuthPanel.jsx";
 import { ChatPanel } from "./components/ChatPanel.jsx";
 import { GroupsPanel } from "./components/GroupsPanel.jsx";
 import { PostsPanel } from "./components/PostsPanel.jsx";
+import { StatsPanel } from "./components/StatsPanel.jsx";
 import { UsersPanel } from "./components/UsersPanel.jsx";
 import { languages } from "./i18n.js";
 import "./styles.css";
@@ -65,6 +66,7 @@ export default function App() {
       <GroupsPanel copy={copy} />
       <PostsPanel copy={copy} />
       <ChatPanel copy={copy} />
+      <StatsPanel copy={copy} />
     </main>
   );
 }

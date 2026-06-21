@@ -73,5 +73,11 @@ export const api = {
   },
   deletePost(id) {
     return apiRequest(`/posts/${id}`, { method: "DELETE" });
+  },
+  postsByMonth() {
+    return apiRequest("/stats/posts-by-month");
+  },
+  postsByGroup() {
+    return apiRequest("/stats/posts-by-group");
   }
 };

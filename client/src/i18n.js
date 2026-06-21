@@ -76,6 +76,13 @@ export const languages = {
       message: "הודעה",
       send: "שליחה"
     },
+    stats: {
+      title: "סטטיסטיקות D3",
+      load: "טעינת גרפים",
+      byMonth: "פוסטים לפי חודש",
+      byGroup: "פוסטים לפי קבוצה",
+      loaded: "הגרפים נטענו."
+    },
     hero: {
       title: "מרכז הפעילות של הקמפוס",
       body: "כאן ננהל משתמשים, קבוצות, פוסטים, חיפושים, צ'אט וגרפים לפי דרישות הפרויקט."
@@ -157,6 +164,13 @@ export const languages = {
       recipient: "Recipient",
       message: "Message",
       send: "Send"
+    },
+    stats: {
+      title: "D3 statistics",
+      load: "Load charts",
+      byMonth: "Posts by month",
+      byGroup: "Posts by group",
+      loaded: "Charts loaded."
     },
     hero: {
       title: "Campus activity hub",
