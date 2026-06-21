@@ -4,6 +4,7 @@ import { env } from "./config/env.js";
 import { createAuthController } from "./controllers/authController.js";
 import { createGroupController } from "./controllers/groupController.js";
 import { createPostController } from "./controllers/postController.js";
+import { createStatsController } from "./controllers/statsController.js";
 import { createUserController } from "./controllers/userController.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { createAuthenticate } from "./middleware/authenticate.js";
@@ -12,6 +13,7 @@ import { createAuthRouter } from "./routes/authRoutes.js";
 import { createGroupRouter } from "./routes/groupRoutes.js";
 import { healthRouter } from "./routes/healthRoutes.js";
 import { createPostRouter } from "./routes/postRoutes.js";
+import { createStatsRouter } from "./routes/statsRoutes.js";
 import { createUserRouter } from "./routes/userRoutes.js";
 import { groupRepository } from "./repositories/groupRepository.js";
 import { postRepository } from "./repositories/postRepository.js";
@@ -37,6 +39,10 @@ export function createApp({ db } = {}) {
       groups: groupRepository,
       users: userRepository
     });
+    const statsController = createStatsController({
+      posts: postRepository,
+      groups: groupRepository
+    });
 
     app.use("/api/auth", createAuthRouter({ authController, authenticate }));
     app.use((req, res, next) => {
@@ -46,6 +52,7 @@ export function createApp({ db } = {}) {
     app.use("/api/users", createUserRouter({ userController, authenticate }));
     app.use("/api/groups", createGroupRouter({ groupController, authenticate }));
     app.use("/api/posts", createPostRouter({ postController, authenticate }));
+    app.use("/api/stats", createStatsRouter({ statsController, authenticate }));
   }
 
   app.use(notFound);
