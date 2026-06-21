@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AuthPanel } from "./components/AuthPanel.jsx";
 import { languages } from "./i18n.js";
 import "./styles.css";
 
@@ -6,6 +7,7 @@ const navKeys = ["feed", "groups", "posts", "users", "chat", "stats"];
 
 export default function App() {
   const [language, setLanguage] = useState("he");
+  const [currentUser, setCurrentUser] = useState(null);
   const copy = languages[language];
   const nextLanguage = language === "he" ? "en" : "he";
 
@@ -52,6 +54,9 @@ export default function App() {
           <strong>React + jQuery Ajax</strong>
         </div>
       </section>
+
+      <AuthPanel copy={copy} onAuth={setCurrentUser} />
+      {currentUser && <p className="session-banner">{currentUser.displayName || currentUser.username}</p>}
     </main>
   );
 }

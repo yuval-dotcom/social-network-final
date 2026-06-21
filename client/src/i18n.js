@@ -17,6 +17,19 @@ export const languages = {
       login: "התחברות",
       register: "הרשמה"
     },
+    fields: {
+      username: "שם משתמש",
+      password: "סיסמה",
+      displayName: "שם מלא",
+      major: "מסלול לימודים"
+    },
+    auth: {
+      title: "כניסה למערכת",
+      modeLabel: "בחירת מצב התחברות",
+      registered: "המשתמש נוצר. עכשיו אפשר להתחבר.",
+      loggedIn: "התחברת בהצלחה.",
+      failed: "הפעולה נכשלה. בדוק את הפרטים ונסה שוב."
+    },
     hero: {
       title: "מרכז הפעילות של הקמפוס",
       body: "כאן ננהל משתמשים, קבוצות, פוסטים, חיפושים, צ'אט וגרפים לפי דרישות הפרויקט."
@@ -40,10 +53,22 @@ export const languages = {
       login: "Login",
       register: "Register"
     },
+    fields: {
+      username: "Username",
+      password: "Password",
+      displayName: "Full name",
+      major: "Major"
+    },
+    auth: {
+      title: "Account access",
+      modeLabel: "Choose auth mode",
+      registered: "User created. You can log in now.",
+      loggedIn: "Logged in successfully.",
+      failed: "Action failed. Check the details and try again."
+    },
     hero: {
       title: "Campus activity hub",
       body: "This is where we will manage users, groups, posts, search, chat, and charts for the final project."
     }
   }
 };
-
