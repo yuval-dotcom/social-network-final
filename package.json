@@ -1,0 +1,14 @@
+{
+  "name": "studycircle",
+  "version": "0.1.0",
+  "private": true,
+  "description": "StudyCircle social network final project.",
+  "scripts": {
+    "test": "npm run test:server && npm run test:client",
+    "test:server": "npm --prefix server test",
+    "test:client": "npm --prefix client test",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev"
+  }
+}
+
