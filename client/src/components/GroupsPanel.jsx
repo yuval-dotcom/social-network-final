@@ -38,7 +38,13 @@ export function GroupsPanel({ copy }) {
   async function createGroup(event) {
     event.preventDefault();
     try {
-      const result = await api.createGroup(group);
+      const createPayload = {
+        name: group.name,
+        description: group.description,
+        category: group.category,
+        privacy: group.privacy
+      };
+      const result = await api.createGroup(createPayload);
       setGroups((current) => [result.group, ...current]);
       selectGroup(result.group);
       setMessage(copy.crud.created);

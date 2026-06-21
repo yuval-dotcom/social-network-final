@@ -43,7 +43,8 @@ export function PostsPanel({ copy }) {
   async function createPost(event) {
     event.preventDefault();
     try {
-      const result = await api.createPost(payload());
+      const { id, ...createPayload } = payload();
+      const result = await api.createPost(createPayload);
       setPosts((current) => [result.post, ...current]);
       selectPost(result.post);
       setMessage(copy.crud.created);

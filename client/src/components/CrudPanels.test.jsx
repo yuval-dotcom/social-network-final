@@ -119,11 +119,17 @@ describe("CRUD panels", () => {
     });
     render(<GroupsPanel copy={languages.he} />);
 
+    fireEvent.change(screen.getByLabelText("מזהה", { exact: true }), { target: { value: "manual_group" } });
     fireEvent.change(screen.getByLabelText("שם"), { target: { value: "Math" } });
     fireEvent.change(screen.getAllByLabelText("קטגוריה")[0], { target: { value: "Math" } });
     fireEvent.click(screen.getByRole("button", { name: "יצירה" }));
 
-    await waitFor(() => expect(api.createGroup).toHaveBeenCalled());
+    await waitFor(() => expect(api.createGroup).toHaveBeenCalledWith({
+      name: "Math",
+      description: "",
+      category: "Math",
+      privacy: "public"
+    }));
     expect(screen.getByText("פריט נבחר: g1")).toBeInTheDocument();
   });
 
@@ -206,11 +212,18 @@ describe("CRUD panels", () => {
     });
     render(<PostsPanel copy={languages.he} />);
 
+    fireEvent.change(screen.getByLabelText("מזהה", { exact: true }), { target: { value: "manual_post" } });
     fireEvent.change(screen.getAllByLabelText("מזהה קבוצה")[0], { target: { value: "g1" } });
     fireEvent.change(screen.getByLabelText("תוכן"), { target: { value: "Exam tips" } });
     fireEvent.click(screen.getByRole("button", { name: "יצירה" }));
 
-    await waitFor(() => expect(api.createPost).toHaveBeenCalledWith(expect.objectContaining({ groupId: "g1", content: "Exam tips" })));
+    await waitFor(() => expect(api.createPost).toHaveBeenCalledWith({
+      groupId: "g1",
+      content: "Exam tips",
+      tags: [],
+      mediaUrl: "",
+      mediaType: ""
+    }));
     expect(screen.getByText("פריט נבחר: p1")).toBeInTheDocument();
   });
 
