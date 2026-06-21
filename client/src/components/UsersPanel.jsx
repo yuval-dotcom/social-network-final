@@ -69,19 +69,32 @@ export function UsersPanel({ copy }) {
         <button type="button" onClick={listUsers}>{copy.crud.list}</button>
       </div>
       <p className="hint">{copy.crud.userCreateHint}</p>
-      <form className="form-grid" onSubmit={searchUsers}>
-        <label>{copy.crud.keyword}<input name="q" value={search.q} onChange={setSearchField} /></label>
-        <label>{copy.fields.major}<input name="major" value={search.major} onChange={setSearchField} /></label>
-        <label>{copy.crud.role}<input name="role" value={search.role} onChange={setSearchField} /></label>
-        <button type="submit" className="secondary-button">{copy.crud.search}</button>
-      </form>
-      <form className="form-grid" onSubmit={updateUser}>
-        <label>{copy.crud.id}<input name="id" value={edit.id} onChange={setEditField} required /></label>
-        <label>{copy.fields.displayName}<input name="displayName" value={edit.displayName} onChange={setEditField} required /></label>
-        <label>{copy.crud.bio}<input name="bio" value={edit.bio} onChange={setEditField} /></label>
-        <button type="submit" className="primary-button">{copy.crud.update}</button>
-        <button type="button" className="secondary-button" onClick={deleteUser}>{copy.crud.delete}</button>
-      </form>
+      <div className="form-layout">
+        <div className="form-section">
+          <h3>{copy.crud.searchSection}</h3>
+          <form className="form-grid" onSubmit={searchUsers}>
+            <label>{copy.crud.keyword}<input name="q" value={search.q} onChange={setSearchField} /></label>
+            <label>{copy.fields.major}<input name="major" value={search.major} onChange={setSearchField} /></label>
+            <label>{copy.crud.role}<input name="role" value={search.role} onChange={setSearchField} /></label>
+            <button type="submit" className="secondary-button">{copy.crud.search}</button>
+          </form>
+        </div>
+        <div className="form-section">
+          <div className="form-section-heading">
+            <h3>{copy.crud.editSection}</h3>
+            <span className={edit.id ? "selection-pill" : "selection-pill muted"}>
+              {edit.id ? `${copy.crud.selectedItem}: ${edit.id}` : copy.crud.noSelection}
+            </span>
+          </div>
+          <form className="form-grid" onSubmit={updateUser}>
+            <label>{copy.crud.id}<input name="id" value={edit.id} onChange={setEditField} required /></label>
+            <label>{copy.fields.displayName}<input name="displayName" value={edit.displayName} onChange={setEditField} required /></label>
+            <label>{copy.crud.bio}<input name="bio" value={edit.bio} onChange={setEditField} /></label>
+            <button type="submit" className="primary-button">{copy.crud.update}</button>
+            <button type="button" className="secondary-button" onClick={deleteUser}>{copy.crud.delete}</button>
+          </form>
+        </div>
+      </div>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.usersTitle}>
         {users.map((user) => (

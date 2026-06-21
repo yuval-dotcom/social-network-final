@@ -96,26 +96,39 @@ export function GroupsPanel({ copy }) {
           }
         }}>{copy.crud.list}</button>
       </div>
-      <form className="form-grid" onSubmit={createGroup}>
-        <label>{copy.crud.id}<input name="id" value={group.id} onChange={updateGroupField} /></label>
-        <label>{copy.crud.name}<input name="name" value={group.name} onChange={updateGroupField} required /></label>
-        <label>{copy.crud.category}<input name="category" value={group.category} onChange={updateGroupField} required /></label>
-        <label>{copy.crud.privacy}<select name="privacy" value={group.privacy} onChange={updateGroupField}><option value="public">public</option><option value="private">private</option></select></label>
-        <label>{copy.crud.description}<input name="description" value={group.description} onChange={updateGroupField} /></label>
-        <label>{copy.crud.userId}<input name="userId" value={group.userId} onChange={updateGroupField} /></label>
-        <button type="submit" className="primary-button">{copy.crud.create}</button>
-        <button type="button" onClick={updateGroup}>{copy.crud.update}</button>
-        <button type="button" onClick={deleteGroup}>{copy.crud.delete}</button>
-        <button type="button" onClick={joinGroup}>{copy.crud.join}</button>
-        <button type="button" onClick={approveMember}>{copy.crud.approve}</button>
-      </form>
-      <form className="form-grid" onSubmit={searchGroups}>
-        <label>{copy.crud.keyword}<input name="q" value={search.q} onChange={updateSearchField} /></label>
-        <label>{copy.crud.category}<input name="category" value={search.category} onChange={updateSearchField} /></label>
-        <label>{copy.crud.privacy}<input name="privacy" value={search.privacy} onChange={updateSearchField} /></label>
-        <label>{copy.crud.memberId}<input name="memberId" value={search.memberId} onChange={updateSearchField} /></label>
-        <button type="submit" className="secondary-button">{copy.crud.search}</button>
-      </form>
+      <div className="form-layout">
+        <div className="form-section">
+          <div className="form-section-heading">
+            <h3>{copy.crud.createEditSection}</h3>
+            <span className={group.id ? "selection-pill" : "selection-pill muted"}>
+              {group.id ? `${copy.crud.selectedItem}: ${group.id}` : copy.crud.noSelection}
+            </span>
+          </div>
+          <form className="form-grid" onSubmit={createGroup}>
+            <label>{copy.crud.id}<input name="id" value={group.id} onChange={updateGroupField} /></label>
+            <label>{copy.crud.name}<input name="name" value={group.name} onChange={updateGroupField} required /></label>
+            <label>{copy.crud.category}<input name="category" value={group.category} onChange={updateGroupField} required /></label>
+            <label>{copy.crud.privacy}<select name="privacy" value={group.privacy} onChange={updateGroupField}><option value="public">public</option><option value="private">private</option></select></label>
+            <label>{copy.crud.description}<input name="description" value={group.description} onChange={updateGroupField} /></label>
+            <label>{copy.crud.userId}<input name="userId" value={group.userId} onChange={updateGroupField} /></label>
+            <button type="submit" className="primary-button">{copy.crud.create}</button>
+            <button type="button" onClick={updateGroup}>{copy.crud.update}</button>
+            <button type="button" onClick={deleteGroup}>{copy.crud.delete}</button>
+            <button type="button" onClick={joinGroup}>{copy.crud.join}</button>
+            <button type="button" onClick={approveMember}>{copy.crud.approve}</button>
+          </form>
+        </div>
+        <div className="form-section">
+          <h3>{copy.crud.searchSection}</h3>
+          <form className="form-grid" onSubmit={searchGroups}>
+            <label>{copy.crud.keyword}<input name="q" value={search.q} onChange={updateSearchField} /></label>
+            <label>{copy.crud.category}<input name="category" value={search.category} onChange={updateSearchField} /></label>
+            <label>{copy.crud.privacy}<input name="privacy" value={search.privacy} onChange={updateSearchField} /></label>
+            <label>{copy.crud.memberId}<input name="memberId" value={search.memberId} onChange={updateSearchField} /></label>
+            <button type="submit" className="secondary-button">{copy.crud.search}</button>
+          </form>
+        </div>
+      </div>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.groupsTitle}>
         {groups.map((item) => (

@@ -76,6 +76,7 @@ describe("CRUD panels", () => {
     expect(screen.getByLabelText("מזהה")).toHaveValue("user_dana");
     expect(screen.getByLabelText("שם מלא")).toHaveValue("Dana Levi");
     expect(screen.getByLabelText("ביוגרפיה")).toHaveValue("Likes algorithms");
+    expect(screen.getByText("פריט נבחר: user_dana")).toBeInTheDocument();
   });
 
   it("creates groups from the UI", async () => {
@@ -112,6 +113,7 @@ describe("CRUD panels", () => {
     expect(screen.getByLabelText("שם")).toHaveValue("Campus Design Circle");
     expect(screen.getAllByLabelText("קטגוריה")[0]).toHaveValue("Design");
     expect(screen.getByLabelText("מזהה משתמש")).toHaveValue("user_noam");
+    expect(screen.getByText("פריט נבחר: group_design")).toBeInTheDocument();
   });
 
   it("creates posts from the UI", async () => {
@@ -148,5 +150,6 @@ describe("CRUD panels", () => {
     expect(screen.getAllByLabelText("מזהה קבוצה")[0]).toHaveValue("group_algorithms");
     expect(screen.getByLabelText("תגיות")).toHaveValue("exam, graphs");
     expect(screen.getByLabelText("תוכן")).toHaveValue("Graph summary");
+    expect(screen.getByText("פריט נבחר: post_algorithms_1")).toBeInTheDocument();
   });
 });

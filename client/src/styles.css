@@ -44,7 +44,8 @@ textarea {
 }
 
 h1,
-h2 {
+h2,
+h3 {
   margin: 0;
 }
 
@@ -156,7 +157,6 @@ button {
   display: grid;
   gap: 14px;
   grid-template-columns: repeat(2, minmax(180px, 1fr));
-  max-width: 760px;
 }
 
 .form-grid label {
@@ -167,9 +167,56 @@ button {
 .form-grid input,
 .form-grid select,
 .form-grid textarea {
+  background: white;
   border: 1px solid #cbd8dd;
   border-radius: 7px;
   padding: 10px 12px;
+}
+
+.form-layout {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+}
+
+.form-section {
+  background: #fbfdfe;
+  border: 1px solid #dce6ea;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.form-section h3 {
+  color: #184c5a;
+  font-size: 1rem;
+}
+
+.form-section-heading {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.selection-pill {
+  background: #e7f5f8;
+  border: 1px solid #bddbe3;
+  border-radius: 999px;
+  color: #184c5a;
+  direction: ltr;
+  font-size: 0.82rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.selection-pill.muted {
+  background: white;
+  color: #60727a;
+  direction: inherit;
+  text-align: inherit;
 }
 
 .wide-field {
@@ -353,8 +400,14 @@ video {
   }
 
   .panel-heading,
-  .form-grid {
+  .form-layout,
+  .form-grid,
+  .form-section-heading {
     display: block;
+  }
+
+  .form-section {
+    margin-top: 12px;
   }
 
   .result-card-header {

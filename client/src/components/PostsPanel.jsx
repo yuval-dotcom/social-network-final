@@ -107,26 +107,39 @@ export function PostsPanel({ copy }) {
           <button type="button" onClick={loadMine}>{copy.crud.myPosts}</button>
         </div>
       </div>
-      <form className="form-grid" onSubmit={createPost}>
-        <label>{copy.crud.id}<input name="id" value={post.id} onChange={updatePostField} /></label>
-        <label>{copy.crud.groupId}<input name="groupId" value={post.groupId} onChange={updatePostField} required /></label>
-        <label>{copy.crud.tags}<input name="tags" value={post.tags} onChange={updatePostField} /></label>
-        <label>{copy.crud.mediaUrl}<input name="mediaUrl" value={post.mediaUrl} onChange={updatePostField} /></label>
-        <label>{copy.crud.mediaType}<input name="mediaType" value={post.mediaType} onChange={updatePostField} /></label>
-        <label className="wide-field">{copy.crud.content}<textarea name="content" value={post.content} onChange={updatePostField} required /></label>
-        <button type="submit" className="primary-button">{copy.crud.create}</button>
-        <button type="button" onClick={updatePost}>{copy.crud.update}</button>
-        <button type="button" onClick={deletePost}>{copy.crud.delete}</button>
-      </form>
-      <form className="form-grid" onSubmit={searchPosts}>
-        <label>{copy.crud.keyword}<input name="q" value={search.q} onChange={updateSearchField} /></label>
-        <label>{copy.crud.groupId}<input name="groupId" value={search.groupId} onChange={updateSearchField} /></label>
-        <label>{copy.crud.authorId}<input name="authorId" value={search.authorId} onChange={updateSearchField} /></label>
-        <label>{copy.crud.tag}<input name="tag" value={search.tag} onChange={updateSearchField} /></label>
-        <label>{copy.crud.from}<input name="from" type="date" value={search.from} onChange={updateSearchField} /></label>
-        <label>{copy.crud.to}<input name="to" type="date" value={search.to} onChange={updateSearchField} /></label>
-        <button type="submit" className="secondary-button">{copy.crud.search}</button>
-      </form>
+      <div className="form-layout">
+        <div className="form-section">
+          <div className="form-section-heading">
+            <h3>{copy.crud.createEditSection}</h3>
+            <span className={post.id ? "selection-pill" : "selection-pill muted"}>
+              {post.id ? `${copy.crud.selectedItem}: ${post.id}` : copy.crud.noSelection}
+            </span>
+          </div>
+          <form className="form-grid" onSubmit={createPost}>
+            <label>{copy.crud.id}<input name="id" value={post.id} onChange={updatePostField} /></label>
+            <label>{copy.crud.groupId}<input name="groupId" value={post.groupId} onChange={updatePostField} required /></label>
+            <label>{copy.crud.tags}<input name="tags" value={post.tags} onChange={updatePostField} /></label>
+            <label>{copy.crud.mediaUrl}<input name="mediaUrl" value={post.mediaUrl} onChange={updatePostField} /></label>
+            <label>{copy.crud.mediaType}<input name="mediaType" value={post.mediaType} onChange={updatePostField} /></label>
+            <label className="wide-field">{copy.crud.content}<textarea name="content" value={post.content} onChange={updatePostField} required /></label>
+            <button type="submit" className="primary-button">{copy.crud.create}</button>
+            <button type="button" onClick={updatePost}>{copy.crud.update}</button>
+            <button type="button" onClick={deletePost}>{copy.crud.delete}</button>
+          </form>
+        </div>
+        <div className="form-section">
+          <h3>{copy.crud.searchSection}</h3>
+          <form className="form-grid" onSubmit={searchPosts}>
+            <label>{copy.crud.keyword}<input name="q" value={search.q} onChange={updateSearchField} /></label>
+            <label>{copy.crud.groupId}<input name="groupId" value={search.groupId} onChange={updateSearchField} /></label>
+            <label>{copy.crud.authorId}<input name="authorId" value={search.authorId} onChange={updateSearchField} /></label>
+            <label>{copy.crud.tag}<input name="tag" value={search.tag} onChange={updateSearchField} /></label>
+            <label>{copy.crud.from}<input name="from" type="date" value={search.from} onChange={updateSearchField} /></label>
+            <label>{copy.crud.to}<input name="to" type="date" value={search.to} onChange={updateSearchField} /></label>
+            <button type="submit" className="secondary-button">{copy.crud.search}</button>
+          </form>
+        </div>
+      </div>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.postsTitle}>
         {posts.map((item) => (
