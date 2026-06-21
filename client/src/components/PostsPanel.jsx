@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 
 export function PostsPanel({ copy }) {
@@ -21,33 +22,57 @@ export function PostsPanel({ copy }) {
 
   async function createPost(event) {
     event.preventDefault();
-    const result = await api.createPost(payload());
-    setPosts((current) => [result.post, ...current]);
-    setMessage(copy.crud.created);
+    try {
+      const result = await api.createPost(payload());
+      setPosts((current) => [result.post, ...current]);
+      setMessage(copy.crud.created);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function searchPosts(event) {
     event.preventDefault();
-    const result = await api.searchPosts(search);
-    setPosts(result.posts || []);
+    try {
+      const result = await api.searchPosts(search);
+      setPosts(result.posts || []);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function updatePost() {
-    await api.updatePost(post.id, payload());
-    setMessage(copy.crud.updated);
+    try {
+      await api.updatePost(post.id, payload());
+      setMessage(copy.crud.updated);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function deletePost() {
-    await api.deletePost(post.id);
-    setMessage(copy.crud.deleted);
+    try {
+      await api.deletePost(post.id);
+      setMessage(copy.crud.deleted);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function loadFeed() {
-    setPosts((await api.feed()).posts || []);
+    try {
+      setPosts((await api.feed()).posts || []);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function loadMine() {
-    setPosts((await api.myPosts()).posts || []);
+    try {
+      setPosts((await api.myPosts()).posts || []);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   return (
@@ -55,7 +80,13 @@ export function PostsPanel({ copy }) {
       <div className="panel-heading">
         <h2>{copy.crud.postsTitle}</h2>
         <div className="topbar-actions">
-          <button type="button" onClick={async () => setPosts((await api.listPosts()).posts || [])}>{copy.crud.list}</button>
+          <button type="button" onClick={async () => {
+            try {
+              setPosts((await api.listPosts()).posts || []);
+            } catch (error) {
+              setMessage(getApiErrorMessage(error, copy.crud.failed));
+            }
+          }}>{copy.crud.list}</button>
           <button type="button" onClick={loadFeed}>{copy.crud.feed}</button>
           <button type="button" onClick={loadMine}>{copy.crud.myPosts}</button>
         </div>
@@ -87,4 +118,3 @@ export function PostsPanel({ copy }) {
     </section>
   );
 }
-

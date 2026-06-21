@@ -42,6 +42,15 @@ describe("CRUD panels", () => {
     await waitFor(() => expect(api.searchUsers).toHaveBeenCalledWith({ q: "dana", major: "CS", role: "student" }));
   });
 
+  it("shows a friendly message when user API calls fail", async () => {
+    api.listUsers.mockRejectedValue({ message: "network down" });
+    render(<UsersPanel copy={languages.he} />);
+
+    fireEvent.click(screen.getByRole("button", { name: "רשימה" }));
+
+    await waitFor(() => expect(screen.getByText("network down")).toBeInTheDocument());
+  });
+
   it("creates groups from the UI", async () => {
     api.createGroup.mockResolvedValue({ group: { id: "g1", name: "Math" } });
     render(<GroupsPanel copy={languages.he} />);

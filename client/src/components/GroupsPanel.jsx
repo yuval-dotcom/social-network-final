@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 
 export function GroupsPanel({ copy }) {
@@ -17,42 +18,72 @@ export function GroupsPanel({ copy }) {
 
   async function createGroup(event) {
     event.preventDefault();
-    const result = await api.createGroup(group);
-    setGroups((current) => [result.group, ...current]);
-    setMessage(copy.crud.created);
+    try {
+      const result = await api.createGroup(group);
+      setGroups((current) => [result.group, ...current]);
+      setMessage(copy.crud.created);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function searchGroups(event) {
     event.preventDefault();
-    const result = await api.searchGroups(search);
-    setGroups(result.groups || []);
+    try {
+      const result = await api.searchGroups(search);
+      setGroups(result.groups || []);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function updateGroup() {
-    await api.updateGroup(group.id, group);
-    setMessage(copy.crud.updated);
+    try {
+      await api.updateGroup(group.id, group);
+      setMessage(copy.crud.updated);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function deleteGroup() {
-    await api.deleteGroup(group.id);
-    setMessage(copy.crud.deleted);
+    try {
+      await api.deleteGroup(group.id);
+      setMessage(copy.crud.deleted);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function joinGroup() {
-    const result = await api.joinGroup(group.id);
-    setMessage(result.status || copy.crud.updated);
+    try {
+      const result = await api.joinGroup(group.id);
+      setMessage(result.status || copy.crud.updated);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function approveMember() {
-    await api.approveGroupMember(group.id, group.userId);
-    setMessage(copy.crud.approved);
+    try {
+      await api.approveGroupMember(group.id, group.userId);
+      setMessage(copy.crud.approved);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   return (
     <section className="panel" id="groups">
       <div className="panel-heading">
         <h2>{copy.crud.groupsTitle}</h2>
-        <button type="button" onClick={async () => setGroups((await api.listGroups()).groups || [])}>{copy.crud.list}</button>
+        <button type="button" onClick={async () => {
+          try {
+            setGroups(((await api.listGroups()).groups || []));
+          } catch (error) {
+            setMessage(getApiErrorMessage(error, copy.crud.failed));
+          }
+        }}>{copy.crud.list}</button>
       </div>
       <form className="form-grid" onSubmit={createGroup}>
         <label>{copy.crud.id}<input name="id" value={group.id} onChange={updateGroupField} /></label>
@@ -81,4 +112,3 @@ export function GroupsPanel({ copy }) {
     </section>
   );
 }
-

@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { useEffect, useRef, useState } from "react";
+import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 
 function drawBarChart(svgElement, data, labelKey) {
@@ -52,10 +53,14 @@ export function StatsPanel({ copy }) {
   const [message, setMessage] = useState("");
 
   async function loadCharts() {
-    const [monthResult, groupResult] = await Promise.all([api.postsByMonth(), api.postsByGroup()]);
-    drawBarChart(monthRef.current, monthResult.data || [], "month");
-    drawBarChart(groupRef.current, groupResult.data || [], "groupName");
-    setMessage(copy.stats.loaded);
+    try {
+      const [monthResult, groupResult] = await Promise.all([api.postsByMonth(), api.postsByGroup()]);
+      drawBarChart(monthRef.current, monthResult.data || [], "month");
+      drawBarChart(groupRef.current, groupResult.data || [], "groupName");
+      setMessage(copy.stats.loaded);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   useEffect(() => {
@@ -83,4 +88,3 @@ export function StatsPanel({ copy }) {
     </section>
   );
 }
-

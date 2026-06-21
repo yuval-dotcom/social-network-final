@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 
 export function UsersPanel({ copy }) {
@@ -16,25 +17,41 @@ export function UsersPanel({ copy }) {
   }
 
   async function listUsers() {
-    const result = await api.listUsers();
-    setUsers(result.users || []);
+    try {
+      const result = await api.listUsers();
+      setUsers(result.users || []);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function searchUsers(event) {
     event.preventDefault();
-    const result = await api.searchUsers(search);
-    setUsers(result.users || []);
+    try {
+      const result = await api.searchUsers(search);
+      setUsers(result.users || []);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function updateUser(event) {
     event.preventDefault();
-    await api.updateUser(edit.id, { displayName: edit.displayName, bio: edit.bio });
-    setMessage(copy.crud.updated);
+    try {
+      await api.updateUser(edit.id, { displayName: edit.displayName, bio: edit.bio });
+      setMessage(copy.crud.updated);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function deleteUser() {
-    await api.deleteUser(edit.id);
-    setMessage(copy.crud.deleted);
+    try {
+      await api.deleteUser(edit.id);
+      setMessage(copy.crud.deleted);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   return (
@@ -64,4 +81,3 @@ export function UsersPanel({ copy }) {
     </section>
   );
 }
-
