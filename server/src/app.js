@@ -22,8 +22,22 @@ import { createAuthService } from "./services/authService.js";
 
 export function createApp({ db } = {}) {
   const app = express();
+  const allowedOrigins = new Set([
+    env.clientOrigin,
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"
+  ]);
 
-  app.use(cors({ origin: env.clientOrigin }));
+  app.use(cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.has(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`CORS origin is not allowed: ${origin}`));
+    }
+  }));
   app.use(express.json());
 
   app.use("/api/health", healthRouter);

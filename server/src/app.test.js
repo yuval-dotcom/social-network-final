@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { getHealth } from "./controllers/healthController.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { notFound } from "./middleware/notFound.js";
+import { createApp } from "./app.js";
 
 describe("express app foundation", () => {
   it("returns health status", () => {
@@ -56,5 +57,9 @@ describe("express app foundation", () => {
       success: false,
       message: "Bad request"
     });
+  });
+
+  it("creates the app with local development CORS enabled", () => {
+    expect(() => createApp()).not.toThrow();
   });
 });
