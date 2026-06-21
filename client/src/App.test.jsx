@@ -7,7 +7,7 @@ describe("React shell", () => {
     render(<App />);
 
     expect(screen.getByRole("heading", { name: "StudyCircle" })).toBeInTheDocument();
-    expect(screen.getByText("פיד")).toBeInTheDocument();
+    expect(screen.getAllByText("פיד")[0]).toBeInTheDocument();
     expect(document.documentElement.dir).toBe("rtl");
   });
 
@@ -16,7 +16,7 @@ describe("React shell", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "English" }));
 
-    expect(screen.getByText("Feed")).toBeInTheDocument();
+    expect(screen.getAllByText("Feed")[0]).toBeInTheDocument();
     expect(document.documentElement.dir).toBe("ltr");
   });
 });

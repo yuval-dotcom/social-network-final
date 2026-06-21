@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { AuthPanel } from "./components/AuthPanel.jsx";
+import { GroupsPanel } from "./components/GroupsPanel.jsx";
+import { PostsPanel } from "./components/PostsPanel.jsx";
+import { UsersPanel } from "./components/UsersPanel.jsx";
 import { languages } from "./i18n.js";
 import "./styles.css";
 
@@ -57,6 +60,9 @@ export default function App() {
 
       <AuthPanel copy={copy} onAuth={setCurrentUser} />
       {currentUser && <p className="session-banner">{currentUser.displayName || currentUser.username}</p>}
+      <UsersPanel copy={copy} />
+      <GroupsPanel copy={copy} />
+      <PostsPanel copy={copy} />
     </main>
   );
 }

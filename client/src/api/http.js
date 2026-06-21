@@ -26,6 +26,12 @@ export const api = {
   searchUsers(params) {
     return apiRequest(`/users/search?${new URLSearchParams(params)}`);
   },
+  updateUser(id, data) {
+    return apiRequest(`/users/${id}`, { method: "PATCH", data });
+  },
+  deleteUser(id) {
+    return apiRequest(`/users/${id}`, { method: "DELETE" });
+  },
   listGroups() {
     return apiRequest("/groups");
   },
@@ -34,6 +40,18 @@ export const api = {
   },
   createGroup(data) {
     return apiRequest("/groups", { method: "POST", data });
+  },
+  updateGroup(id, data) {
+    return apiRequest(`/groups/${id}`, { method: "PATCH", data });
+  },
+  deleteGroup(id) {
+    return apiRequest(`/groups/${id}`, { method: "DELETE" });
+  },
+  joinGroup(id) {
+    return apiRequest(`/groups/${id}/join`, { method: "POST" });
+  },
+  approveGroupMember(id, userId) {
+    return apiRequest(`/groups/${id}/approve`, { method: "POST", data: { userId } });
   },
   listPosts() {
     return apiRequest("/posts");
@@ -49,6 +67,11 @@ export const api = {
   },
   createPost(data) {
     return apiRequest("/posts", { method: "POST", data });
+  },
+  updatePost(id, data) {
+    return apiRequest(`/posts/${id}`, { method: "PATCH", data });
+  },
+  deletePost(id) {
+    return apiRequest(`/posts/${id}`, { method: "DELETE" });
   }
 };
-

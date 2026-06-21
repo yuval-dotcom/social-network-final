@@ -172,10 +172,38 @@ button {
   padding: 10px 12px;
 }
 
+.wide-field {
+  grid-column: 1 / -1;
+}
+
+.wide-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
 .form-message,
 .session-banner {
   color: #176b87;
   font-weight: 700;
+}
+
+.hint {
+  color: #60727a;
+}
+
+.result-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.result-list li {
+  background: white;
+  border: 1px solid #dce6ea;
+  border-radius: 7px;
+  padding: 10px 12px;
 }
 
 @media (max-width: 720px) {
