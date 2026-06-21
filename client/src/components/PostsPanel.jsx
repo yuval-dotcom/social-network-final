@@ -143,7 +143,7 @@ export function PostsPanel({ copy }) {
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.postsTitle}>
         {posts.map((item) => (
-          <li className="result-card" key={item.id}>
+          <li className={`result-card ${post.id === item.id ? "is-selected" : ""}`} key={item.id}>
             <div className="result-card-header">
               <div>
                 <strong className="result-title">{item.content}</strong>

@@ -252,6 +252,12 @@ button {
   border-radius: 7px;
   box-shadow: 0 8px 24px rgba(23, 32, 42, 0.05);
   padding: 14px;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.result-card.is-selected {
+  border-color: #176b87;
+  box-shadow: 0 10px 26px rgba(23, 107, 135, 0.14);
 }
 
 .result-card-header {

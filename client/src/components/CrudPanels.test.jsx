@@ -77,6 +77,7 @@ describe("CRUD panels", () => {
     expect(screen.getByLabelText("שם מלא")).toHaveValue("Dana Levi");
     expect(screen.getByLabelText("ביוגרפיה")).toHaveValue("Likes algorithms");
     expect(screen.getByText("פריט נבחר: user_dana")).toBeInTheDocument();
+    expect(screen.getByText("Dana Levi").closest(".result-card")).toHaveClass("is-selected");
   });
 
   it("creates groups from the UI", async () => {
@@ -114,6 +115,7 @@ describe("CRUD panels", () => {
     expect(screen.getAllByLabelText("קטגוריה")[0]).toHaveValue("Design");
     expect(screen.getByLabelText("מזהה משתמש")).toHaveValue("user_noam");
     expect(screen.getByText("פריט נבחר: group_design")).toBeInTheDocument();
+    expect(screen.getByText("Campus Design Circle").closest(".result-card")).toHaveClass("is-selected");
   });
 
   it("creates posts from the UI", async () => {
@@ -151,5 +153,10 @@ describe("CRUD panels", () => {
     expect(screen.getByLabelText("תגיות")).toHaveValue("exam, graphs");
     expect(screen.getByLabelText("תוכן")).toHaveValue("Graph summary");
     expect(screen.getByText("פריט נבחר: post_algorithms_1")).toBeInTheDocument();
+    const selectedPostCard = screen
+      .getAllByText("Graph summary")
+      .find((element) => element.closest(".result-card"))
+      .closest(".result-card");
+    expect(selectedPostCard).toHaveClass("is-selected");
   });
 });

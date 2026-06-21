@@ -98,7 +98,7 @@ export function UsersPanel({ copy }) {
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.usersTitle}>
         {users.map((user) => (
-          <li className="result-card" key={user.id}>
+          <li className={`result-card ${edit.id === user.id ? "is-selected" : ""}`} key={user.id}>
             <div className="result-card-header">
               <div>
                 <strong className="result-title">{user.displayName || user.username}</strong>
