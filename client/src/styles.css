@@ -193,17 +193,81 @@ button {
 
 .result-list {
   display: grid;
-  gap: 8px;
+  gap: 12px;
   list-style: none;
   margin: 16px 0 0;
   padding: 0;
 }
 
-.result-list li {
+.result-card {
   background: white;
   border: 1px solid #dce6ea;
   border-radius: 7px;
-  padding: 10px 12px;
+  box-shadow: 0 8px 24px rgba(23, 32, 42, 0.05);
+  padding: 14px;
+}
+
+.result-card-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.result-title {
+  color: #17202a;
+  display: block;
+  line-height: 1.45;
+}
+
+.result-subtitle {
+  color: #60727a;
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
+.compact-button {
+  background: #f8fbfc;
+  border-color: #c7d7dd;
+  color: #184c5a;
+  flex: 0 0 auto;
+  padding: 7px 10px;
+}
+
+.result-meta {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 14px 0 0;
+}
+
+.result-meta div {
+  background: #f7fafb;
+  border: 1px solid #e3edf1;
+  border-radius: 7px;
+  min-width: 0;
+  padding: 9px 10px;
+}
+
+.result-meta dt {
+  color: #60727a;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.result-meta dd {
+  margin: 0;
+}
+
+.result-id {
+  direction: ltr;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+  text-align: left;
 }
 
 .chart-grid {
@@ -291,6 +355,19 @@ video {
   .panel-heading,
   .form-grid {
     display: block;
+  }
+
+  .result-card-header {
+    display: block;
+  }
+
+  .compact-button {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .result-meta {
+    grid-template-columns: 1fr;
   }
 
   .form-grid label,

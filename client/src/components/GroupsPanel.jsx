@@ -16,6 +16,17 @@ export function GroupsPanel({ copy }) {
     setSearch((current) => ({ ...current, [event.target.name]: event.target.value }));
   }
 
+  function selectGroup(item) {
+    setGroup({
+      id: item.id || "",
+      name: item.name || "",
+      description: item.description || "",
+      category: item.category || "",
+      privacy: item.privacy || "public",
+      userId: item.pendingMemberIds?.[0] || ""
+    });
+  }
+
   async function createGroup(event) {
     event.preventDefault();
     try {
@@ -107,7 +118,45 @@ export function GroupsPanel({ copy }) {
       </form>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.groupsTitle}>
-        {groups.map((item) => <li key={item.id}>{item.name}</li>)}
+        {groups.map((item) => (
+          <li className="result-card" key={item.id}>
+            <div className="result-card-header">
+              <div>
+                <strong className="result-title">{item.name}</strong>
+                <span className="result-subtitle">{item.description || item.category}</span>
+              </div>
+              <button type="button" className="compact-button" onClick={() => selectGroup(item)}>
+                {copy.crud.select}
+              </button>
+            </div>
+            <dl className="result-meta">
+              <div>
+                <dt>{copy.crud.id}</dt>
+                <dd className="result-id">{item.id}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.category}</dt>
+                <dd>{item.category || "-"}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.privacy}</dt>
+                <dd>{item.privacy || "-"}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.ownerId}</dt>
+                <dd className="result-id">{item.ownerId || "-"}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.members}</dt>
+                <dd>{item.memberIds?.length || 0}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.pending}</dt>
+                <dd>{item.pendingMemberIds?.length || 0}</dd>
+              </div>
+            </dl>
+          </li>
+        ))}
       </ul>
     </section>
   );

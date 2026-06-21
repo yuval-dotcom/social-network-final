@@ -20,6 +20,22 @@ export function PostsPanel({ copy }) {
     return { ...post, tags: post.tags.split(",").map((tag) => tag.trim()).filter(Boolean) };
   }
 
+  function selectPost(item) {
+    setPost({
+      id: item.id || "",
+      groupId: item.groupId || "",
+      content: item.content || "",
+      tags: Array.isArray(item.tags) ? item.tags.join(", ") : "",
+      mediaUrl: item.mediaUrl || "",
+      mediaType: item.mediaType || ""
+    });
+  }
+
+  function formatDate(value) {
+    if (!value) return "-";
+    return new Date(value).toLocaleDateString();
+  }
+
   async function createPost(event) {
     event.preventDefault();
     try {
@@ -113,7 +129,41 @@ export function PostsPanel({ copy }) {
       </form>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.postsTitle}>
-        {posts.map((item) => <li key={item.id}>{item.content}</li>)}
+        {posts.map((item) => (
+          <li className="result-card" key={item.id}>
+            <div className="result-card-header">
+              <div>
+                <strong className="result-title">{item.content}</strong>
+                <span className="result-subtitle">{item.tags?.join(", ") || copy.crud.postsTitle}</span>
+              </div>
+              <button type="button" className="compact-button" onClick={() => selectPost(item)}>
+                {copy.crud.select}
+              </button>
+            </div>
+            <dl className="result-meta">
+              <div>
+                <dt>{copy.crud.id}</dt>
+                <dd className="result-id">{item.id}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.groupId}</dt>
+                <dd className="result-id">{item.groupId || "-"}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.authorId}</dt>
+                <dd className="result-id">{item.authorId || "-"}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.mediaType}</dt>
+                <dd>{item.mediaType || "-"}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.createdAt}</dt>
+                <dd>{formatDate(item.createdAt)}</dd>
+              </div>
+            </dl>
+          </li>
+        ))}
       </ul>
     </section>
   );

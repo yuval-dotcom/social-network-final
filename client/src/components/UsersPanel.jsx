@@ -16,6 +16,14 @@ export function UsersPanel({ copy }) {
     setEdit((current) => ({ ...current, [event.target.name]: event.target.value }));
   }
 
+  function selectUser(user) {
+    setEdit({
+      id: user.id || "",
+      displayName: user.displayName || "",
+      bio: user.bio || ""
+    });
+  }
+
   async function listUsers() {
     try {
       const result = await api.listUsers();
@@ -76,7 +84,37 @@ export function UsersPanel({ copy }) {
       </form>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.usersTitle}>
-        {users.map((user) => <li key={user.id}>{user.displayName || user.username}</li>)}
+        {users.map((user) => (
+          <li className="result-card" key={user.id}>
+            <div className="result-card-header">
+              <div>
+                <strong className="result-title">{user.displayName || user.username}</strong>
+                <span className="result-subtitle">@{user.username}</span>
+              </div>
+              <button type="button" className="compact-button" onClick={() => selectUser(user)}>
+                {copy.crud.select}
+              </button>
+            </div>
+            <dl className="result-meta">
+              <div>
+                <dt>{copy.crud.id}</dt>
+                <dd className="result-id">{user.id}</dd>
+              </div>
+              <div>
+                <dt>{copy.fields.major}</dt>
+                <dd>{user.major || "-"}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.role}</dt>
+                <dd>{user.role || "-"}</dd>
+              </div>
+              <div>
+                <dt>{copy.crud.groupsTitle}</dt>
+                <dd>{user.groupIds?.length || 0}</dd>
+              </div>
+            </dl>
+          </li>
+        ))}
       </ul>
     </section>
   );
