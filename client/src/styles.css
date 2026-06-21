@@ -1,0 +1,152 @@
+@font-face {
+  font-family: "StudyCircle";
+  src: local("Arial");
+}
+
+:root {
+  font-family: StudyCircle, Arial, sans-serif;
+  color: #17202a;
+  background: #f5f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.topbar {
+  align-items: center;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+.eyebrow {
+  color: #3b6670;
+  font-size: 0.95rem;
+  margin: 0 0 6px;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+h1 {
+  font-size: 2.2rem;
+  text-shadow: 0 2px 0 #d7eef2;
+}
+
+.topbar-actions,
+.main-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button,
+.main-nav a {
+  border-radius: 7px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+button:hover,
+.main-nav a:hover {
+  transform: translateY(-1px);
+}
+
+button {
+  border: 1px solid #b7cad0;
+  padding: 10px 14px;
+}
+
+.primary-button {
+  background: #176b87;
+  border-color: #176b87;
+  color: white;
+}
+
+.secondary-button,
+.ghost-button,
+.main-nav a {
+  background: white;
+  color: #17202a;
+}
+
+.main-nav {
+  margin: 28px 0;
+}
+
+.main-nav a {
+  border: 1px solid #d6e0e4;
+  padding: 10px 14px;
+}
+
+.dashboard-intro {
+  align-items: stretch;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.8fr);
+}
+
+.dashboard-intro p {
+  columns: 2;
+  line-height: 1.7;
+  max-width: 820px;
+}
+
+.status-panel {
+  background: white;
+  border: 1px solid #dce6ea;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: auto 1fr;
+  padding: 18px;
+}
+
+.status-panel span {
+  color: #60727a;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding: 18px;
+  }
+
+  .topbar,
+  .dashboard-intro {
+    display: block;
+  }
+
+  .topbar-actions {
+    margin-top: 16px;
+  }
+
+  .dashboard-intro p {
+    columns: 1;
+  }
+
+  .status-panel {
+    margin-top: 20px;
+  }
+}
+
