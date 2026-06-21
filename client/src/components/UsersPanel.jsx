@@ -24,6 +24,10 @@ export function UsersPanel({ copy }) {
     });
   }
 
+  function clearEdit() {
+    setEdit({ id: "", displayName: "", bio: "" });
+  }
+
   async function listUsers() {
     try {
       const result = await api.listUsers();
@@ -46,7 +50,8 @@ export function UsersPanel({ copy }) {
   async function updateUser(event) {
     event.preventDefault();
     try {
-      await api.updateUser(edit.id, { displayName: edit.displayName, bio: edit.bio });
+      const result = await api.updateUser(edit.id, { displayName: edit.displayName, bio: edit.bio });
+      setUsers((current) => current.map((user) => (user.id === edit.id ? result.user : user)));
       setMessage(copy.crud.updated);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
@@ -56,6 +61,8 @@ export function UsersPanel({ copy }) {
   async function deleteUser() {
     try {
       await api.deleteUser(edit.id);
+      setUsers((current) => current.filter((user) => user.id !== edit.id));
+      clearEdit();
       setMessage(copy.crud.deleted);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));

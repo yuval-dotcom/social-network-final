@@ -27,6 +27,14 @@ export function GroupsPanel({ copy }) {
     });
   }
 
+  function clearGroup() {
+    setGroup({ id: "", name: "", description: "", category: "", privacy: "public", userId: "" });
+  }
+
+  function replaceGroup(updatedGroup) {
+    setGroups((current) => current.map((item) => (item.id === updatedGroup.id ? updatedGroup : item)));
+  }
+
   async function createGroup(event) {
     event.preventDefault();
     try {
@@ -50,7 +58,8 @@ export function GroupsPanel({ copy }) {
 
   async function updateGroup() {
     try {
-      await api.updateGroup(group.id, group);
+      const result = await api.updateGroup(group.id, group);
+      replaceGroup(result.group);
       setMessage(copy.crud.updated);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
@@ -60,6 +69,8 @@ export function GroupsPanel({ copy }) {
   async function deleteGroup() {
     try {
       await api.deleteGroup(group.id);
+      setGroups((current) => current.filter((item) => item.id !== group.id));
+      clearGroup();
       setMessage(copy.crud.deleted);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
@@ -69,6 +80,7 @@ export function GroupsPanel({ copy }) {
   async function joinGroup() {
     try {
       const result = await api.joinGroup(group.id);
+      replaceGroup(result.group);
       setMessage(result.status || copy.crud.updated);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
@@ -77,7 +89,8 @@ export function GroupsPanel({ copy }) {
 
   async function approveMember() {
     try {
-      await api.approveGroupMember(group.id, group.userId);
+      const result = await api.approveGroupMember(group.id, group.userId);
+      replaceGroup(result.group);
       setMessage(copy.crud.approved);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));

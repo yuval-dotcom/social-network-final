@@ -31,6 +31,10 @@ export function PostsPanel({ copy }) {
     });
   }
 
+  function clearPost() {
+    setPost({ id: "", groupId: "", content: "", tags: "", mediaUrl: "", mediaType: "" });
+  }
+
   function formatDate(value) {
     if (!value) return "-";
     return new Date(value).toLocaleDateString();
@@ -59,7 +63,8 @@ export function PostsPanel({ copy }) {
 
   async function updatePost() {
     try {
-      await api.updatePost(post.id, payload());
+      const result = await api.updatePost(post.id, payload());
+      setPosts((current) => current.map((item) => (item.id === post.id ? result.post : item)));
       setMessage(copy.crud.updated);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
@@ -69,6 +74,8 @@ export function PostsPanel({ copy }) {
   async function deletePost() {
     try {
       await api.deletePost(post.id);
+      setPosts((current) => current.filter((item) => item.id !== post.id));
+      clearPost();
       setMessage(copy.crud.deleted);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
