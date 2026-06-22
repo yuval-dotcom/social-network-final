@@ -6,7 +6,11 @@ import App from "./App.jsx";
 vi.mock("./api/http.js", () => ({
   api: {
     login: vi.fn(),
-    register: vi.fn()
+    register: vi.fn(),
+    feed: vi.fn(),
+    listGroups: vi.fn(),
+    listUsers: vi.fn(),
+    createPost: vi.fn()
   }
 }));
 
@@ -14,6 +18,9 @@ describe("React shell", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
+    api.feed.mockResolvedValue({ posts: [] });
+    api.listGroups.mockResolvedValue({ groups: [] });
+    api.listUsers.mockResolvedValue({ users: [] });
   });
 
   it("renders a standalone auth screen before login", () => {
@@ -33,7 +40,7 @@ describe("React shell", () => {
     expect(document.documentElement.dir).toBe("ltr");
   });
 
-  it("opens the dashboard after login", async () => {
+  it("opens the social feed after login", async () => {
     api.login.mockResolvedValue({
       token: "token",
       user: { username: "dana", displayName: "Dana Levi" }
@@ -45,15 +52,35 @@ describe("React shell", () => {
     fireEvent.click(screen.getByRole("button", { name: "כניסה ל-StudyCircle" }));
 
     expect(await screen.findByRole("navigation", { name: "Primary" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "הפיד שלך" })).toBeInTheDocument();
     expect(screen.getByText("Dana Levi")).toBeInTheDocument();
   });
 
-  it("restores the dashboard from a stored user session", () => {
+  it("restores the feed from a stored user session", async () => {
     localStorage.setItem("studycircle_user", JSON.stringify({ username: "dana", displayName: "Dana Levi" }));
 
     render(<App />);
 
     expect(screen.getByRole("navigation", { name: "Primary" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "הפיד שלך" })).toBeInTheDocument();
     expect(screen.getByText("Dana Levi")).toBeInTheDocument();
+  });
+
+  it("keeps CRUD panels inside the management screen", async () => {
+    localStorage.setItem("studycircle_user", JSON.stringify({ username: "dana", displayName: "Dana Levi" }));
+
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "הפיד שלך" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "ניהול משתמשים" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "ניהול קבוצות" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "ניהול פוסטים" })).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "ניהול" }));
+
+    expect(screen.getByRole("heading", { name: "ניהול המערכת" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "ניהול משתמשים" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "ניהול קבוצות" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "ניהול פוסטים" })).toBeInTheDocument();
   });
 });

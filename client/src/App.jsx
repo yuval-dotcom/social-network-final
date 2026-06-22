@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AuthPanel } from "./components/AuthPanel.jsx";
 import { ChatPanel } from "./components/ChatPanel.jsx";
+import { FeedPanel } from "./components/FeedPanel.jsx";
 import { GroupsPanel } from "./components/GroupsPanel.jsx";
 import { MediaPanel } from "./components/MediaPanel.jsx";
 import { PostsPanel } from "./components/PostsPanel.jsx";
@@ -10,11 +11,12 @@ import { clearToken, getStoredUser } from "./api/tokenStorage.js";
 import { languages } from "./i18n.js";
 import "./styles.css";
 
-const navKeys = ["feed", "groups", "posts", "users", "chat", "stats"];
+const navKeys = ["feed", "manage", "chat", "stats", "media"];
 
 export default function App() {
   const [language, setLanguage] = useState("he");
   const [currentUser, setCurrentUser] = useState(() => getStoredUser());
+  const [activeView, setActiveView] = useState("feed");
   const copy = languages[language];
   const nextLanguage = language === "he" ? "en" : "he";
 
@@ -61,33 +63,46 @@ export default function App() {
 
       <nav className="main-nav" aria-label="Primary">
         {navKeys.map((key) => (
-          <a href={`#${key}`} key={key}>
+          <button
+            type="button"
+            className={activeView === key ? "active" : ""}
+            aria-current={activeView === key ? "page" : undefined}
+            key={key}
+            onClick={() => setActiveView(key)}
+          >
             {copy.nav[key]}
-          </a>
+          </button>
         ))}
       </nav>
 
-      <section className="dashboard-intro" id="feed">
-        <div>
-          <h2>{copy.hero.title}</h2>
-          <p>{copy.hero.body}</p>
-        </div>
-        <div className="status-panel" aria-label="Project status">
-          <span>API</span>
-          <strong>Node + Express</strong>
-          <span>DB</span>
-          <strong>MongoDB Atlas</strong>
-          <span>Client</span>
-          <strong>React + jQuery Ajax</strong>
-        </div>
-      </section>
+      {activeView === "feed" && <FeedPanel copy={copy} currentUser={currentUser} />}
 
-      <UsersPanel copy={copy} />
-      <GroupsPanel copy={copy} />
-      <PostsPanel copy={copy} />
-      <ChatPanel copy={copy} />
-      <StatsPanel copy={copy} />
-      <MediaPanel copy={copy} />
+      {activeView === "manage" && (
+        <section className="management-view" id="manage">
+          <div className="management-intro">
+            <div>
+              <p className="eyebrow">{copy.management.eyebrow}</p>
+              <h2>{copy.management.title}</h2>
+              <p>{copy.management.body}</p>
+            </div>
+            <div className="status-panel" aria-label="Project status">
+              <span>API</span>
+              <strong>Node + Express</strong>
+              <span>DB</span>
+              <strong>MongoDB Atlas</strong>
+              <span>Client</span>
+              <strong>React + jQuery Ajax</strong>
+            </div>
+          </div>
+          <UsersPanel copy={copy} />
+          <GroupsPanel copy={copy} />
+          <PostsPanel copy={copy} />
+        </section>
+      )}
+
+      {activeView === "chat" && <ChatPanel copy={copy} />}
+      {activeView === "stats" && <StatsPanel copy={copy} />}
+      {activeView === "media" && <MediaPanel copy={copy} />}
     </main>
   );
 }

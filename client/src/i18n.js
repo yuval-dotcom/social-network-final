@@ -6,11 +6,13 @@ export const languages = {
     tagline: "רשת חברתית לסטודנטים, קבוצות לימוד ופוסטים",
     nav: {
       feed: "פיד",
+      manage: "ניהול",
       groups: "קבוצות",
       posts: "פוסטים",
       users: "משתמשים",
       chat: "צ'אט",
-      stats: "סטטיסטיקות"
+      stats: "סטטיסטיקות",
+      media: "מדיה"
     },
     actions: {
       switchLanguage: "English",
@@ -51,6 +53,34 @@ export const languages = {
         { value: "2", label: "חיפושים מתקדמים" },
         { value: "Live", label: "צ'אט" }
       ]
+    },
+    feed: {
+      eyebrow: "המסך הראשי",
+      title: "הפיד שלך",
+      subtitle: "כאן רואים פוסטים מקבוצות וחברים, ומפרסמים עדכון חדש בדיוק כמו ברשת חברתית אמיתית.",
+      loading: "טוען פוסטים...",
+      empty: "אין עדיין פוסטים להצגה.",
+      refresh: "רענון פיד",
+      composerTitle: "מה לומדים היום?",
+      demoHint: "בדמו אפשר לפרסם ל-Algorithms Study Lab ולראות את הפוסט כאן מיד.",
+      contentLabel: "תוכן הפוסט",
+      placeholder: "שתף שאלה, סיכום, טיפ למבחן או בקשה לעזרה...",
+      groupLabel: "פרסום בקבוצה",
+      tagsLabel: "תגיות",
+      publish: "פרסום פוסט",
+      posting: "מפרסם...",
+      posted: "הפוסט פורסם בפיד.",
+      failed: "פרסום הפוסט נכשל. בדוק שהתחברת ושבחרת קבוצה תקינה.",
+      sidebarTitle: "קבוצות פעילות",
+      sidebarBody: "הפיד נבנה מפוסטים בקבוצות שהמשתמש רשאי לראות ומהחברים שלו.",
+      groupFallback: "קבוצת לימוד",
+      unknownUser: "משתמש",
+      unknownGroup: "קבוצה"
+    },
+    management: {
+      eyebrow: "דרישות CRUD",
+      title: "ניהול המערכת",
+      body: "מסכי ה-CRUD המלאים למשתמשים, קבוצות ופוסטים נמצאים כאן כדי שהמסך הראשי יישאר פיד חברתי נקי, ועדיין כל דרישת המרצה תהיה נגישה דרך UI."
     },
     crud: {
       usersTitle: "ניהול משתמשים",
@@ -136,11 +166,13 @@ export const languages = {
     tagline: "A student social network for study groups and posts",
     nav: {
       feed: "Feed",
+      manage: "Manage",
       groups: "Groups",
       posts: "Posts",
       users: "Users",
       chat: "Chat",
-      stats: "Stats"
+      stats: "Stats",
+      media: "Media"
     },
     actions: {
       switchLanguage: "עברית",
@@ -181,6 +213,34 @@ export const languages = {
         { value: "2", label: "Advanced searches" },
         { value: "Live", label: "Chat" }
       ]
+    },
+    feed: {
+      eyebrow: "Main screen",
+      title: "Your feed",
+      subtitle: "See posts from groups and friends, and publish a new update like a real social network.",
+      loading: "Loading posts...",
+      empty: "There are no posts to show yet.",
+      refresh: "Refresh feed",
+      composerTitle: "What are you studying today?",
+      demoHint: "In the demo, publish to Algorithms Study Lab and the post appears here immediately.",
+      contentLabel: "Post content",
+      placeholder: "Share a question, summary, exam tip, or request for help...",
+      groupLabel: "Post in group",
+      tagsLabel: "Tags",
+      publish: "Publish post",
+      posting: "Publishing...",
+      posted: "The post was published to the feed.",
+      failed: "Publishing failed. Check that you are logged in and selected a valid group.",
+      sidebarTitle: "Active groups",
+      sidebarBody: "The feed is built from group posts the user is allowed to see and from friends.",
+      groupFallback: "Study group",
+      unknownUser: "User",
+      unknownGroup: "Group"
+    },
+    management: {
+      eyebrow: "CRUD requirements",
+      title: "System management",
+      body: "The full CRUD screens for users, groups, and posts live here so the main screen stays a clean social feed while every course requirement remains accessible through the UI."
     },
     crud: {
       usersTitle: "Users management",
