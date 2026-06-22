@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { FeedComposer } from "./feed/FeedComposer.jsx";
+import { FeedPostCard } from "./feed/FeedPostCard.jsx";
+import { FeedSidebar } from "./feed/FeedSidebar.jsx";
 
 const defaultComposer = {
   groupId: "group_algorithms",
@@ -14,11 +17,6 @@ function indexById(items) {
 
 function splitTags(value) {
   return value.split(",").map((tag) => tag.trim()).filter(Boolean);
-}
-
-function formatDate(value, locale) {
-  if (!value) return "";
-  return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
 }
 
 export function FeedPanel({ copy, currentUser }) {
@@ -119,44 +117,15 @@ export function FeedPanel({ copy, currentUser }) {
 
       <div className="feed-layout">
         <div className="feed-main">
-          <form className="feed-composer" onSubmit={publishPost}>
-            <div className="feed-composer-header">
-              <span className="avatar" aria-hidden="true">
-                {(currentUser?.displayName || currentUser?.username || "S").slice(0, 1).toUpperCase()}
-              </span>
-              <div>
-                <strong>{copy.feed.composerTitle}</strong>
-                <span>{copy.feed.demoHint}</span>
-              </div>
-            </div>
-            <label className="wide-feed-field">
-              {copy.feed.contentLabel}
-              <textarea
-                name="content"
-                value={composer.content}
-                onChange={updateComposer}
-                placeholder={copy.feed.placeholder}
-                required
-              />
-            </label>
-            <div className="feed-composer-controls">
-              <label>
-                {copy.feed.groupLabel}
-                <select name="groupId" value={composer.groupId} onChange={updateComposer}>
-                  {groupOptions.map((group) => (
-                    <option key={group.id} value={group.id}>{group.name || group.id}</option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                {copy.feed.tagsLabel}
-                <input name="tags" value={composer.tags} onChange={updateComposer} />
-              </label>
-              <button type="submit" className="primary-button" disabled={isPosting}>
-                {isPosting ? copy.feed.posting : copy.feed.publish}
-              </button>
-            </div>
-          </form>
+          <FeedComposer
+            copy={copy}
+            currentUser={currentUser}
+            composer={composer}
+            groupOptions={groupOptions}
+            isPosting={isPosting}
+            onChange={updateComposer}
+            onSubmit={publishPost}
+          />
 
           {message && <p className="form-message">{message}</p>}
           {isLoading && <p className="feed-state">{copy.feed.loading}</p>}
@@ -166,47 +135,20 @@ export function FeedPanel({ copy, currentUser }) {
             {posts.map((post) => {
               const authorName = userName(post.authorId);
               return (
-                <article className="feed-post-card" key={post.id}>
-                  <div className="feed-post-header">
-                    <span className="avatar" aria-hidden="true">{authorName.slice(0, 1).toUpperCase()}</span>
-                    <div>
-                      <strong>{authorName}</strong>
-                      <span>{groupName(post.groupId)} · {formatDate(post.createdAt, locale)}</span>
-                    </div>
-                  </div>
-                  <p>{post.content}</p>
-                  {post.mediaType === "video" && post.mediaUrl && (
-                    <video className="feed-video" controls src={post.mediaUrl}>
-                      {copy.media.videoLabel}
-                    </video>
-                  )}
-                  {post.tags?.length > 0 && (
-                    <div className="feed-tags" aria-label={copy.feed.tagsLabel}>
-                      {post.tags.map((tag) => (
-                        <span className="tag-chip" key={tag}>{tag}</span>
-                      ))}
-                    </div>
-                  )}
-                </article>
+                <FeedPostCard
+                  copy={copy}
+                  post={post}
+                  authorName={authorName}
+                  groupName={groupName(post.groupId)}
+                  locale={locale}
+                  key={post.id}
+                />
               );
             })}
           </div>
         </div>
 
-        <aside className="feed-sidebar" aria-label={copy.feed.sidebarTitle}>
-          <div>
-            <h3>{copy.feed.sidebarTitle}</h3>
-            <p>{copy.feed.sidebarBody}</p>
-          </div>
-          <ul>
-            {groupOptions.slice(0, 4).map((group) => (
-              <li key={group.id}>
-                <strong>{group.name || group.id}</strong>
-                <span>{group.category || copy.feed.groupFallback}</span>
-              </li>
-            ))}
-          </ul>
-        </aside>
+        <FeedSidebar copy={copy} groupOptions={groupOptions} />
       </div>
     </section>
   );

@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { GroupCard } from "./groups/GroupCard.jsx";
+import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
+import { GroupSpotlight } from "./groups/GroupSpotlight.jsx";
 
 const defaultFilters = {
   q: "",
@@ -107,89 +110,32 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
         </button>
       </div>
 
-      <form className="group-search-bar" onSubmit={searchGroups}>
-        <label>
-          {copy.crud.keyword}
-          <input name="q" value={filters.q} onChange={updateFilter} placeholder={copy.groups.keywordPlaceholder} />
-        </label>
-        <label>
-          {copy.crud.category}
-          <input name="category" value={filters.category} onChange={updateFilter} list="group-categories" />
-        </label>
-        <label>
-          {copy.crud.privacy}
-          <select name="privacy" value={filters.privacy} onChange={updateFilter}>
-            <option value="">{copy.groups.allPrivacy}</option>
-            <option value="public">{copy.groups.publicPrivacy}</option>
-            <option value="private">{copy.groups.privatePrivacy}</option>
-          </select>
-        </label>
-        <button type="submit" className="primary-button">{copy.groups.search}</button>
-      </form>
-      <datalist id="group-categories">
-        {categories.map((category) => <option value={category} key={category} />)}
-      </datalist>
+      <GroupSearchBar
+        copy={copy}
+        filters={filters}
+        categories={categories}
+        onChange={updateFilter}
+        onSubmit={searchGroups}
+      />
 
       <div className="group-discovery-layout">
         <div className="group-card-grid">
           {isLoading && <p className="feed-state">{copy.groups.loading}</p>}
           {!isLoading && groups.length === 0 && <p className="feed-state">{copy.groups.empty}</p>}
           {groups.map((group) => (
-            <article className="group-card" key={group.id}>
-              <div className="group-card-topline">
-                <span className="tag-chip">{group.category || copy.groups.groupFallback}</span>
-                <span className={`group-privacy ${group.privacy === "private" ? "private" : ""}`}>
-                  {groupStatus(group)}
-                </span>
-              </div>
-              <h3>{group.name}</h3>
-              <p>{group.description || copy.groups.noDescription}</p>
-              <dl className="group-card-meta">
-                <div>
-                  <dt>{copy.crud.members}</dt>
-                  <dd>{group.memberIds?.length || 0}</dd>
-                </div>
-                <div>
-                  <dt>{copy.crud.pending}</dt>
-                  <dd>{group.pendingMemberIds?.length || 0}</dd>
-                </div>
-              </dl>
-              <div className="group-card-actions">
-                <button type="button" className="secondary-button" onClick={() => setSelectedGroupId(group.id)}>
-                  {copy.groups.details}
-                </button>
-                <button
-                  type="button"
-                  className="primary-button"
-                  disabled={!canJoin(group)}
-                  onClick={() => joinGroup(group.id)}
-                >
-                  {group.privacy === "private" ? copy.groups.requestJoin : copy.groups.join}
-                </button>
-              </div>
-            </article>
+            <GroupCard
+              copy={copy}
+              group={group}
+              statusLabel={groupStatus(group)}
+              canJoin={canJoin(group)}
+              onSelect={() => setSelectedGroupId(group.id)}
+              onJoin={() => joinGroup(group.id)}
+              key={group.id}
+            />
           ))}
         </div>
 
-        <aside className="group-spotlight" aria-label={copy.groups.spotlightTitle}>
-          <div>
-            <h3>{copy.groups.spotlightTitle}</h3>
-            <p>{copy.groups.spotlightBody}</p>
-          </div>
-          <div className="group-stats">
-            <span><strong>{stats.total}</strong>{copy.groups.totalGroups}</span>
-            <span><strong>{stats.publicCount}</strong>{copy.groups.publicGroups}</span>
-            <span><strong>{stats.myGroups}</strong>{copy.groups.myGroups}</span>
-          </div>
-          {selectedGroup && (
-            <div className="selected-group">
-              <span>{copy.groups.selectedGroup}</span>
-              <strong>{selectedGroup.name}</strong>
-              <p>{selectedGroup.description || copy.groups.noDescription}</p>
-            </div>
-          )}
-          {message && <p className="form-message">{message}</p>}
-        </aside>
+        <GroupSpotlight copy={copy} stats={stats} selectedGroup={selectedGroup} message={message} />
       </div>
     </section>
   );
