@@ -727,6 +727,113 @@ button:disabled {
   font-weight: 800;
 }
 
+.my-posts-view {
+  margin-top: 8px;
+}
+
+.my-posts-layout {
+  align-items: start;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  margin-top: 24px;
+}
+
+.my-post-list,
+.my-posts-side {
+  display: grid;
+  gap: 16px;
+}
+
+.my-post-card,
+.my-post-editor,
+.my-posts-summary {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+}
+
+.my-post-card {
+  padding: 18px;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.my-post-card.is-selected {
+  border-color: var(--color-accent);
+  box-shadow: 0 14px 34px rgba(3, 105, 161, 0.14);
+}
+
+.my-post-card-header {
+  align-items: start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.my-post-card-header span {
+  color: var(--color-accent-strong);
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.my-post-card-header h3 {
+  color: var(--color-primary);
+  font-size: 1.12rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.my-post-card-actions,
+.my-post-editor-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.my-post-editor,
+.my-posts-summary {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.my-post-editor h3,
+.my-posts-summary h3 {
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.my-post-editor p,
+.my-posts-summary p {
+  color: var(--color-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.my-post-editor label {
+  color: #1e293b;
+  display: grid;
+  font-weight: 700;
+  gap: 7px;
+}
+
+.my-post-editor input,
+.my-post-editor textarea {
+  background: #f8fafc;
+  border: 1px solid #cbd8dd;
+  border-radius: 7px;
+  padding: 11px 12px;
+}
+
+.my-post-editor textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
 .dashboard-intro {
   align-items: stretch;
   display: grid;
@@ -1053,7 +1160,8 @@ video {
   .management-intro,
   .feed-layout,
   .group-search-bar,
-  .group-discovery-layout {
+  .group-discovery-layout,
+  .my-posts-layout {
     display: block;
   }
 
@@ -1115,6 +1223,23 @@ video {
   .group-spotlight {
     margin-top: 18px;
     position: static;
+  }
+
+  .my-post-list,
+  .my-posts-side {
+    margin-top: 18px;
+  }
+
+  .my-post-card-header,
+  .my-post-card-actions,
+  .my-post-editor-actions {
+    display: block;
+  }
+
+  .my-post-card-actions button,
+  .my-post-editor-actions button {
+    margin-top: 10px;
+    width: 100%;
   }
 
   .chart-grid {

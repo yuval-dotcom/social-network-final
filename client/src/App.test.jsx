@@ -12,7 +12,10 @@ vi.mock("./api/http.js", () => ({
     listUsers: vi.fn(),
     createPost: vi.fn(),
     searchGroups: vi.fn(),
-    joinGroup: vi.fn()
+    joinGroup: vi.fn(),
+    myPosts: vi.fn(),
+    updatePost: vi.fn(),
+    deletePost: vi.fn()
   }
 }));
 
@@ -23,6 +26,7 @@ describe("React shell", () => {
     api.feed.mockResolvedValue({ posts: [] });
     api.listGroups.mockResolvedValue({ groups: [] });
     api.listUsers.mockResolvedValue({ users: [] });
+    api.myPosts.mockResolvedValue({ posts: [] });
   });
 
   it("renders a standalone auth screen before login", () => {
@@ -107,5 +111,29 @@ describe("React shell", () => {
     expect(await screen.findByRole("heading", { name: "גילוי קבוצות" })).toBeInTheDocument();
     expect(await screen.findByRole("heading", { name: "Algorithms Study Lab" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "ניהול קבוצות" })).not.toBeInTheDocument();
+  });
+
+  it("opens a personal posts screen separate from CRUD", async () => {
+    api.myPosts.mockResolvedValue({
+      posts: [{
+        id: "post_algorithms_1",
+        groupId: "group_algorithms",
+        content: "I uploaded a short summary for graph algorithms.",
+        tags: ["exam"],
+        createdAt: "2026-06-01T09:00:00.000Z"
+      }]
+    });
+    api.listGroups.mockResolvedValue({
+      groups: [{ id: "group_algorithms", name: "Algorithms Study Lab" }]
+    });
+    localStorage.setItem("studycircle_user", JSON.stringify({ id: "user_dana", username: "dana", displayName: "Dana Levi" }));
+
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "הפוסטים שלי" }));
+
+    expect(await screen.findByRole("heading", { name: "הפוסטים שלי" })).toBeInTheDocument();
+    expect(await screen.findByText("I uploaded a short summary for graph algorithms.")).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "ניהול פוסטים" })).not.toBeInTheDocument();
   });
 });

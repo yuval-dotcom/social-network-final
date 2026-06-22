@@ -6,6 +6,7 @@ export const languages = {
     tagline: "רשת חברתית לסטודנטים, קבוצות לימוד ופוסטים",
     nav: {
       feed: "פיד",
+      myPosts: "הפוסטים שלי",
       manage: "ניהול",
       groups: "קבוצות",
       posts: "פוסטים",
@@ -76,6 +77,28 @@ export const languages = {
       groupFallback: "קבוצת לימוד",
       unknownUser: "משתמש",
       unknownGroup: "קבוצה"
+    },
+    myPosts: {
+      eyebrow: "האזור האישי",
+      title: "הפוסטים שלי",
+      subtitle: "כאן רואים רק את הפוסטים שאתה פרסמת, עם עריכה ומחיקה בלי להיכנס למסכי CRUD.",
+      refresh: "רענון פוסטים",
+      loading: "טוען את הפוסטים שלך...",
+      empty: "עדיין לא פרסמת פוסטים.",
+      edit: "עריכה",
+      delete: "מחיקה",
+      save: "שמירת שינויים",
+      saving: "שומר...",
+      cancel: "ביטול",
+      updated: "הפוסט עודכן.",
+      deleted: "הפוסט נמחק.",
+      editorTitle: "עריכת פוסט",
+      noSelection: "בחר פוסט מהרשימה כדי לערוך אותו.",
+      summaryTitle: "סיכום אישי",
+      summaryBody: "המסך הזה מממש את דרישת הפוסטים שלי כחוויית משתמש רגילה, בנפרד ממסך הניהול.",
+      total: "פוסטים",
+      tagged: "עם תגיות",
+      groups: "קבוצות"
     },
     groups: {
       eyebrow: "קהילות לימוד",
@@ -199,6 +222,7 @@ export const languages = {
     tagline: "A student social network for study groups and posts",
     nav: {
       feed: "Feed",
+      myPosts: "My posts",
       manage: "Manage",
       groups: "Groups",
       posts: "Posts",
@@ -269,6 +293,28 @@ export const languages = {
       groupFallback: "Study group",
       unknownUser: "User",
       unknownGroup: "Group"
+    },
+    myPosts: {
+      eyebrow: "Personal area",
+      title: "My posts",
+      subtitle: "See only the posts you published, with edit and delete actions outside the CRUD screens.",
+      refresh: "Refresh posts",
+      loading: "Loading your posts...",
+      empty: "You have not published posts yet.",
+      edit: "Edit",
+      delete: "Delete",
+      save: "Save changes",
+      saving: "Saving...",
+      cancel: "Cancel",
+      updated: "The post was updated.",
+      deleted: "The post was deleted.",
+      editorTitle: "Edit post",
+      noSelection: "Choose a post from the list to edit it.",
+      summaryTitle: "Personal summary",
+      summaryBody: "This screen implements the My Posts requirement as a normal user experience, separate from management.",
+      total: "Posts",
+      tagged: "Tagged",
+      groups: "Groups"
     },
     groups: {
       eyebrow: "Study communities",
