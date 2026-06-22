@@ -15,7 +15,8 @@ export const languages = {
     actions: {
       switchLanguage: "English",
       login: "התחברות",
-      register: "הרשמה"
+      register: "הרשמה",
+      logout: "התנתקות"
     },
     fields: {
       username: "שם משתמש",
@@ -28,7 +29,28 @@ export const languages = {
       modeLabel: "בחירת מצב התחברות",
       registered: "המשתמש נוצר. עכשיו אפשר להתחבר.",
       loggedIn: "התחברת בהצלחה.",
-      failed: "הפעולה נכשלה. בדוק את הפרטים ונסה שוב."
+      failed: "הפעולה נכשלה. בדוק את הפרטים ונסה שוב.",
+      loginSubmit: "כניסה ל-StudyCircle",
+      registerSubmit: "יצירת חשבון",
+      working: "מבצע פעולה..."
+    },
+    authScreen: {
+      headline: "ללמוד יחד מרגיש קל יותר",
+      body: "StudyCircle מחבר סטודנטים לקבוצות לימוד, פוסטים, חברים וצ'אט בזמן אמת במקום אחד.",
+      loginBody: "התחבר כדי לפתוח את הפיד, הקבוצות, הפוסטים, הצ'אט והסטטיסטיקות.",
+      registerTitle: "יצירת חשבון סטודנט",
+      registerBody: "פתח פרופיל קצר והצטרף לרשת הלימודית.",
+      demoAccount: "דמו להגנה: dana / demo123",
+      previewLabel: "תצוגה מקדימה של פעילות StudyCircle",
+      metricsLabel: "מדדי פעילות לדוגמה",
+      featuredGroup: "Algorithms Study Lab",
+      featuredPost: "Who wants to solve dynamic programming questions tonight?",
+      featuredMeta: "2 חברים פעילים עכשיו · פוסט חדש בקבוצה",
+      metrics: [
+        { value: "3", label: "מודלים" },
+        { value: "2", label: "חיפושים מתקדמים" },
+        { value: "Live", label: "צ'אט" }
+      ]
     },
     crud: {
       usersTitle: "ניהול משתמשים",
@@ -123,7 +145,8 @@ export const languages = {
     actions: {
       switchLanguage: "עברית",
       login: "Login",
-      register: "Register"
+      register: "Register",
+      logout: "Log out"
     },
     fields: {
       username: "Username",
@@ -136,7 +159,28 @@ export const languages = {
       modeLabel: "Choose auth mode",
       registered: "User created. You can log in now.",
       loggedIn: "Logged in successfully.",
-      failed: "Action failed. Check the details and try again."
+      failed: "Action failed. Check the details and try again.",
+      loginSubmit: "Enter StudyCircle",
+      registerSubmit: "Create account",
+      working: "Working..."
+    },
+    authScreen: {
+      headline: "Studying together feels lighter",
+      body: "StudyCircle connects students with study groups, posts, friends, and real-time chat in one focused place.",
+      loginBody: "Log in to open the feed, groups, posts, chat, and statistics.",
+      registerTitle: "Create a student account",
+      registerBody: "Start a short profile and join the learning network.",
+      demoAccount: "Defense demo: dana / demo123",
+      previewLabel: "StudyCircle activity preview",
+      metricsLabel: "Sample activity metrics",
+      featuredGroup: "Algorithms Study Lab",
+      featuredPost: "Who wants to solve dynamic programming questions tonight?",
+      featuredMeta: "2 active members now · New group post",
+      metrics: [
+        { value: "3", label: "Models" },
+        { value: "2", label: "Advanced searches" },
+        { value: "Live", label: "Chat" }
+      ]
     },
     crud: {
       usersTitle: "Users management",

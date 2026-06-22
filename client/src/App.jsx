@@ -6,6 +6,7 @@ import { MediaPanel } from "./components/MediaPanel.jsx";
 import { PostsPanel } from "./components/PostsPanel.jsx";
 import { StatsPanel } from "./components/StatsPanel.jsx";
 import { UsersPanel } from "./components/UsersPanel.jsx";
+import { clearToken, getStoredUser } from "./api/tokenStorage.js";
 import { languages } from "./i18n.js";
 import "./styles.css";
 
@@ -13,7 +14,7 @@ const navKeys = ["feed", "groups", "posts", "users", "chat", "stats"];
 
 export default function App() {
   const [language, setLanguage] = useState("he");
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(() => getStoredUser());
   const copy = languages[language];
   const nextLanguage = language === "he" ? "en" : "he";
 
@@ -21,6 +22,26 @@ export default function App() {
     document.documentElement.lang = language;
     document.documentElement.dir = copy.dir;
   }, [copy.dir, language]);
+
+  function switchLanguage() {
+    setLanguage(nextLanguage);
+  }
+
+  function logout() {
+    clearToken();
+    setCurrentUser(null);
+  }
+
+  if (!currentUser) {
+    return (
+      <AuthPanel
+        copy={copy}
+        languageActionLabel={copy.actions.switchLanguage}
+        onAuth={setCurrentUser}
+        onLanguageChange={switchLanguage}
+      />
+    );
+  }
 
   return (
     <main className="app-shell" dir={copy.dir}>
@@ -30,11 +51,11 @@ export default function App() {
           <h1>{copy.appName}</h1>
         </div>
         <div className="topbar-actions">
-          <button type="button" className="ghost-button" onClick={() => setLanguage(nextLanguage)}>
+          <button type="button" className="ghost-button" onClick={switchLanguage}>
             {copy.actions.switchLanguage}
           </button>
-          <button type="button" className="secondary-button">{copy.actions.login}</button>
-          <button type="button" className="primary-button">{copy.actions.register}</button>
+          <span className="session-banner">{currentUser.displayName || currentUser.username}</span>
+          <button type="button" className="secondary-button" onClick={logout}>{copy.actions.logout}</button>
         </div>
       </header>
 
@@ -61,8 +82,6 @@ export default function App() {
         </div>
       </section>
 
-      <AuthPanel copy={copy} onAuth={setCurrentUser} />
-      {currentUser && <p className="session-banner">{currentUser.displayName || currentUser.username}</p>}
       <UsersPanel copy={copy} />
       <GroupsPanel copy={copy} />
       <PostsPanel copy={copy} />

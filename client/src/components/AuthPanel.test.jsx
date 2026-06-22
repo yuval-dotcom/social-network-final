@@ -20,7 +20,7 @@ describe("AuthPanel", () => {
 
     fireEvent.change(screen.getByLabelText("שם משתמש"), { target: { value: "dana" } });
     fireEvent.change(screen.getByLabelText("סיסמה"), { target: { value: "secret123" } });
-    fireEvent.click(screen.getAllByRole("button", { name: "התחברות" })[1]);
+    fireEvent.click(screen.getByRole("button", { name: "כניסה ל-StudyCircle" }));
 
     await waitFor(() => expect(api.login).toHaveBeenCalledWith({ username: "dana", password: "secret123" }));
     expect(onAuth).toHaveBeenCalledWith({ username: "dana" });
