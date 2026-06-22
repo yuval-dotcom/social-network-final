@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AuthPanel } from "./components/AuthPanel.jsx";
 import { ChatPanel } from "./components/ChatPanel.jsx";
 import { FeedPanel } from "./components/FeedPanel.jsx";
+import { GroupDiscoveryPanel } from "./components/GroupDiscoveryPanel.jsx";
 import { GroupsPanel } from "./components/GroupsPanel.jsx";
 import { MediaPanel } from "./components/MediaPanel.jsx";
 import { PostsPanel } from "./components/PostsPanel.jsx";
@@ -11,7 +12,7 @@ import { clearToken, getStoredUser } from "./api/tokenStorage.js";
 import { languages } from "./i18n.js";
 import "./styles.css";
 
-const navKeys = ["feed", "manage", "chat", "stats", "media"];
+const navKeys = ["feed", "groups", "manage", "chat", "stats", "media"];
 
 export default function App() {
   const [language, setLanguage] = useState("he");
@@ -76,6 +77,7 @@ export default function App() {
       </nav>
 
       {activeView === "feed" && <FeedPanel copy={copy} currentUser={currentUser} />}
+      {activeView === "groups" && <GroupDiscoveryPanel copy={copy} currentUser={currentUser} />}
 
       {activeView === "manage" && (
         <section className="management-view" id="manage">

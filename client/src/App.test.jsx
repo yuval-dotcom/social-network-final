@@ -10,7 +10,9 @@ vi.mock("./api/http.js", () => ({
     feed: vi.fn(),
     listGroups: vi.fn(),
     listUsers: vi.fn(),
-    createPost: vi.fn()
+    createPost: vi.fn(),
+    searchGroups: vi.fn(),
+    joinGroup: vi.fn()
   }
 }));
 
@@ -82,5 +84,28 @@ describe("React shell", () => {
     expect(screen.getByRole("heading", { name: "ניהול משתמשים" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "ניהול קבוצות" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "ניהול פוסטים" })).toBeInTheDocument();
+  });
+
+  it("opens a user-facing groups screen separate from CRUD", async () => {
+    api.listGroups.mockResolvedValue({
+      groups: [{
+        id: "group_algorithms",
+        name: "Algorithms Study Lab",
+        description: "Exam prep",
+        category: "Computer Science",
+        privacy: "public",
+        memberIds: [],
+        pendingMemberIds: []
+      }]
+    });
+    localStorage.setItem("studycircle_user", JSON.stringify({ id: "user_dana", username: "dana", displayName: "Dana Levi" }));
+
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "קבוצות" }));
+
+    expect(await screen.findByRole("heading", { name: "גילוי קבוצות" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "Algorithms Study Lab" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "ניהול קבוצות" })).not.toBeInTheDocument();
   });
 });

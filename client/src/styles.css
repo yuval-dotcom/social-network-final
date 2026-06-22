@@ -541,6 +541,192 @@ button:disabled {
   font-size: 0.9rem;
 }
 
+.group-discovery {
+  margin-top: 8px;
+}
+
+.group-search-bar {
+  align-items: end;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(180px, 1fr) minmax(160px, 0.7fr) minmax(160px, 0.7fr) auto;
+  margin-top: 22px;
+  padding: 16px;
+}
+
+.group-search-bar label {
+  color: #1e293b;
+  display: grid;
+  font-weight: 700;
+  gap: 7px;
+}
+
+.group-search-bar input,
+.group-search-bar select {
+  background: #f8fafc;
+  border: 1px solid #cbd8dd;
+  border-radius: 7px;
+  min-height: 44px;
+  padding: 10px 12px;
+}
+
+.group-discovery-layout {
+  align-items: start;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 320px);
+  margin-top: 22px;
+}
+
+.group-card-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+}
+
+.group-card-grid .feed-state {
+  grid-column: 1 / -1;
+}
+
+.group-card,
+.group-spotlight {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+}
+
+.group-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.group-card-topline {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.group-card h3 {
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.group-card p,
+.selected-group p {
+  color: #334155;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.group-privacy {
+  background: #e8f6f1;
+  border: 1px solid #cce7dc;
+  border-radius: 999px;
+  color: var(--color-forest);
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+
+.group-privacy.private {
+  background: #fff7ed;
+  border-color: #fed7aa;
+  color: var(--color-warm);
+}
+
+.group-card-meta {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.group-card-meta div,
+.group-stats span,
+.selected-group {
+  background: #f8fbfc;
+  border: 1px solid #e3edf1;
+  border-radius: 8px;
+  padding: 11px 12px;
+}
+
+.group-card-meta dt {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.group-card-meta dd {
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.group-card-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.group-spotlight {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  position: sticky;
+  top: 18px;
+}
+
+.group-spotlight h3,
+.selected-group strong {
+  color: var(--color-primary);
+}
+
+.group-spotlight p {
+  color: var(--color-muted);
+  line-height: 1.65;
+  margin: 8px 0 0;
+}
+
+.group-stats {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.group-stats span {
+  color: var(--color-muted);
+  display: grid;
+  font-size: 0.82rem;
+  gap: 3px;
+}
+
+.group-stats strong {
+  color: var(--color-forest);
+  font-size: 1.35rem;
+}
+
+.selected-group {
+  display: grid;
+  gap: 8px;
+}
+
+.selected-group span {
+  color: var(--color-accent-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
 .dashboard-intro {
   align-items: stretch;
   display: grid;
@@ -865,7 +1051,9 @@ video {
   .dashboard-intro,
   .feed-heading,
   .management-intro,
-  .feed-layout {
+  .feed-layout,
+  .group-search-bar,
+  .group-discovery-layout {
     display: block;
   }
 
@@ -902,6 +1090,29 @@ video {
   }
 
   .feed-sidebar {
+    margin-top: 18px;
+    position: static;
+  }
+
+  .group-search-bar label,
+  .group-search-bar button,
+  .group-card-actions button {
+    margin-top: 12px;
+    width: 100%;
+  }
+
+  .group-card-grid {
+    grid-template-columns: 1fr;
+    margin-top: 18px;
+  }
+
+  .group-card-actions,
+  .group-card-meta,
+  .group-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .group-spotlight {
     margin-top: 18px;
     position: static;
   }
