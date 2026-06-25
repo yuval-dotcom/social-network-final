@@ -106,7 +106,7 @@ export default function App() {
         </section>
       )}
 
-      {activeView === "chat" && <ChatPanel copy={copy} />}
+      {activeView === "chat" && <ChatPanel copy={copy} currentUser={currentUser} />}
       {activeView === "stats" && <StatsPanel copy={copy} />}
       {activeView === "media" && <MediaPanel copy={copy} />}
     </main>

@@ -1,29 +1,46 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { languages } from "../i18n.js";
 import { ChatPanel } from "./ChatPanel.jsx";
 
 describe("ChatPanel", () => {
-  it("joins rooms and sends socket messages", () => {
+  it("loads history and sends messages as the signed-in user", () => {
+    let messageHandler;
     const fakeClient = {
       join: vi.fn(),
       loadHistory: vi.fn((roomId, callback) => callback([{ id: "m1", senderId: "u1", text: "hello" }])),
       send: vi.fn((payload, callback) => callback({ success: true })),
-      onMessage: vi.fn(),
+      onMessage: vi.fn((callback) => {
+        messageHandler = callback;
+      }),
       disconnect: vi.fn()
     };
 
-    render(<ChatPanel copy={languages.he} clientFactory={() => fakeClient} />);
+    render(
+      <ChatPanel
+        copy={languages.he}
+        currentUser={{ id: "user_dana", username: "dana", displayName: "Dana Levi" }}
+        clientFactory={() => fakeClient}
+      />
+    );
 
-    fireEvent.click(screen.getByRole("button", { name: "כניסה לחדר" }));
-    fireEvent.change(screen.getByLabelText("מזהה כותב"), { target: { value: "u1" } });
+    expect(fakeClient.join).toHaveBeenCalledWith("general");
+    expect(fakeClient.loadHistory).toHaveBeenCalledWith("general", expect.any(Function));
+    expect(screen.getByText("Dana Levi")).toBeInTheDocument();
+    expect(screen.getByText("hello")).toBeInTheDocument();
+
+    act(() => {
+      messageHandler({ id: "m2", senderId: "user_dana", text: "I can join tonight." });
+    });
+    expect(screen.getByText("I can join tonight.")).toBeInTheDocument();
+
     fireEvent.change(screen.getByLabelText("הודעה"), { target: { value: "hello" } });
     fireEvent.click(screen.getByRole("button", { name: "שליחה" }));
 
-    expect(fakeClient.join).toHaveBeenCalledWith("general");
     expect(fakeClient.send).toHaveBeenCalledWith(
-      expect.objectContaining({ roomId: "general", senderId: "u1", text: "hello" }),
+      expect.objectContaining({ roomId: "general", senderId: "user_dana", text: "hello" }),
       expect.any(Function)
     );
+    expect(screen.getByText("ההודעה נשלחה.")).toBeInTheDocument();
   });
 });
