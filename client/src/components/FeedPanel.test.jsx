@@ -51,6 +51,30 @@ describe("FeedPanel", () => {
     expect(screen.getByText("Noam Cohen")).toBeInTheDocument();
     expect(screen.getAllByText(/Algorithms Study Lab/).length).toBeGreaterThan(0);
     expect(screen.getByText("practice")).toBeInTheDocument();
+    expect(screen.getByText("הפרופיל שלך")).toBeInTheDocument();
+    expect(screen.getByText("פוסטים בפיד")).toBeInTheDocument();
+    expect(screen.getByText("כותבים")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "שמירה" })).toBeInTheDocument();
+  });
+
+  it("supports a local save action on a feed post card", async () => {
+    api.feed.mockResolvedValue({
+      posts: [{
+        id: "post_algorithms_2",
+        authorId: "user_noam",
+        groupId: "group_algorithms",
+        content: "Who wants to solve dynamic programming questions tonight?",
+        tags: ["practice"],
+        createdAt: "2026-06-12T17:30:00.000Z"
+      }]
+    });
+
+    render(<FeedPanel copy={languages.he} currentUser={currentUser} />);
+
+    const saveButton = await screen.findByRole("button", { name: "שמירה" });
+    fireEvent.click(saveButton);
+
+    expect(screen.getByRole("button", { name: "נשמר" })).toHaveAttribute("aria-pressed", "true");
   });
 
   it("publishes a new post from the feed composer", async () => {

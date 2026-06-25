@@ -148,7 +148,12 @@ export function FeedPanel({ copy, currentUser }) {
           </div>
         </div>
 
-        <FeedSidebar copy={copy} groupOptions={groupOptions} />
+        <FeedSidebar
+          copy={copy}
+          currentUser={currentUser}
+          groupOptions={groupOptions}
+          posts={posts}
+        />
       </div>
     </section>
   );

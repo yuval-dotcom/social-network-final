@@ -61,6 +61,15 @@ export const languages = {
       posting: "מפרסם...",
       posted: "הפוסט פורסם בפיד.",
       failed: "פרסום הפוסט נכשל. בדוק שהתחברת ושבחרת קבוצה תקינה.",
+      postActionsLabel: "פעולות לפוסט",
+      savePost: "שמירה",
+      savedPost: "נשמר",
+      profileTitle: "הפרופיל שלך",
+      profileSubtitle: "הפיד מותאם לפי המשתמש המחובר, החברים שלו והקבוצות שהוא רשאי לראות.",
+      profileDefaultMajor: "סטודנט",
+      profilePosts: "פוסטים בפיד",
+      profileGroups: "קבוצות",
+      profileAuthors: "כותבים",
       sidebarTitle: "קבוצות פעילות",
       sidebarBody: "הפיד נבנה מפוסטים בקבוצות שהמשתמש רשאי לראות ומהחברים שלו.",
       groupFallback: "קבוצת לימוד",
@@ -125,7 +134,32 @@ export const languages = {
     management: {
       eyebrow: "דרישות CRUD",
       title: "ניהול המערכת",
-      body: "מסכי ה-CRUD המלאים למשתמשים, קבוצות ופוסטים נמצאים כאן כדי שהמסך הראשי יישאר פיד חברתי נקי, ועדיין כל דרישת המרצה תהיה נגישה דרך UI."
+      body: "מסכי ה-CRUD המלאים למשתמשים, קבוצות ופוסטים נמצאים כאן כדי שהמסך הראשי יישאר פיד חברתי נקי, ועדיין כל דרישת המרצה תהיה נגישה דרך UI.",
+      modelMapEyebrow: "איך להסביר בהגנה",
+      modelMapTitle: "שלושת המודלים באפליקציה",
+      modelMapBody: "זה המקום שמראה בצורה פשוטה איך המודלים של MongoDB הופכים לחוויית רשת חברתית.",
+      modelFlowTitle: "הקשר המרכזי",
+      modelFlowBody: "User מפרסם Post בתוך Group. הפיד מציג רק פוסטים מקבוצות וחברים שהמשתמש רשאי לראות, וההרשאות נאכפות גם בשרת.",
+      models: [
+        {
+          name: "User",
+          title: "משתמש",
+          body: "מייצג סטודנט במערכת: פרופיל, התחברות, חברים וקבוצות שאליהן הוא שייך.",
+          fields: "username, displayName, friendIds, groupIds"
+        },
+        {
+          name: "Group",
+          title: "קבוצת לימוד",
+          body: "מייצגת קהילה סביב נושא לימוד, עם פרטיות, מנהלים, חברים ובקשות הצטרפות.",
+          fields: "name, category, privacy, memberIds"
+        },
+        {
+          name: "Post",
+          title: "פוסט",
+          body: "מייצג תוכן שמשתמש מפרסם בתוך קבוצה: שאלה, סיכום, תגיות או וידאו.",
+          fields: "authorId, groupId, content, tags"
+        }
+      ]
     },
     crud: {
       usersTitle: "ניהול משתמשים",
@@ -266,6 +300,15 @@ export const languages = {
       posting: "Publishing...",
       posted: "The post was published to the feed.",
       failed: "Publishing failed. Check that you are logged in and selected a valid group.",
+      postActionsLabel: "Post actions",
+      savePost: "Save",
+      savedPost: "Saved",
+      profileTitle: "Your profile",
+      profileSubtitle: "The feed is personalized by the signed-in user, friends, and visible groups.",
+      profileDefaultMajor: "Student",
+      profilePosts: "Feed posts",
+      profileGroups: "Groups",
+      profileAuthors: "Authors",
       sidebarTitle: "Active groups",
       sidebarBody: "The feed is built from group posts the user is allowed to see and from friends.",
       groupFallback: "Study group",
@@ -330,7 +373,32 @@ export const languages = {
     management: {
       eyebrow: "CRUD requirements",
       title: "System management",
-      body: "The full CRUD screens for users, groups, and posts live here so the main screen stays a clean social feed while every course requirement remains accessible through the UI."
+      body: "The full CRUD screens for users, groups, and posts live here so the main screen stays a clean social feed while every course requirement remains accessible through the UI.",
+      modelMapEyebrow: "Defense explanation",
+      modelMapTitle: "The three application models",
+      modelMapBody: "This section shows how the MongoDB models become a real social-network experience.",
+      modelFlowTitle: "Core relationship",
+      modelFlowBody: "A User publishes a Post inside a Group. The feed returns only posts from friends and groups the user is allowed to see, and permissions are enforced on the server.",
+      models: [
+        {
+          name: "User",
+          title: "User",
+          body: "Represents a student profile: login identity, friends, and the groups this user belongs to.",
+          fields: "username, displayName, friendIds, groupIds"
+        },
+        {
+          name: "Group",
+          title: "Study group",
+          body: "Represents a learning community with privacy, managers, members, and join requests.",
+          fields: "name, category, privacy, memberIds"
+        },
+        {
+          name: "Post",
+          title: "Post",
+          body: "Represents content a user publishes inside a group: question, summary, tags, or video.",
+          fields: "authorId, groupId, content, tags"
+        }
+      ]
     },
     crud: {
       usersTitle: "Users management",

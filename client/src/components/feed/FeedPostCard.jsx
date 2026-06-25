@@ -1,5 +1,6 @@
 import { Avatar } from "../shared/Avatar.jsx";
 import { TagChip } from "../shared/TagChip.jsx";
+import { FeedPostActions } from "./FeedPostActions.jsx";
 
 function formatDate(value, locale) {
   if (!value) return "";
@@ -29,6 +30,7 @@ export function FeedPostCard({ copy, post, authorName, groupName, locale }) {
           ))}
         </div>
       )}
+      <FeedPostActions copy={copy} />
     </article>
   );
 }

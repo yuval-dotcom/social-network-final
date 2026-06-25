@@ -62,7 +62,7 @@ describe("React shell", () => {
 
     expect(await screen.findByRole("navigation", { name: "Primary" })).toBeInTheDocument();
     expect(await screen.findByRole("heading", { name: "הפיד שלך" })).toBeInTheDocument();
-    expect(screen.getByText("Dana Levi")).toBeInTheDocument();
+    expect(screen.getAllByText("Dana Levi").length).toBeGreaterThan(0);
   });
 
   it("restores the feed from a stored user session", async () => {
@@ -72,7 +72,7 @@ describe("React shell", () => {
 
     expect(screen.getByRole("navigation", { name: "Primary" })).toBeInTheDocument();
     expect(await screen.findByRole("heading", { name: "הפיד שלך" })).toBeInTheDocument();
-    expect(screen.getByText("Dana Levi")).toBeInTheDocument();
+    expect(screen.getAllByText("Dana Levi").length).toBeGreaterThan(0);
   });
 
   it("keeps CRUD panels inside the management screen", async () => {
@@ -88,6 +88,7 @@ describe("React shell", () => {
     fireEvent.click(screen.getByRole("button", { name: "ניהול" }));
 
     expect(screen.getByRole("heading", { name: "ניהול המערכת" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "שלושת המודלים באפליקציה" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "ניהול משתמשים" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "ניהול קבוצות" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "ניהול פוסטים" })).toBeInTheDocument();

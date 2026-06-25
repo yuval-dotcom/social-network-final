@@ -5,6 +5,7 @@ import { FeedPanel } from "./components/FeedPanel.jsx";
 import { GroupDiscoveryPanel } from "./components/GroupDiscoveryPanel.jsx";
 import { GroupsPanel } from "./components/GroupsPanel.jsx";
 import { MediaPanel } from "./components/MediaPanel.jsx";
+import { ModelMap } from "./components/management/ModelMap.jsx";
 import { MyPostsPanel } from "./components/MyPostsPanel.jsx";
 import { PostsPanel } from "./components/PostsPanel.jsx";
 import { StatsPanel } from "./components/StatsPanel.jsx";
@@ -98,6 +99,7 @@ export default function App() {
               <strong>React + jQuery Ajax</strong>
             </div>
           </div>
+          <ModelMap copy={copy} />
           <UsersPanel copy={copy} />
           <GroupsPanel copy={copy} />
           <PostsPanel copy={copy} />

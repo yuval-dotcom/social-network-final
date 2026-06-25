@@ -386,7 +386,8 @@ button:disabled {
 
 .feed-composer,
 .feed-post-card,
-.feed-sidebar {
+.feed-profile-card,
+.feed-sidebar-card {
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid var(--color-border);
   border-radius: 8px;
@@ -494,6 +495,7 @@ button:disabled {
   margin-top: 16px;
   max-height: 360px;
   object-fit: cover;
+  width: 100%;
 }
 
 .feed-tags {
@@ -516,23 +518,106 @@ button:disabled {
 .feed-sidebar {
   display: grid;
   gap: 16px;
-  padding: 18px;
   position: sticky;
   top: 18px;
 }
 
-.feed-sidebar h3 {
+.feed-profile-card,
+.feed-sidebar-card {
+  padding: 18px;
+}
+
+.feed-profile-header {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
+.feed-profile-header span {
+  color: var(--color-accent-strong);
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 3px;
+}
+
+.feed-profile-header strong {
+  color: var(--color-primary);
+  display: block;
+}
+
+.feed-profile-header p,
+.feed-profile-card > p {
+  color: var(--color-muted);
+  line-height: 1.6;
+  margin: 4px 0 0;
+}
+
+.feed-profile-card > p {
+  margin-top: 14px;
+}
+
+.feed-profile-stats {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 16px 0 0;
+}
+
+.feed-profile-stats div {
+  background: #f4fbf8;
+  border: 1px solid #d8ece3;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.feed-profile-stats dt {
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.feed-profile-stats dd {
+  color: var(--color-forest);
+  font-size: 1.2rem;
+  font-weight: 900;
+  margin: 4px 0 0;
+}
+
+.feed-post-actions {
+  border-top: 1px solid #e3edf1;
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+}
+
+.feed-action-button {
+  background: #f8fafc;
+  border-color: #d4e2e7;
+  color: var(--color-primary);
+  font-weight: 800;
+  min-width: 108px;
+}
+
+.feed-action-button.is-active {
+  background: #e8f6f1;
+  border-color: #adddca;
+  color: var(--color-forest);
+}
+
+.feed-sidebar-card h3 {
   color: var(--color-primary);
   font-size: 1.1rem;
 }
 
-.feed-sidebar p {
+.feed-sidebar-card p {
   color: var(--color-muted);
   line-height: 1.65;
   margin: 8px 0 0;
 }
 
-.feed-sidebar ul {
+.feed-sidebar-card ul {
   display: grid;
   gap: 10px;
   list-style: none;
@@ -540,18 +625,18 @@ button:disabled {
   padding: 0;
 }
 
-.feed-sidebar li {
+.feed-sidebar-card li {
   border-top: 1px solid #e3edf1;
   display: grid;
   gap: 4px;
   padding-top: 10px;
 }
 
-.feed-sidebar li strong {
+.feed-sidebar-card li strong {
   color: #184c5a;
 }
 
-.feed-sidebar li span {
+.feed-sidebar-card li span {
   color: var(--color-muted);
   font-size: 0.9rem;
 }
@@ -874,6 +959,83 @@ button:disabled {
 
 .status-panel span {
   color: var(--color-muted);
+}
+
+.model-map {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.07);
+  margin-top: 24px;
+  padding: 22px;
+}
+
+.model-map-heading {
+  max-width: 780px;
+}
+
+.model-map-heading h3 {
+  color: var(--color-primary);
+  font-size: 1.45rem;
+}
+
+.model-map-heading p,
+.model-card p,
+.model-flow p {
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+.model-card-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.model-card {
+  background: #f8fbfc;
+  border: 1px solid #dce8ed;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.model-card span {
+  color: var(--color-accent-strong);
+  font-weight: 900;
+}
+
+.model-card h4 {
+  color: var(--color-primary);
+  font-size: 1.08rem;
+  margin: 8px 0 0;
+}
+
+.model-card p {
+  margin: 10px 0;
+}
+
+.model-card strong {
+  color: var(--color-forest);
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.model-flow {
+  background: #eef7f4;
+  border: 1px solid #cce7dc;
+  border-radius: 8px;
+  margin-top: 16px;
+  padding: 14px 16px;
+}
+
+.model-flow strong {
+  color: var(--color-primary);
+}
+
+.model-flow p {
+  margin: 6px 0 0;
 }
 
 .panel {
@@ -1217,6 +1379,15 @@ video {
   .feed-sidebar {
     margin-top: 18px;
     position: static;
+  }
+
+  .feed-profile-stats,
+  .model-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .model-map {
+    padding: 18px;
   }
 
   .group-search-bar label,
