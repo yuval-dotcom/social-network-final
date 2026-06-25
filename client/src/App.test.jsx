@@ -9,7 +9,9 @@ vi.mock("./api/http.js", () => ({
     register: vi.fn(),
     feed: vi.fn(),
     listGroups: vi.fn(),
+    listPosts: vi.fn(),
     listUsers: vi.fn(),
+    approveGroupMember: vi.fn(),
     createPost: vi.fn(),
     searchGroups: vi.fn(),
     joinGroup: vi.fn(),
@@ -25,6 +27,7 @@ describe("React shell", () => {
     localStorage.clear();
     api.feed.mockResolvedValue({ posts: [] });
     api.listGroups.mockResolvedValue({ groups: [] });
+    api.listPosts.mockResolvedValue({ posts: [] });
     api.listUsers.mockResolvedValue({ users: [] });
     api.myPosts.mockResolvedValue({ posts: [] });
   });
@@ -113,7 +116,7 @@ describe("React shell", () => {
     fireEvent.click(screen.getByRole("button", { name: "קבוצות" }));
 
     expect(await screen.findByRole("heading", { name: "גילוי קבוצות" })).toBeInTheDocument();
-    expect(await screen.findByRole("heading", { name: "Algorithms Study Lab" })).toBeInTheDocument();
+    expect((await screen.findAllByRole("heading", { name: "Algorithms Study Lab" })).length).toBeGreaterThan(0);
     expect(screen.queryByRole("heading", { name: "ניהול קבוצות" })).not.toBeInTheDocument();
   });
 

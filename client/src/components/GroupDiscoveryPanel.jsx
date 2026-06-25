@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { GroupCard } from "./groups/GroupCard.jsx";
+import { GroupDetailPanel } from "./groups/GroupDetailPanel.jsx";
 import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
-import { GroupSpotlight } from "./groups/GroupSpotlight.jsx";
 
 const defaultFilters = {
   q: "",
@@ -22,6 +22,8 @@ function isPending(group, userId) {
 export function GroupDiscoveryPanel({ copy, currentUser }) {
   const [filters, setFilters] = useState(defaultFilters);
   const [groups, setGroups] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [selectedGroupId, setSelectedGroupId] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -44,8 +46,14 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
     setIsLoading(true);
     setMessage("");
     try {
-      const result = await api.listGroups();
-      setGroups(result.groups || []);
+      const [groupsResult, usersResult, postsResult] = await Promise.all([
+        api.listGroups(),
+        api.listUsers(),
+        api.listPosts()
+      ]);
+      setGroups(groupsResult.groups || []);
+      setUsers(usersResult.users || []);
+      setPosts(postsResult.posts || []);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
     } finally {
@@ -82,6 +90,18 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
       setGroups((current) => current.map((group) => (group.id === groupId ? result.group : group)));
       setSelectedGroupId(groupId);
       setMessage(copy.groups.joinStatus[result.status] || copy.groups.joinStatus.joined);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
+  }
+
+  async function approveMember(groupId, userId) {
+    setMessage("");
+    try {
+      const result = await api.approveGroupMember(groupId, userId);
+      setGroups((current) => current.map((group) => (group.id === groupId ? result.group : group)));
+      setSelectedGroupId(groupId);
+      setMessage(copy.groups.approvedRequest);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
     }
@@ -135,7 +155,16 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
           ))}
         </div>
 
-        <GroupSpotlight copy={copy} stats={stats} selectedGroup={selectedGroup} message={message} />
+        <GroupDetailPanel
+          copy={copy}
+          currentUser={currentUser}
+          group={selectedGroup}
+          message={message}
+          onApproveMember={approveMember}
+          posts={posts}
+          stats={stats}
+          users={users}
+        />
       </div>
     </section>
   );

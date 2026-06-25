@@ -4,6 +4,7 @@ import { languages } from "../i18n.js";
 import { FeedPostCard } from "./feed/FeedPostCard.jsx";
 import { FeedProfileCard } from "./feed/FeedProfileCard.jsx";
 import { GroupCard } from "./groups/GroupCard.jsx";
+import { GroupDetailPanel } from "./groups/GroupDetailPanel.jsx";
 import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
 import { ModelMap } from "./management/ModelMap.jsx";
 import { Avatar } from "./shared/Avatar.jsx";
@@ -92,6 +93,46 @@ describe("small UI components", () => {
 
     expect(onSelect).toHaveBeenCalledTimes(1);
     expect(onJoin).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders group details as a separate social component", () => {
+    const onApproveMember = vi.fn();
+    render(
+      <GroupDetailPanel
+        copy={languages.he}
+        currentUser={{ id: "user_maya", role: "admin" }}
+        group={{
+          id: "group_design",
+          name: "Campus Design Circle",
+          description: "Portfolio feedback.",
+          category: "Design",
+          privacy: "private",
+          managerIds: ["user_maya"],
+          memberIds: ["user_maya"],
+          pendingMemberIds: ["user_noam"]
+        }}
+        message=""
+        onApproveMember={onApproveMember}
+        posts={[{
+          id: "post_design_1",
+          groupId: "group_design",
+          content: "Please review this short portfolio video before class.",
+          tags: ["portfolio"]
+        }]}
+        stats={{ total: 2, publicCount: 1, myGroups: 1 }}
+        users={[
+          { id: "user_maya", username: "maya", displayName: "Maya Bar" },
+          { id: "user_noam", username: "noam", displayName: "Noam Cohen" }
+        ]}
+      />
+    );
+
+    expect(screen.getByRole("heading", { name: "Campus Design Circle" })).toBeInTheDocument();
+    expect(screen.getAllByText("Maya Bar").length).toBeGreaterThan(0);
+    expect(screen.getByText("Noam Cohen")).toBeInTheDocument();
+    expect(screen.getByText("Please review this short portfolio video before class.")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "אישור בקשה" }));
+    expect(onApproveMember).toHaveBeenCalledWith("group_design", "user_noam");
   });
 
   it("keeps group search as an independent form component", () => {
