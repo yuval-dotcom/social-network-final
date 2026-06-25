@@ -9,5 +9,6 @@ export const env = {
   clientOrigin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
   mongoUri: process.env.MONGO_URI || "",
   mongoDbName: process.env.MONGO_DB_NAME || "studycircle",
+  mongoServerSelectionTimeoutMs: Number(process.env.MONGO_SERVER_SELECTION_TIMEOUT_MS || 5000),
   jwtSecret: process.env.JWT_SECRET || "dev-secret-change-me"
 };

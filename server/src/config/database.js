@@ -7,13 +7,14 @@ let activeDb;
 export async function connectDatabase({
   uri = env.mongoUri,
   dbName = env.mongoDbName,
+  serverSelectionTimeoutMS = env.mongoServerSelectionTimeoutMs,
   MongoClientImpl = MongoClient
 } = {}) {
   if (!uri) {
     throw new Error("MONGO_URI is required to connect to MongoDB");
   }
 
-  const client = new MongoClientImpl(uri);
+  const client = new MongoClientImpl(uri, { serverSelectionTimeoutMS });
   await client.connect();
 
   activeClient = client;
@@ -38,4 +39,3 @@ export async function closeDatabase() {
   activeClient = undefined;
   activeDb = undefined;
 }
-

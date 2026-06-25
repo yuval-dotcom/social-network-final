@@ -2,8 +2,9 @@ import { afterEach, describe, expect, it } from "vitest";
 import { closeDatabase, connectDatabase, getDb } from "./database.js";
 
 class FakeMongoClient {
-  constructor(uri) {
+  constructor(uri, options = {}) {
     this.uri = uri;
+    this.options = options;
     this.connected = false;
     this.closed = false;
   }
@@ -16,6 +17,7 @@ class FakeMongoClient {
     return {
       name: dbName,
       clientUri: this.uri,
+      options: this.options,
       connected: this.connected
     };
   }
@@ -38,12 +40,14 @@ describe("database connection", () => {
     const db = await connectDatabase({
       uri: "mongodb://example",
       dbName: "studycircle_test",
+      serverSelectionTimeoutMS: 1234,
       MongoClientImpl: FakeMongoClient
     });
 
     expect(db).toEqual({
       name: "studycircle_test",
       clientUri: "mongodb://example",
+      options: { serverSelectionTimeoutMS: 1234 },
       connected: true
     });
     expect(getDb()).toBe(db);

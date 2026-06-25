@@ -36,6 +36,7 @@ PORT=4000
 CLIENT_ORIGIN=http://localhost:5173
 MONGO_URI=mongodb+srv://USERNAME:PASSWORD@CLUSTER.mongodb.net/studycircle
 MONGO_DB_NAME=studycircle
+MONGO_SERVER_SELECTION_TIMEOUT_MS=5000
 MONGO_URI_TEST=mongodb+srv://USERNAME:PASSWORD@CLUSTER.mongodb.net/studycircle_test
 JWT_SECRET=replace-with-a-long-random-secret
 VITE_API_BASE_URL=http://localhost:4000/api
