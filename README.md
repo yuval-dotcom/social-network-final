@@ -34,6 +34,7 @@ npm install --prefix client
 ```bash
 PORT=4000
 CLIENT_ORIGIN=http://localhost:5173
+DATABASE_MODE=mongo
 MONGO_URI=mongodb+srv://USERNAME:PASSWORD@CLUSTER.mongodb.net/studycircle
 MONGO_DB_NAME=studycircle
 MONGO_SERVER_SELECTION_TIMEOUT_MS=5000
@@ -44,6 +45,9 @@ VITE_SOCKET_URL=http://localhost:4000
 ```
 
 חשוב: לא מעלים את `.env` ל-GitHub. הקובץ כבר חסום ב-`.gitignore`.
+
+אם Atlas לא זמין בזמן פיתוח מקומי, אפשר להריץ דמו זמני עם `DATABASE_MODE=memory`.
+ברירת המחדל וההגשה נשארות `DATABASE_MODE=mongo`.
 
 ## יצירת MongoDB Atlas
 
