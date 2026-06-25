@@ -56,26 +56,10 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
       </header>
 
       <div className="auth-shell">
-        <div className="auth-story" aria-label={copy.authScreen.previewLabel}>
+        <div className="auth-story" aria-label={copy.authScreen.storyLabel}>
           <p className="eyebrow">{copy.tagline}</p>
-          <h1>{copy.authScreen.headline}</h1>
+          <h1>{copy.appName}</h1>
           <p className="auth-lead">{copy.authScreen.body}</p>
-
-          <div className="auth-preview">
-            <div className="feed-preview-card featured">
-              <span>{copy.authScreen.featuredGroup}</span>
-              <strong>{copy.authScreen.featuredPost}</strong>
-              <p>{copy.authScreen.featuredMeta}</p>
-            </div>
-            <div className="auth-metrics" aria-label={copy.authScreen.metricsLabel}>
-              {copy.authScreen.metrics.map((metric) => (
-                <div key={metric.label}>
-                  <strong>{metric.value}</strong>
-                  <span>{metric.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
 
         <div className="auth-card">
@@ -128,7 +112,6 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
             </button>
           </form>
 
-          <p className="auth-demo">{copy.authScreen.demoAccount}</p>
           {message && <p className="form-message" role="status">{message}</p>}
         </div>
       </div>

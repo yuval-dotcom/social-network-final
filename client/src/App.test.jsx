@@ -32,7 +32,10 @@ describe("React shell", () => {
   it("renders a standalone auth screen before login", () => {
     render(<App />);
 
-    expect(screen.getByRole("heading", { name: "ללמוד יחד מרגיש קל יותר" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "StudyCircle" })).toBeInTheDocument();
+    expect(screen.getByText("הזן שם משתמש וסיסמה כדי להמשיך לפיד האישי שלך.")).toBeInTheDocument();
+    expect(screen.queryByText("מודלים", { exact: false })).not.toBeInTheDocument();
+    expect(screen.queryByText("חיפושים מתקדמים", { exact: false })).not.toBeInTheDocument();
     expect(screen.queryByRole("navigation", { name: "Primary" })).not.toBeInTheDocument();
     expect(document.documentElement.dir).toBe("rtl");
   });
@@ -42,7 +45,7 @@ describe("React shell", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "English" }));
 
-    expect(screen.getByRole("heading", { name: "Studying together feels lighter" })).toBeInTheDocument();
+    expect(screen.getByText("Enter your username and password to continue to your personal feed.")).toBeInTheDocument();
     expect(document.documentElement.dir).toBe("ltr");
   });
 

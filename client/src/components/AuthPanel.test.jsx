@@ -12,6 +12,17 @@ vi.mock("../api/http.js", () => ({
 }));
 
 describe("AuthPanel", () => {
+  it("keeps the public auth page focused on login and register", () => {
+    render(<AuthPanel copy={languages.he} onAuth={() => {}} />);
+
+    expect(screen.getByRole("heading", { name: "StudyCircle" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "התחברות" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "הרשמה" })).toBeInTheDocument();
+    expect(screen.queryByText("מודלים", { exact: false })).not.toBeInTheDocument();
+    expect(screen.queryByText("חיפושים מתקדמים", { exact: false })).not.toBeInTheDocument();
+    expect(screen.queryByText("דמו להגנה", { exact: false })).not.toBeInTheDocument();
+  });
+
   it("submits login through the Ajax API layer", async () => {
     api.login.mockResolvedValue({ token: "token", user: { username: "dana" } });
     const onAuth = vi.fn();

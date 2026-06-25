@@ -38,22 +38,11 @@ export const languages = {
       working: "מבצע פעולה..."
     },
     authScreen: {
-      headline: "ללמוד יחד מרגיש קל יותר",
-      body: "StudyCircle מחבר סטודנטים לקבוצות לימוד, פוסטים, חברים וצ'אט בזמן אמת במקום אחד.",
-      loginBody: "התחבר כדי לפתוח את הפיד, הקבוצות, הפוסטים, הצ'אט והסטטיסטיקות.",
-      registerTitle: "יצירת חשבון סטודנט",
-      registerBody: "פתח פרופיל קצר והצטרף לרשת הלימודית.",
-      demoAccount: "דמו להגנה: dana / demo123",
-      previewLabel: "תצוגה מקדימה של פעילות StudyCircle",
-      metricsLabel: "מדדי פעילות לדוגמה",
-      featuredGroup: "Algorithms Study Lab",
-      featuredPost: "Who wants to solve dynamic programming questions tonight?",
-      featuredMeta: "2 חברים פעילים עכשיו · פוסט חדש בקבוצה",
-      metrics: [
-        { value: "3", label: "מודלים" },
-        { value: "2", label: "חיפושים מתקדמים" },
-        { value: "Live", label: "צ'אט" }
-      ]
+      storyLabel: "כניסה ל-StudyCircle",
+      body: "המקום שלך לפרסם שאלות, להצטרף לקבוצות לימוד ולדבר עם סטודנטים בזמן אמת.",
+      loginBody: "הזן שם משתמש וסיסמה כדי להמשיך לפיד האישי שלך.",
+      registerTitle: "יצירת חשבון",
+      registerBody: "פתח פרופיל קצר והתחל ללמוד יחד עם חברים."
     },
     feed: {
       eyebrow: "המסך הראשי",
@@ -254,22 +243,11 @@ export const languages = {
       working: "Working..."
     },
     authScreen: {
-      headline: "Studying together feels lighter",
-      body: "StudyCircle connects students with study groups, posts, friends, and real-time chat in one focused place.",
-      loginBody: "Log in to open the feed, groups, posts, chat, and statistics.",
-      registerTitle: "Create a student account",
-      registerBody: "Start a short profile and join the learning network.",
-      demoAccount: "Defense demo: dana / demo123",
-      previewLabel: "StudyCircle activity preview",
-      metricsLabel: "Sample activity metrics",
-      featuredGroup: "Algorithms Study Lab",
-      featuredPost: "Who wants to solve dynamic programming questions tonight?",
-      featuredMeta: "2 active members now · New group post",
-      metrics: [
-        { value: "3", label: "Models" },
-        { value: "2", label: "Advanced searches" },
-        { value: "Live", label: "Chat" }
-      ]
+      storyLabel: "StudyCircle sign in",
+      body: "Your place to post questions, join study groups, and talk with students in real time.",
+      loginBody: "Enter your username and password to continue to your personal feed.",
+      registerTitle: "Create account",
+      registerBody: "Open a short profile and start studying with friends."
     },
     feed: {
       eyebrow: "Main screen",
