@@ -93,6 +93,11 @@ npm test
 demo123
 ```
 
+## הכנה להגנה
+
+- `docs/requirements-checklist.md` ממפה כל דרישה למסך, קובץ ובדיקה.
+- `docs/defense-notes.md` כולל הסברים קצרים על הארכיטקטורה והקומפוננטות.
+
 ## React בפרויקט
 
 זה React Web רגיל, לא React Native. הפרויקט משתמש ב-React 19.2.x בצד הלקוח, ו-Vite משמש רק ככלי פיתוח והרצה.
