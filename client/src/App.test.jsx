@@ -68,6 +68,49 @@ describe("React shell", () => {
     expect(screen.getAllByText("Dana Levi").length).toBeGreaterThan(0);
   });
 
+  it("opens the personal profile screen from navigation", async () => {
+    api.listUsers.mockResolvedValue({
+      users: [
+        {
+          id: "user_dana",
+          username: "dana",
+          displayName: "Dana Levi",
+          major: "Computer Science",
+          friendIds: ["user_noam"],
+          groupIds: ["group_algorithms"]
+        },
+        { id: "user_noam", username: "noam", displayName: "Noam Cohen" }
+      ]
+    });
+    api.listGroups.mockResolvedValue({
+      groups: [{
+        id: "group_algorithms",
+        name: "Algorithms Study Lab",
+        category: "Computer Science",
+        privacy: "public",
+        memberIds: ["user_dana", "user_noam"]
+      }]
+    });
+    api.myPosts.mockResolvedValue({
+      posts: [{
+        id: "post_algorithms_1",
+        groupId: "group_algorithms",
+        content: "I uploaded a short summary for graph algorithms.",
+        tags: ["exam"]
+      }]
+    });
+    localStorage.setItem("studycircle_user", JSON.stringify({ id: "user_dana", username: "dana", displayName: "Dana Levi" }));
+
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "פרופיל" }));
+
+    expect(await screen.findByRole("heading", { name: "הפרופיל שלי" })).toBeInTheDocument();
+    expect(screen.getByText("Noam Cohen")).toBeInTheDocument();
+    expect(screen.getAllByText("Algorithms Study Lab").length).toBeGreaterThan(0);
+    expect(screen.getByText("I uploaded a short summary for graph algorithms.")).toBeInTheDocument();
+  });
+
   it("restores the feed from a stored user session", async () => {
     localStorage.setItem("studycircle_user", JSON.stringify({ username: "dana", displayName: "Dana Levi" }));
 

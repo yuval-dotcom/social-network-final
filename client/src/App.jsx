@@ -8,13 +8,14 @@ import { MediaPanel } from "./components/MediaPanel.jsx";
 import { ModelMap } from "./components/management/ModelMap.jsx";
 import { MyPostsPanel } from "./components/MyPostsPanel.jsx";
 import { PostsPanel } from "./components/PostsPanel.jsx";
+import { ProfilePanel } from "./components/ProfilePanel.jsx";
 import { StatsPanel } from "./components/StatsPanel.jsx";
 import { UsersPanel } from "./components/UsersPanel.jsx";
 import { clearToken, getStoredUser } from "./api/tokenStorage.js";
 import { languages } from "./i18n.js";
 import "./styles.css";
 
-const navKeys = ["feed", "myPosts", "groups", "manage", "chat", "stats", "media"];
+const navKeys = ["feed", "profile", "myPosts", "groups", "manage", "chat", "stats", "media"];
 
 export default function App() {
   const [language, setLanguage] = useState("he");
@@ -79,6 +80,7 @@ export default function App() {
       </nav>
 
       {activeView === "feed" && <FeedPanel copy={copy} currentUser={currentUser} />}
+      {activeView === "profile" && <ProfilePanel copy={copy} currentUser={currentUser} />}
       {activeView === "myPosts" && <MyPostsPanel copy={copy} />}
       {activeView === "groups" && <GroupDiscoveryPanel copy={copy} currentUser={currentUser} />}
 
