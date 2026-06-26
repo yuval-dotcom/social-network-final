@@ -3,10 +3,15 @@ import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 
 export function UsersPanel({ copy }) {
+  const [create, setCreate] = useState({ username: "", password: "", displayName: "", major: "" });
   const [search, setSearch] = useState({ q: "", major: "", role: "" });
   const [edit, setEdit] = useState({ id: "", displayName: "", bio: "" });
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
+
+  function setCreateField(event) {
+    setCreate((current) => ({ ...current, [event.target.name]: event.target.value }));
+  }
 
   function setSearchField(event) {
     setSearch((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -47,6 +52,18 @@ export function UsersPanel({ copy }) {
     }
   }
 
+  async function createUser(event) {
+    event.preventDefault();
+    try {
+      const result = await api.register(create);
+      setUsers((current) => [result.user, ...current]);
+      setCreate({ username: "", password: "", displayName: "", major: "" });
+      setMessage(copy.crud.created);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
+  }
+
   async function updateUser(event) {
     event.preventDefault();
     try {
@@ -77,6 +94,16 @@ export function UsersPanel({ copy }) {
       </div>
       <p className="hint">{copy.crud.userCreateHint}</p>
       <div className="form-layout">
+        <div className="form-section">
+          <h3>{copy.crud.userCreateSection}</h3>
+          <form className="form-grid" onSubmit={createUser}>
+            <label>{copy.crud.newUsername}<input name="username" value={create.username} onChange={setCreateField} required /></label>
+            <label>{copy.crud.temporaryPassword}<input name="password" type="password" value={create.password} onChange={setCreateField} required minLength={6} /></label>
+            <label>{copy.crud.newDisplayName}<input name="displayName" value={create.displayName} onChange={setCreateField} required /></label>
+            <label>{copy.crud.newMajor}<input name="major" value={create.major} onChange={setCreateField} /></label>
+            <button type="submit" className="primary-button">{copy.crud.create}</button>
+          </form>
+        </div>
         <div className="form-section">
           <h3>{copy.crud.searchSection}</h3>
           <form className="form-grid" onSubmit={searchUsers}>

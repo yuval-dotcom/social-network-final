@@ -8,6 +8,7 @@ import { UsersPanel } from "./UsersPanel.jsx";
 
 vi.mock("../api/http.js", () => ({
   api: {
+    register: vi.fn(),
     listUsers: vi.fn(),
     searchUsers: vi.fn(),
     updateUser: vi.fn(),
@@ -44,6 +45,36 @@ describe("CRUD panels", () => {
     fireEvent.click(screen.getByRole("button", { name: "חיפוש" }));
 
     await waitFor(() => expect(api.searchUsers).toHaveBeenCalledWith({ q: "dana", major: "CS", role: "student" }));
+  });
+
+  it("creates users from the management UI", async () => {
+    api.register.mockResolvedValue({
+      user: {
+        id: "user_ron",
+        username: "ron",
+        displayName: "Ron Amir",
+        major: "Computer Science",
+        role: "student",
+        groupIds: []
+      }
+    });
+    render(<UsersPanel copy={languages.he} />);
+
+    fireEvent.change(screen.getByLabelText("שם משתמש חדש"), { target: { value: "ron" } });
+    fireEvent.change(screen.getByLabelText("סיסמה זמנית"), { target: { value: "demo123" } });
+    fireEvent.change(screen.getByLabelText("שם מלא חדש"), { target: { value: "Ron Amir" } });
+    fireEvent.change(screen.getByLabelText("מסלול לימודים חדש"), { target: { value: "Computer Science" } });
+    fireEvent.click(screen.getByRole("button", { name: "יצירה" }));
+
+    await waitFor(() => expect(api.register).toHaveBeenCalledWith({
+      username: "ron",
+      password: "demo123",
+      displayName: "Ron Amir",
+      major: "Computer Science"
+    }));
+    expect(screen.getByText("Ron Amir")).toBeInTheDocument();
+    expect(screen.getByText("נוצר בהצלחה.")).toBeInTheDocument();
+    expect(screen.getByLabelText("סיסמה זמנית")).toHaveValue("");
   });
 
   it("shows a friendly message when user API calls fail", async () => {
