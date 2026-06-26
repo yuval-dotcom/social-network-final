@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { languages } from "../i18n.js";
+import { MainNavigation } from "./app/MainNavigation.jsx";
 import { AuthModeSwitch } from "./auth/AuthModeSwitch.jsx";
 import { ChatTranscript } from "./chat/ChatTranscript.jsx";
 import { FeedPostCard } from "./feed/FeedPostCard.jsx";
@@ -37,6 +38,15 @@ describe("small UI components", () => {
     expect(screen.getByRole("button", { name: "התחברות" })).toHaveClass("active");
     fireEvent.click(screen.getByRole("button", { name: "הרשמה" }));
     expect(onModeChange).toHaveBeenCalledWith("register");
+  });
+
+  it("renders the main navigation as a separate app part", () => {
+    const onViewChange = vi.fn();
+    render(<MainNavigation activeView="feed" copy={languages.he} onViewChange={onViewChange} />);
+
+    expect(screen.getByRole("button", { name: "פיד" })).toHaveAttribute("aria-current", "page");
+    fireEvent.click(screen.getByRole("button", { name: "צ'אט" }));
+    expect(onViewChange).toHaveBeenCalledWith("chat");
   });
 
   it("renders feed post cards independently", () => {
