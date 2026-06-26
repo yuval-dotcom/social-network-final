@@ -1,23 +1,18 @@
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { useForm } from "../hooks/useForm.js";
 import { GroupManagementForm } from "./groups/GroupManagementForm.jsx";
 import { GroupManagementResultCard } from "./groups/GroupManagementResultCard.jsx";
 import { GroupManagementSearchForm } from "./groups/GroupManagementSearchForm.jsx";
 
+const emptyGroup = { id: "", name: "", description: "", category: "", privacy: "public", userId: "" };
+
 export function GroupsPanel({ copy }) {
-  const [group, setGroup] = useState({ id: "", name: "", description: "", category: "", privacy: "public", userId: "" });
-  const [search, setSearch] = useState({ q: "", category: "", privacy: "", memberId: "" });
+  const { values: group, handleChange: updateGroupField, setValues: setGroup } = useForm(emptyGroup);
+  const { values: search, handleChange: updateSearchField } = useForm({ q: "", category: "", privacy: "", memberId: "" });
   const [groups, setGroups] = useState([]);
   const [message, setMessage] = useState("");
-
-  function updateGroupField(event) {
-    setGroup((current) => ({ ...current, [event.target.name]: event.target.value }));
-  }
-
-  function updateSearchField(event) {
-    setSearch((current) => ({ ...current, [event.target.name]: event.target.value }));
-  }
 
   function selectGroup(item) {
     setGroup({
@@ -31,7 +26,7 @@ export function GroupsPanel({ copy }) {
   }
 
   function clearGroup() {
-    setGroup({ id: "", name: "", description: "", category: "", privacy: "public", userId: "" });
+    setGroup(emptyGroup);
   }
 
   function replaceGroup(updatedGroup) {
@@ -49,12 +44,7 @@ export function GroupsPanel({ copy }) {
   async function createGroup(event) {
     event.preventDefault();
     try {
-      const createPayload = {
-        name: group.name,
-        description: group.description,
-        category: group.category,
-        privacy: group.privacy
-      };
+      const { id, userId, ...createPayload } = group;
       const result = await api.createGroup(createPayload);
       setGroups((current) => [result.group, ...current]);
       selectGroup(result.group);

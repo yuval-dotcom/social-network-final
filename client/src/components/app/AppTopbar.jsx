@@ -1,3 +1,5 @@
+import { ThemeToggle } from "../shared/ThemeToggle.jsx";
+
 export function AppTopbar({ copy, currentUser, onLanguageChange, onLogout }) {
   return (
     <header className="topbar">
@@ -6,6 +8,7 @@ export function AppTopbar({ copy, currentUser, onLanguageChange, onLogout }) {
         <h1>{copy.appName}</h1>
       </div>
       <div className="topbar-actions">
+        <ThemeToggle copy={copy} />
         <button type="button" className="ghost-button" onClick={onLanguageChange}>
           {copy.actions.switchLanguage}
         </button>

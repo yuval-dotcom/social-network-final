@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { useForm } from "../hooks/useForm.js";
 import { indexById, splitCommaList } from "../utils/dataHelpers.js";
+import { CardSkeleton } from "./shared/LoadingSkeleton.jsx";
 import { MyPostCard } from "./my-posts/MyPostCard.jsx";
 import { MyPostEditor } from "./my-posts/MyPostEditor.jsx";
 import { MyPostsSummary } from "./my-posts/MyPostsSummary.jsx";
 
-const emptyEditor = {
-  id: "",
-  content: "",
-  tags: ""
-};
+const emptyEditor = { id: "", content: "", tags: "" };
 
 export function MyPostsPanel({ copy }) {
   const [posts, setPosts] = useState([]);
   const [groupsById, setGroupsById] = useState({});
-  const [editor, setEditor] = useState(emptyEditor);
+  const { values: editor, handleChange: updateEditor, setValues: setEditor } = useForm(emptyEditor);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -63,16 +61,12 @@ export function MyPostsPanel({ copy }) {
     });
   }
 
-  function updateEditor(event) {
-    setEditor((current) => ({ ...current, [event.target.name]: event.target.value }));
-  }
-
   async function savePost(event) {
     event.preventDefault();
     if (!editor.id) return;
-
-    setIsSaving(true);
     setMessage("");
+    setIsSaving(true);
+
     try {
       const result = await api.updatePost(editor.id, {
         content: editor.content,
@@ -115,7 +109,7 @@ export function MyPostsPanel({ copy }) {
 
       <div className="my-posts-layout">
         <div className="my-post-list">
-          {isLoading && <p className="feed-state">{copy.myPosts.loading}</p>}
+          {isLoading && <CardSkeleton count={3} />}
           {!isLoading && posts.length === 0 && <p className="feed-state">{copy.myPosts.empty}</p>}
           {posts.map((post) => (
             <MyPostCard

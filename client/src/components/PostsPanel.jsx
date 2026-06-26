@@ -1,24 +1,21 @@
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { useForm } from "../hooks/useForm.js";
 import { splitCommaList } from "../utils/dataHelpers.js";
 import { PostManagementForm } from "./posts/PostManagementForm.jsx";
 import { PostManagementResultCard } from "./posts/PostManagementResultCard.jsx";
 import { PostManagementSearchForm } from "./posts/PostManagementSearchForm.jsx";
 
+const emptyPost = { id: "", groupId: "", content: "", tags: "", mediaUrl: "", mediaType: "" };
+
 export function PostsPanel({ copy }) {
-  const [post, setPost] = useState({ id: "", groupId: "", content: "", tags: "", mediaUrl: "", mediaType: "" });
-  const [search, setSearch] = useState({ q: "", groupId: "", authorId: "", tag: "", from: "", to: "" });
+  const { values: post, handleChange: updatePostField, setValues: setPost } = useForm(emptyPost);
+  const { values: search, handleChange: updateSearchField } = useForm({
+    q: "", groupId: "", authorId: "", tag: "", from: "", to: ""
+  });
   const [posts, setPosts] = useState([]);
   const [message, setMessage] = useState("");
-
-  function updatePostField(event) {
-    setPost((current) => ({ ...current, [event.target.name]: event.target.value }));
-  }
-
-  function updateSearchField(event) {
-    setSearch((current) => ({ ...current, [event.target.name]: event.target.value }));
-  }
 
   function payload() {
     return { ...post, tags: splitCommaList(post.tags) };
@@ -36,7 +33,7 @@ export function PostsPanel({ copy }) {
   }
 
   function clearPost() {
-    setPost({ id: "", groupId: "", content: "", tags: "", mediaUrl: "", mediaType: "" });
+    setPost(emptyPost);
   }
 
   function formatDate(value) {

@@ -20,7 +20,14 @@ export const languages = {
       switchLanguage: "English",
       login: "התחברות",
       register: "הרשמה",
-      logout: "התנתקות"
+      logout: "התנתקות",
+      darkTheme: "מצב כהה",
+      lightTheme: "מצב בהיר"
+    },
+    errorBoundary: {
+      title: "שגיאה בטעינה",
+      message: "משהו במסך הזה לא נטען כמו שצריך.",
+      retry: "נסה שוב"
     },
     fields: {
       username: "שם משתמש",
@@ -320,7 +327,14 @@ export const languages = {
       switchLanguage: "עברית",
       login: "Login",
       register: "Register",
-      logout: "Log out"
+      logout: "Log out",
+      darkTheme: "Dark mode",
+      lightTheme: "Light mode"
+    },
+    errorBoundary: {
+      title: "Loading error",
+      message: "Something in this screen did not load correctly.",
+      retry: "Try again"
     },
     fields: {
       username: "Username",

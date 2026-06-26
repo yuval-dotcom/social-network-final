@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { useForm } from "../hooks/useForm.js";
 import { indexById, splitCommaList } from "../utils/dataHelpers.js";
+import { CardSkeleton } from "./shared/LoadingSkeleton.jsx";
 import { FeedComposer } from "./feed/FeedComposer.jsx";
 import { FeedPostCard } from "./feed/FeedPostCard.jsx";
 import { FeedSidebar } from "./feed/FeedSidebar.jsx";
@@ -17,12 +19,12 @@ export function FeedPanel({ copy, currentUser }) {
   const [posts, setPosts] = useState([]);
   const [groups, setGroups] = useState([]);
   const [usersById, setUsersById] = useState({});
-  const [composer, setComposer] = useState(defaultComposer);
+  const { values: composer, handleChange: updateComposer, setValues: setComposer } = useForm(defaultComposer);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
-  const locale = copy.dir === "rtl" ? "he-IL" : "en-US";
 
+  const locale = copy.dir === "rtl" ? "he-IL" : "en-US";
   const groupsById = indexById(groups);
   const groupOptions = groups.some((group) => group.id === defaultComposer.groupId)
     ? groups
@@ -57,14 +59,10 @@ export function FeedPanel({ copy, currentUser }) {
     loadFeed();
   }, []);
 
-  function updateComposer(event) {
-    setComposer((current) => ({ ...current, [event.target.name]: event.target.value }));
-  }
-
   async function publishPost(event) {
     event.preventDefault();
-    setIsPosting(true);
     setMessage("");
+    setIsPosting(true);
     try {
       const result = await api.createPost({
         groupId: composer.groupId,
@@ -119,23 +117,20 @@ export function FeedPanel({ copy, currentUser }) {
           />
 
           {message && <p className="form-message">{message}</p>}
-          {isLoading && <p className="feed-state">{copy.feed.loading}</p>}
+          {isLoading && <CardSkeleton count={3} />}
           {!isLoading && posts.length === 0 && <p className="feed-state">{copy.feed.empty}</p>}
 
           <div className="feed-list">
-            {posts.map((post) => {
-              const authorName = userName(post.authorId);
-              return (
-                <FeedPostCard
-                  copy={copy}
-                  post={post}
-                  authorName={authorName}
-                  groupName={groupName(post.groupId)}
-                  locale={locale}
-                  key={post.id}
-                />
-              );
-            })}
+            {posts.map((post) => (
+              <FeedPostCard
+                copy={copy}
+                post={post}
+                authorName={userName(post.authorId)}
+                groupName={groupName(post.groupId)}
+                locale={locale}
+                key={post.id}
+              />
+            ))}
           </div>
         </div>
 

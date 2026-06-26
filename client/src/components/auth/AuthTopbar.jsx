@@ -1,12 +1,15 @@
-export function AuthTopbar({ copy, languageActionLabel, onLanguageChange }) {
+export function AuthTopbar({ copy, languageActionLabel, onLanguageChange, children }) {
   return (
     <header className="auth-topbar">
       <strong className="auth-brand">{copy.appName}</strong>
-      {onLanguageChange && (
-        <button type="button" className="ghost-button" onClick={onLanguageChange}>
-          {languageActionLabel}
-        </button>
-      )}
+      <div className="topbar-actions">
+        {children}
+        {onLanguageChange && (
+          <button type="button" className="ghost-button" onClick={onLanguageChange}>
+            {languageActionLabel}
+          </button>
+        )}
+      </div>
     </header>
   );
 }

@@ -5,8 +5,9 @@ import { AuthForm } from "./auth/AuthForm.jsx";
 import { AuthModeSwitch } from "./auth/AuthModeSwitch.jsx";
 import { AuthStory } from "./auth/AuthStory.jsx";
 import { AuthTopbar } from "./auth/AuthTopbar.jsx";
+import { ThemeToggle } from "./shared/ThemeToggle.jsx";
 
-const emptyForm = {
+const initialForm = {
   username: "",
   password: "",
   displayName: "",
@@ -15,7 +16,7 @@ const emptyForm = {
 
 export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel }) {
   const [mode, setMode] = useState("login");
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState(initialForm);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isRegisterMode = mode === "register";
@@ -34,6 +35,7 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
         await api.register(form);
         setMessage(copy.auth.registered);
         setMode("login");
+        setForm(initialForm);
         return;
       }
 
@@ -49,8 +51,10 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
   }
 
   return (
-    <section className="auth-page" id="auth">
-      <AuthTopbar copy={copy} languageActionLabel={languageActionLabel} onLanguageChange={onLanguageChange} />
+    <section className="auth-page" dir={copy.dir} id="auth">
+      <AuthTopbar copy={copy} languageActionLabel={languageActionLabel} onLanguageChange={onLanguageChange}>
+        <ThemeToggle copy={copy} />
+      </AuthTopbar>
 
       <div className="auth-shell">
         <AuthStory copy={copy} />

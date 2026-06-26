@@ -10,6 +10,7 @@ import { ManagementView } from "./components/management/ManagementView.jsx";
 import { MyPostsPanel } from "./components/MyPostsPanel.jsx";
 import { ProfilePanel } from "./components/ProfilePanel.jsx";
 import { StatsPanel } from "./components/StatsPanel.jsx";
+import { ErrorBoundary } from "./components/shared/ErrorBoundary.jsx";
 import { clearToken, getStoredUser } from "./api/tokenStorage.js";
 import { languages } from "./i18n.js";
 import "./styles.css";
@@ -37,30 +38,42 @@ export default function App() {
 
   if (!currentUser) {
     return (
-      <AuthPanel
-        copy={copy}
-        languageActionLabel={copy.actions.switchLanguage}
-        onAuth={setCurrentUser}
-        onLanguageChange={switchLanguage}
-      />
+      <ErrorBoundary
+        message={copy.errorBoundary.message}
+        retryLabel={copy.errorBoundary.retry}
+        title={copy.errorBoundary.title}
+      >
+        <AuthPanel
+          copy={copy}
+          languageActionLabel={copy.actions.switchLanguage}
+          onAuth={setCurrentUser}
+          onLanguageChange={switchLanguage}
+        />
+      </ErrorBoundary>
     );
   }
 
   return (
-    <main className="app-shell" dir={copy.dir}>
-      <AppTopbar copy={copy} currentUser={currentUser} onLanguageChange={switchLanguage} onLogout={logout} />
-      <MainNavigation activeView={activeView} copy={copy} onViewChange={setActiveView} />
+    <ErrorBoundary
+      message={copy.errorBoundary.message}
+      retryLabel={copy.errorBoundary.retry}
+      title={copy.errorBoundary.title}
+    >
+      <main className="app-shell" dir={copy.dir}>
+        <AppTopbar copy={copy} currentUser={currentUser} onLanguageChange={switchLanguage} onLogout={logout} />
+        <MainNavigation activeView={activeView} copy={copy} onViewChange={setActiveView} />
 
-      {activeView === "feed" && <FeedPanel copy={copy} currentUser={currentUser} />}
-      {activeView === "profile" && <ProfilePanel copy={copy} currentUser={currentUser} />}
-      {activeView === "myPosts" && <MyPostsPanel copy={copy} />}
-      {activeView === "groups" && <GroupDiscoveryPanel copy={copy} currentUser={currentUser} />}
+        {activeView === "feed" && <FeedPanel copy={copy} currentUser={currentUser} />}
+        {activeView === "profile" && <ProfilePanel copy={copy} currentUser={currentUser} />}
+        {activeView === "myPosts" && <MyPostsPanel copy={copy} />}
+        {activeView === "groups" && <GroupDiscoveryPanel copy={copy} currentUser={currentUser} />}
 
-      {activeView === "manage" && <ManagementView copy={copy} />}
+        {activeView === "manage" && <ManagementView copy={copy} />}
 
-      {activeView === "chat" && <ChatPanel copy={copy} currentUser={currentUser} />}
-      {activeView === "stats" && <StatsPanel copy={copy} />}
-      {activeView === "media" && <MediaPanel copy={copy} />}
-    </main>
+        {activeView === "chat" && <ChatPanel copy={copy} currentUser={currentUser} />}
+        {activeView === "stats" && <StatsPanel copy={copy} />}
+        {activeView === "media" && <MediaPanel copy={copy} />}
+      </main>
+    </ErrorBoundary>
   );
 }

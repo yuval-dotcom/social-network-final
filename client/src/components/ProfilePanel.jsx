@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { getApiErrorMessage } from "../api/apiError.js";
+import { CardSkeleton } from "./shared/LoadingSkeleton.jsx";
 import { ProfileFriends } from "./profile/ProfileFriends.jsx";
 import { ProfileGroups } from "./profile/ProfileGroups.jsx";
 import { ProfileHeader } from "./profile/ProfileHeader.jsx";
@@ -83,25 +84,27 @@ export function ProfilePanel({ copy, currentUser }) {
       </div>
 
       {message && <p className="form-message">{message}</p>}
-      {isLoading && <p className="feed-state">{copy.profile.loading}</p>}
+      {isLoading && <CardSkeleton count={2} />}
 
-      <div className="profile-layout">
-        <div className="profile-side">
-          <ProfileHeader copy={copy} profile={profile} />
-          <ProfileStats
-            copy={copy}
-            friendsCount={friends.length}
-            groupsCount={groups.length}
-            postsCount={posts.length}
-          />
-        </div>
+      {!isLoading && (
+        <div className="profile-layout">
+          <div className="profile-side">
+            <ProfileHeader copy={copy} profile={profile} />
+            <ProfileStats
+              copy={copy}
+              friendsCount={friends.length}
+              groupsCount={groups.length}
+              postsCount={posts.length}
+            />
+          </div>
 
-        <div className="profile-main">
-          <ProfileFriends copy={copy} friends={friends} />
-          <ProfileGroups copy={copy} groups={groups} />
-          <ProfileRecentPosts copy={copy} groupName={groupName} posts={posts} />
+          <div className="profile-main">
+            <ProfileFriends copy={copy} friends={friends} />
+            <ProfileGroups copy={copy} groups={groups} />
+            <ProfileRecentPosts copy={copy} groupName={groupName} posts={posts} />
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

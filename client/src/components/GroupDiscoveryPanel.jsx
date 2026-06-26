@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { useForm } from "../hooks/useForm.js";
+import { CardSkeleton } from "./shared/LoadingSkeleton.jsx";
 import { GroupCard } from "./groups/GroupCard.jsx";
 import { GroupDetailPanel } from "./groups/GroupDetailPanel.jsx";
 import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
 
-const defaultFilters = {
-  q: "",
-  category: "",
-  privacy: ""
-};
+const defaultFilters = { q: "", category: "", privacy: "" };
 
 function isMember(group, userId) {
   return Boolean(userId && group.memberIds?.includes(userId));
@@ -20,7 +18,7 @@ function isPending(group, userId) {
 }
 
 export function GroupDiscoveryPanel({ copy, currentUser }) {
-  const [filters, setFilters] = useState(defaultFilters);
+  const { values: filters, handleChange: updateFilter } = useForm(defaultFilters);
   const [groups, setGroups] = useState([]);
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
@@ -59,10 +57,6 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
   useEffect(() => {
     loadGroups();
   }, []);
-
-  function updateFilter(event) {
-    setFilters((current) => ({ ...current, [event.target.name]: event.target.value }));
-  }
 
   async function searchGroups(event) {
     event.preventDefault();
@@ -135,7 +129,7 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
 
       <div className="group-discovery-layout">
         <div className="group-card-grid">
-          {isLoading && <p className="feed-state">{copy.groups.loading}</p>}
+          {isLoading && <CardSkeleton count={4} />}
           {!isLoading && groups.length === 0 && <p className="feed-state">{copy.groups.empty}</p>}
           {groups.map((group) => (
             <GroupCard
