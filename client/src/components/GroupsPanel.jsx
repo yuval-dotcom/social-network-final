@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { GroupManagementForm } from "./groups/GroupManagementForm.jsx";
+import { GroupManagementResultCard } from "./groups/GroupManagementResultCard.jsx";
+import { GroupManagementSearchForm } from "./groups/GroupManagementSearchForm.jsx";
 
 export function GroupsPanel({ copy }) {
   const [group, setGroup] = useState({ id: "", name: "", description: "", category: "", privacy: "public", userId: "" });
@@ -33,6 +36,14 @@ export function GroupsPanel({ copy }) {
 
   function replaceGroup(updatedGroup) {
     setGroups((current) => current.map((item) => (item.id === updatedGroup.id ? updatedGroup : item)));
+  }
+
+  async function listGroups() {
+    try {
+      setGroups(((await api.listGroups()).groups || []));
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function createGroup(event) {
@@ -108,87 +119,36 @@ export function GroupsPanel({ copy }) {
     <section className="panel" id="groups">
       <div className="panel-heading">
         <h2>{copy.crud.groupsTitle}</h2>
-        <button type="button" onClick={async () => {
-          try {
-            setGroups(((await api.listGroups()).groups || []));
-          } catch (error) {
-            setMessage(getApiErrorMessage(error, copy.crud.failed));
-          }
-        }}>{copy.crud.list}</button>
+        <button type="button" onClick={listGroups}>{copy.crud.list}</button>
       </div>
       <div className="form-layout">
-        <div className="form-section">
-          <div className="form-section-heading">
-            <h3>{copy.crud.createEditSection}</h3>
-            <span className={group.id ? "selection-pill" : "selection-pill muted"}>
-              {group.id ? `${copy.crud.selectedItem}: ${group.id}` : copy.crud.noSelection}
-            </span>
-          </div>
-          <form className="form-grid" onSubmit={createGroup}>
-            <label>{copy.crud.id}<input name="id" value={group.id} onChange={updateGroupField} /></label>
-            <label>{copy.crud.name}<input name="name" value={group.name} onChange={updateGroupField} required /></label>
-            <label>{copy.crud.category}<input name="category" value={group.category} onChange={updateGroupField} required /></label>
-            <label>{copy.crud.privacy}<select name="privacy" value={group.privacy} onChange={updateGroupField}><option value="public">public</option><option value="private">private</option></select></label>
-            <label>{copy.crud.description}<input name="description" value={group.description} onChange={updateGroupField} /></label>
-            <label>{copy.crud.userId}<input name="userId" value={group.userId} onChange={updateGroupField} /></label>
-            <button type="submit" className="primary-button">{copy.crud.create}</button>
-            <button type="button" onClick={updateGroup}>{copy.crud.update}</button>
-            <button type="button" onClick={deleteGroup}>{copy.crud.delete}</button>
-            <button type="button" onClick={joinGroup}>{copy.crud.join}</button>
-            <button type="button" onClick={approveMember}>{copy.crud.approve}</button>
-          </form>
-        </div>
-        <div className="form-section">
-          <h3>{copy.crud.searchSection}</h3>
-          <form className="form-grid" onSubmit={searchGroups}>
-            <label>{copy.crud.keyword}<input name="q" value={search.q} onChange={updateSearchField} /></label>
-            <label>{copy.crud.category}<input name="category" value={search.category} onChange={updateSearchField} /></label>
-            <label>{copy.crud.privacy}<input name="privacy" value={search.privacy} onChange={updateSearchField} /></label>
-            <label>{copy.crud.memberId}<input name="memberId" value={search.memberId} onChange={updateSearchField} /></label>
-            <button type="submit" className="secondary-button">{copy.crud.search}</button>
-          </form>
-        </div>
+        <GroupManagementForm
+          copy={copy}
+          group={group}
+          onApproveMember={approveMember}
+          onChange={updateGroupField}
+          onCreate={createGroup}
+          onDelete={deleteGroup}
+          onJoin={joinGroup}
+          onUpdate={updateGroup}
+        />
+        <GroupManagementSearchForm
+          copy={copy}
+          onChange={updateSearchField}
+          onSubmit={searchGroups}
+          search={search}
+        />
       </div>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.groupsTitle}>
         {groups.map((item) => (
-          <li className={`result-card ${group.id === item.id ? "is-selected" : ""}`} key={item.id}>
-            <div className="result-card-header">
-              <div>
-                <strong className="result-title">{item.name}</strong>
-                <span className="result-subtitle">{item.description || item.category}</span>
-              </div>
-              <button type="button" className="compact-button" onClick={() => selectGroup(item)}>
-                {copy.crud.select}
-              </button>
-            </div>
-            <dl className="result-meta">
-              <div>
-                <dt>{copy.crud.id}</dt>
-                <dd className="result-id">{item.id}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.category}</dt>
-                <dd>{item.category || "-"}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.privacy}</dt>
-                <dd>{item.privacy || "-"}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.ownerId}</dt>
-                <dd className="result-id">{item.ownerId || "-"}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.members}</dt>
-                <dd>{item.memberIds?.length || 0}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.pending}</dt>
-                <dd>{item.pendingMemberIds?.length || 0}</dd>
-              </div>
-            </dl>
-          </li>
+          <GroupManagementResultCard
+            copy={copy}
+            group={item}
+            isSelected={group.id === item.id}
+            key={item.id}
+            onSelect={() => selectGroup(item)}
+          />
         ))}
       </ul>
     </section>

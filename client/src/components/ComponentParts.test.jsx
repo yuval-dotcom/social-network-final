@@ -5,6 +5,7 @@ import { FeedPostCard } from "./feed/FeedPostCard.jsx";
 import { FeedProfileCard } from "./feed/FeedProfileCard.jsx";
 import { GroupCard } from "./groups/GroupCard.jsx";
 import { GroupDetailPanel } from "./groups/GroupDetailPanel.jsx";
+import { GroupManagementResultCard } from "./groups/GroupManagementResultCard.jsx";
 import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
 import { ModelMap } from "./management/ModelMap.jsx";
 import { Avatar } from "./shared/Avatar.jsx";
@@ -119,6 +120,33 @@ describe("small UI components", () => {
 
     expect(onSelect).toHaveBeenCalledTimes(1);
     expect(onJoin).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders group management result cards independently", () => {
+    const onSelect = vi.fn();
+    render(
+      <GroupManagementResultCard
+        copy={languages.he}
+        group={{
+          id: "group_algorithms",
+          name: "Algorithms Study Lab",
+          description: "Exam preparation",
+          category: "Computer Science",
+          privacy: "public",
+          ownerId: "user_dana",
+          memberIds: ["user_dana", "user_noam"],
+          pendingMemberIds: ["user_maya"]
+        }}
+        isSelected
+        onSelect={onSelect}
+      />
+    );
+
+    expect(screen.getByText("Algorithms Study Lab")).toBeInTheDocument();
+    expect(screen.getByText("Exam preparation")).toBeInTheDocument();
+    expect(screen.getByText("Computer Science")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "בחר" }));
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it("renders group details as a separate social component", () => {
