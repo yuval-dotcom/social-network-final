@@ -6,7 +6,7 @@
 
 - Server: Node.js + Express
 - Database: MongoDB Atlas + MongoDB native driver
-- Client: React Web
+- Client: React Web 19.2.x
 - Ajax: jQuery Ajax
 - Realtime chat: Socket.io
 - Charts: D3.js
@@ -85,3 +85,9 @@ npm test
 ```text
 demo123
 ```
+
+## React בפרויקט
+
+זה React Web רגיל, לא React Native. הפרויקט משתמש ב-React 19.2.x בצד הלקוח, ו-Vite משמש רק ככלי פיתוח והרצה.
+
+הקוד נשמר פשוט: קומפוננטות פונקציונליות, `useState` לניהול state מקומי, `useEffect` לטעינת נתונים, וקובץ API אחד שמרכז את קריאות jQuery Ajax לשרת.

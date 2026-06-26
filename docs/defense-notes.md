@@ -5,7 +5,7 @@
 הפרויקט מחולק לשרת ולקוח:
 
 - `server`: Node.js + Express.
-- `client`: React רגיל עם Vite.
+- `client`: React Web רגיל בגרסת 19.2.x עם Vite.
 - `MongoDB Atlas`: מסד הנתונים.
 
 בשרת יש הפרדה לפי MVC:
@@ -65,11 +65,14 @@ User מפרסם Post בתוך Group. הפיד לא שולף את כל הפוסט
 
 ## קומפוננטות React
 
+- React כאן הוא React Web רגיל, לא React Native.
+- שמרנו את React פשוט ועדכני: קומפוננטות פונקציונליות, `useState`, `useEffect`, props, וללא ספריית UI כבדה.
+- Vite הוא כלי הרצה ובנייה ל-React, לא טכנולוגיית מוצר נפרדת.
 - הקומפוננטות מחולקות לפי אחריות אחת, כמו בדוגמת מכונית: מסך הוא המכונית, וחלקי UI קטנים הם גלגל/הגה/מנוע.
 - `FeedPanel` אחראי לטעינת הפיד וחיבור הנתונים, אבל הטופס, כרטיס הפוסט וה-sidebar מופרדים ל-`FeedComposer`, `FeedPostCard`, `FeedSidebar`.
 - חלקים קטנים נוספים של הפיד מופרדים ל-`FeedProfileCard` ו-`FeedPostActions`.
 - הסבר המודלים במסך הניהול מופרד ל-`ModelMap`.
-- `GroupDiscoveryPanel` אחראי לטעינת קבוצות וחיבור הפעולות, אבל החיפוש, כרטיס הקבוצה ופאנל הסטטיסטיקות מופרדים ל-`GroupSearchBar`, `GroupCard`, `GroupSpotlight`.
+- `GroupDiscoveryPanel` אחראי לטעינת קבוצות וחיבור הפעולות, אבל החיפוש, כרטיס הקבוצה ופרטי הקבוצה מופרדים ל-`GroupSearchBar`, `GroupCard`, `GroupDetailPanel`.
 - רכיבים קטנים משותפים כמו `Avatar` ו-`TagChip` נמצאים בתיקיית `shared`.
 - ההפרדה מקלה על בדיקות, שינוי עיצוב, והסבר בהגנה.
 
