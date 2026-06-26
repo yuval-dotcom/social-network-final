@@ -10,6 +10,7 @@ import { GroupDetailPanel } from "./groups/GroupDetailPanel.jsx";
 import { GroupManagementResultCard } from "./groups/GroupManagementResultCard.jsx";
 import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
 import { ModelMap } from "./management/ModelMap.jsx";
+import { VideoPreview } from "./media/VideoPreview.jsx";
 import { PostManagementResultCard } from "./posts/PostManagementResultCard.jsx";
 import { Avatar } from "./shared/Avatar.jsx";
 import { D3BarChart } from "./stats/D3BarChart.jsx";
@@ -112,6 +113,19 @@ describe("small UI components", () => {
 
     expect(screen.getByLabelText("פוסטים לפי חודש")).toBeInTheDocument();
     expect(document.querySelectorAll("rect").length).toBeGreaterThan(0);
+  });
+
+  it("renders video preview as a separate media part", () => {
+    render(
+      <VideoPreview
+        copy={languages.he}
+        onVideoUrlChange={() => {}}
+        videoUrl="https://example.com/demo.mp4"
+      />
+    );
+
+    expect(screen.getByLabelText("קישור וידאו")).toHaveValue("https://example.com/demo.mp4");
+    expect(screen.getByLabelText("נגן וידאו")).toHaveAttribute("src", "https://example.com/demo.mp4");
   });
 
   it("renders user result cards as separate management parts", () => {

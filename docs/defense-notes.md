@@ -83,6 +83,7 @@ User מפרסם Post בתוך Group. הפיד לא שולף את כל הפוסט
 - `GroupDiscoveryPanel` אחראי לטעינת קבוצות וחיבור הפעולות, אבל החיפוש, כרטיס הקבוצה ופרטי הקבוצה מופרדים ל-`GroupSearchBar`, `GroupCard`, `GroupDetailPanel`.
 - `ChatPanel` אחראי לחיבור Socket.io ולניהול הודעות, ו-`ChatSidebar`, `ChatRoomControls`, `ChatTranscript`, `ChatComposer` מציגים את חלקי הצ'אט.
 - `StatsPanel` טוען נתונים מהשרת, ו-`D3BarChart` הוא הרכיב שמצייר את ה-SVG באמצעות D3.
+- `MediaPanel` מחזיק ערכי טופס פשוטים, ו-`CanvasBadge` ו-`VideoPreview` מממשים בנפרד את דרישות Canvas ו-Video.
 - רכיבים קטנים משותפים כמו `Avatar` ו-`TagChip` נמצאים בתיקיית `shared`.
 - ההפרדה מקלה על בדיקות, שינוי עיצוב, והסבר בהגנה.
 
