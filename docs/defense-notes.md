@@ -80,6 +80,7 @@ User מפרסם Post בתוך Group. הפיד לא שולף את כל הפוסט
 - מסך ניהול הפוסטים מופרד באותה צורה: `PostsPanel` מחזיק state ופעולות, ו-`PostManagementForm`, `PostManagementSearchForm`, `PostManagementResultCard` מציגים את החלקים.
 - הסבר המודלים במסך הניהול מופרד ל-`ModelMap`.
 - `GroupDiscoveryPanel` אחראי לטעינת קבוצות וחיבור הפעולות, אבל החיפוש, כרטיס הקבוצה ופרטי הקבוצה מופרדים ל-`GroupSearchBar`, `GroupCard`, `GroupDetailPanel`.
+- `ChatPanel` אחראי לחיבור Socket.io ולניהול הודעות, ו-`ChatSidebar`, `ChatRoomControls`, `ChatTranscript`, `ChatComposer` מציגים את חלקי הצ'אט.
 - רכיבים קטנים משותפים כמו `Avatar` ו-`TagChip` נמצאים בתיקיית `shared`.
 - ההפרדה מקלה על בדיקות, שינוי עיצוב, והסבר בהגנה.
 

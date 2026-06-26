@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { languages } from "../i18n.js";
+import { ChatTranscript } from "./chat/ChatTranscript.jsx";
 import { FeedPostCard } from "./feed/FeedPostCard.jsx";
 import { FeedProfileCard } from "./feed/FeedProfileCard.jsx";
 import { GroupCard } from "./groups/GroupCard.jsx";
@@ -67,6 +68,25 @@ describe("small UI components", () => {
     expect(screen.getByText("User")).toBeInTheDocument();
     expect(screen.getByText("Group")).toBeInTheDocument();
     expect(screen.getByText("Post")).toBeInTheDocument();
+  });
+
+  it("renders chat messages as a separate transcript part", () => {
+    render(
+      <ChatTranscript
+        copy={languages.he}
+        displayName="Dana Levi"
+        messages={[
+          { id: "m1", senderId: "user_noam", text: "Can we study at 18:00?" },
+          { id: "m2", senderId: "user_dana", text: "Yes, I will join." }
+        ]}
+        senderId="user_dana"
+      />
+    );
+
+    expect(screen.getByText("user_noam")).toBeInTheDocument();
+    expect(screen.getByText("Can we study at 18:00?")).toBeInTheDocument();
+    expect(screen.getByText("Dana Levi")).toBeInTheDocument();
+    expect(screen.getByText("Yes, I will join.").closest(".chat-message")).toHaveClass("is-mine");
   });
 
   it("renders user result cards as separate management parts", () => {
