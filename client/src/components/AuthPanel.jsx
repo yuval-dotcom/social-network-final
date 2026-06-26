@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { api } from "../api/http.js";
 import { saveSession } from "../api/tokenStorage.js";
+import { AuthForm } from "./auth/AuthForm.jsx";
+import { AuthModeSwitch } from "./auth/AuthModeSwitch.jsx";
+import { AuthStory } from "./auth/AuthStory.jsx";
+import { AuthTopbar } from "./auth/AuthTopbar.jsx";
 
 const emptyForm = {
   username: "",
@@ -46,21 +50,10 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
 
   return (
     <section className="auth-page" id="auth">
-      <header className="auth-topbar">
-        <strong className="auth-brand">{copy.appName}</strong>
-        {onLanguageChange && (
-          <button type="button" className="ghost-button" onClick={onLanguageChange}>
-            {languageActionLabel}
-          </button>
-        )}
-      </header>
+      <AuthTopbar copy={copy} languageActionLabel={languageActionLabel} onLanguageChange={onLanguageChange} />
 
       <div className="auth-shell">
-        <div className="auth-story" aria-label={copy.authScreen.storyLabel}>
-          <p className="eyebrow">{copy.tagline}</p>
-          <h1>{copy.appName}</h1>
-          <p className="auth-lead">{copy.authScreen.body}</p>
-        </div>
+        <AuthStory copy={copy} />
 
         <div className="auth-card">
           <div className="auth-card-heading">
@@ -69,48 +62,16 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
             <p>{isRegisterMode ? copy.authScreen.registerBody : copy.authScreen.loginBody}</p>
           </div>
 
-          <div className="segmented-control" aria-label={copy.auth.modeLabel}>
-            <button type="button" className={mode === "login" ? "active" : ""} onClick={() => setMode("login")}>
-              {copy.actions.login}
-            </button>
-            <button type="button" className={isRegisterMode ? "active" : ""} onClick={() => setMode("register")}>
-              {copy.actions.register}
-            </button>
-          </div>
+          <AuthModeSwitch copy={copy} isRegisterMode={isRegisterMode} mode={mode} onModeChange={setMode} />
 
-          <form className="auth-form" onSubmit={submit}>
-            <label>
-              {copy.fields.username}
-              <input name="username" value={form.username} onChange={updateField} autoComplete="username" required />
-            </label>
-            <label>
-              {copy.fields.password}
-              <input
-                name="password"
-                type="password"
-                value={form.password}
-                onChange={updateField}
-                autoComplete={isRegisterMode ? "new-password" : "current-password"}
-                required
-                minLength={6}
-              />
-            </label>
-            {isRegisterMode && (
-              <>
-                <label>
-                  {copy.fields.displayName}
-                  <input name="displayName" value={form.displayName} onChange={updateField} autoComplete="name" required />
-                </label>
-                <label>
-                  {copy.fields.major}
-                  <input name="major" value={form.major} onChange={updateField} autoComplete="organization-title" />
-                </label>
-              </>
-            )}
-            <button type="submit" className="primary-button auth-submit" disabled={isSubmitting}>
-              {isSubmitting ? copy.auth.working : isRegisterMode ? copy.auth.registerSubmit : copy.auth.loginSubmit}
-            </button>
-          </form>
+          <AuthForm
+            copy={copy}
+            form={form}
+            isRegisterMode={isRegisterMode}
+            isSubmitting={isSubmitting}
+            onChange={updateField}
+            onSubmit={submit}
+          />
 
           {message && <p className="form-message" role="status">{message}</p>}
         </div>

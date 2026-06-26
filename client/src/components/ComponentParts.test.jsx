@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { languages } from "../i18n.js";
+import { AuthModeSwitch } from "./auth/AuthModeSwitch.jsx";
 import { ChatTranscript } from "./chat/ChatTranscript.jsx";
 import { FeedPostCard } from "./feed/FeedPostCard.jsx";
 import { FeedProfileCard } from "./feed/FeedProfileCard.jsx";
@@ -18,6 +19,22 @@ describe("small UI components", () => {
     render(<Avatar name="Dana Levi" />);
 
     expect(screen.getByText("D")).toBeInTheDocument();
+  });
+
+  it("renders the auth mode switch as a small login part", () => {
+    const onModeChange = vi.fn();
+    render(
+      <AuthModeSwitch
+        copy={languages.he}
+        isRegisterMode={false}
+        mode="login"
+        onModeChange={onModeChange}
+      />
+    );
+
+    expect(screen.getByRole("button", { name: "התחברות" })).toHaveClass("active");
+    fireEvent.click(screen.getByRole("button", { name: "הרשמה" }));
+    expect(onModeChange).toHaveBeenCalledWith("register");
   });
 
   it("renders feed post cards independently", () => {
