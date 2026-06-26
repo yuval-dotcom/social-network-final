@@ -97,6 +97,7 @@ demo123
 
 - `docs/requirements-checklist.md` ממפה כל דרישה למסך, קובץ ובדיקה.
 - `docs/defense-notes.md` כולל הסברים קצרים על הארכיטקטורה והקומפוננטות.
+- `docs/demo-script.md` נותן סדר הצגה מומלץ לדמו מול המרצה.
 
 ## React בפרויקט
 
