@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { MyPostCard } from "./my-posts/MyPostCard.jsx";
@@ -27,13 +27,11 @@ export function MyPostsPanel({ copy }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
-  const stats = useMemo(() => {
-    return {
-      total: posts.length,
-      tagged: posts.filter((post) => post.tags?.length > 0).length,
-      groups: new Set(posts.map((post) => post.groupId).filter(Boolean)).size
-    };
-  }, [posts]);
+  const stats = {
+    total: posts.length,
+    tagged: posts.filter((post) => post.tags?.length > 0).length,
+    groups: new Set(posts.map((post) => post.groupId).filter(Boolean)).size
+  };
 
   async function loadMyPosts() {
     setIsLoading(true);

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { FeedComposer } from "./feed/FeedComposer.jsx";
@@ -30,13 +30,10 @@ export function FeedPanel({ copy, currentUser }) {
   const [isPosting, setIsPosting] = useState(false);
   const locale = copy.dir === "rtl" ? "he-IL" : "en-US";
 
-  const groupsById = useMemo(() => indexById(groups), [groups]);
-  const groupOptions = useMemo(() => {
-    if (groups.some((group) => group.id === defaultComposer.groupId)) {
-      return groups;
-    }
-    return [{ id: defaultComposer.groupId, name: "Algorithms Study Lab" }, ...groups];
-  }, [groups]);
+  const groupsById = indexById(groups);
+  const groupOptions = groups.some((group) => group.id === defaultComposer.groupId)
+    ? groups
+    : [{ id: defaultComposer.groupId, name: "Algorithms Study Lab" }, ...groups];
 
   async function loadFeed() {
     setIsLoading(true);

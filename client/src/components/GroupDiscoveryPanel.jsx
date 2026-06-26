@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { GroupCard } from "./groups/GroupCard.jsx";
@@ -30,17 +30,12 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
   const userId = currentUser?.id || currentUser?.sub || "";
 
   const selectedGroup = groups.find((group) => group.id === selectedGroupId) || groups[0];
-  const categories = useMemo(() => {
-    return Array.from(new Set(groups.map((group) => group.category).filter(Boolean))).sort();
-  }, [groups]);
-
-  const stats = useMemo(() => {
-    return {
-      total: groups.length,
-      publicCount: groups.filter((group) => group.privacy === "public").length,
-      myGroups: groups.filter((group) => isMember(group, userId)).length
-    };
-  }, [groups, userId]);
+  const categories = Array.from(new Set(groups.map((group) => group.category).filter(Boolean))).sort();
+  const stats = {
+    total: groups.length,
+    publicCount: groups.filter((group) => group.privacy === "public").length,
+    myGroups: groups.filter((group) => isMember(group, userId)).length
+  };
 
   async function loadGroups() {
     setIsLoading(true);
