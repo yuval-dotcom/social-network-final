@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { PostManagementForm } from "./posts/PostManagementForm.jsx";
+import { PostManagementResultCard } from "./posts/PostManagementResultCard.jsx";
+import { PostManagementSearchForm } from "./posts/PostManagementSearchForm.jsx";
 
 export function PostsPanel({ copy }) {
   const [post, setPost] = useState({ id: "", groupId: "", content: "", tags: "", mediaUrl: "", mediaType: "" });
@@ -38,6 +41,14 @@ export function PostsPanel({ copy }) {
   function formatDate(value) {
     if (!value) return "-";
     return new Date(value).toLocaleDateString();
+  }
+
+  async function listPosts() {
+    try {
+      setPosts((await api.listPosts()).posts || []);
+    } catch (error) {
+      setMessage(getApiErrorMessage(error, copy.crud.failed));
+    }
   }
 
   async function createPost(event) {
@@ -105,86 +116,38 @@ export function PostsPanel({ copy }) {
       <div className="panel-heading">
         <h2>{copy.crud.postsTitle}</h2>
         <div className="topbar-actions">
-          <button type="button" onClick={async () => {
-            try {
-              setPosts((await api.listPosts()).posts || []);
-            } catch (error) {
-              setMessage(getApiErrorMessage(error, copy.crud.failed));
-            }
-          }}>{copy.crud.list}</button>
+          <button type="button" onClick={listPosts}>{copy.crud.list}</button>
           <button type="button" onClick={loadFeed}>{copy.crud.feed}</button>
           <button type="button" onClick={loadMine}>{copy.crud.myPosts}</button>
         </div>
       </div>
       <div className="form-layout">
-        <div className="form-section">
-          <div className="form-section-heading">
-            <h3>{copy.crud.createEditSection}</h3>
-            <span className={post.id ? "selection-pill" : "selection-pill muted"}>
-              {post.id ? `${copy.crud.selectedItem}: ${post.id}` : copy.crud.noSelection}
-            </span>
-          </div>
-          <form className="form-grid" onSubmit={createPost}>
-            <label>{copy.crud.id}<input name="id" value={post.id} onChange={updatePostField} /></label>
-            <label>{copy.crud.groupId}<input name="groupId" value={post.groupId} onChange={updatePostField} required /></label>
-            <label>{copy.crud.tags}<input name="tags" value={post.tags} onChange={updatePostField} /></label>
-            <label>{copy.crud.mediaUrl}<input name="mediaUrl" value={post.mediaUrl} onChange={updatePostField} /></label>
-            <label>{copy.crud.mediaType}<input name="mediaType" value={post.mediaType} onChange={updatePostField} /></label>
-            <label className="wide-field">{copy.crud.content}<textarea name="content" value={post.content} onChange={updatePostField} required /></label>
-            <button type="submit" className="primary-button">{copy.crud.create}</button>
-            <button type="button" onClick={updatePost}>{copy.crud.update}</button>
-            <button type="button" onClick={deletePost}>{copy.crud.delete}</button>
-          </form>
-        </div>
-        <div className="form-section">
-          <h3>{copy.crud.searchSection}</h3>
-          <form className="form-grid" onSubmit={searchPosts}>
-            <label>{copy.crud.keyword}<input name="q" value={search.q} onChange={updateSearchField} /></label>
-            <label>{copy.crud.groupId}<input name="groupId" value={search.groupId} onChange={updateSearchField} /></label>
-            <label>{copy.crud.authorId}<input name="authorId" value={search.authorId} onChange={updateSearchField} /></label>
-            <label>{copy.crud.tag}<input name="tag" value={search.tag} onChange={updateSearchField} /></label>
-            <label>{copy.crud.from}<input name="from" type="date" value={search.from} onChange={updateSearchField} /></label>
-            <label>{copy.crud.to}<input name="to" type="date" value={search.to} onChange={updateSearchField} /></label>
-            <button type="submit" className="secondary-button">{copy.crud.search}</button>
-          </form>
-        </div>
+        <PostManagementForm
+          copy={copy}
+          onChange={updatePostField}
+          onCreate={createPost}
+          onDelete={deletePost}
+          onUpdate={updatePost}
+          post={post}
+        />
+        <PostManagementSearchForm
+          copy={copy}
+          onChange={updateSearchField}
+          onSubmit={searchPosts}
+          search={search}
+        />
       </div>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.postsTitle}>
         {posts.map((item) => (
-          <li className={`result-card ${post.id === item.id ? "is-selected" : ""}`} key={item.id}>
-            <div className="result-card-header">
-              <div>
-                <strong className="result-title">{item.content}</strong>
-                <span className="result-subtitle">{item.tags?.join(", ") || copy.crud.postsTitle}</span>
-              </div>
-              <button type="button" className="compact-button" onClick={() => selectPost(item)}>
-                {copy.crud.select}
-              </button>
-            </div>
-            <dl className="result-meta">
-              <div>
-                <dt>{copy.crud.id}</dt>
-                <dd className="result-id">{item.id}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.groupId}</dt>
-                <dd className="result-id">{item.groupId || "-"}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.authorId}</dt>
-                <dd className="result-id">{item.authorId || "-"}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.mediaType}</dt>
-                <dd>{item.mediaType || "-"}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.createdAt}</dt>
-                <dd>{formatDate(item.createdAt)}</dd>
-              </div>
-            </dl>
-          </li>
+          <PostManagementResultCard
+            copy={copy}
+            formatDate={formatDate}
+            isSelected={post.id === item.id}
+            key={item.id}
+            onSelect={() => selectPost(item)}
+            post={item}
+          />
         ))}
       </ul>
     </section>

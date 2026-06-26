@@ -8,6 +8,7 @@ import { GroupDetailPanel } from "./groups/GroupDetailPanel.jsx";
 import { GroupManagementResultCard } from "./groups/GroupManagementResultCard.jsx";
 import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
 import { ModelMap } from "./management/ModelMap.jsx";
+import { PostManagementResultCard } from "./posts/PostManagementResultCard.jsx";
 import { Avatar } from "./shared/Avatar.jsx";
 import { UserResultCard } from "./users/UserResultCard.jsx";
 
@@ -145,6 +146,34 @@ describe("small UI components", () => {
     expect(screen.getByText("Algorithms Study Lab")).toBeInTheDocument();
     expect(screen.getByText("Exam preparation")).toBeInTheDocument();
     expect(screen.getByText("Computer Science")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "בחר" }));
+    expect(onSelect).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders post management result cards independently", () => {
+    const onSelect = vi.fn();
+    render(
+      <PostManagementResultCard
+        copy={languages.he}
+        formatDate={() => "1.6.2026"}
+        isSelected
+        onSelect={onSelect}
+        post={{
+          id: "post_algorithms_1",
+          groupId: "group_algorithms",
+          authorId: "user_dana",
+          content: "Graph summary",
+          tags: ["exam", "graphs"],
+          mediaType: "video",
+          createdAt: "2026-06-01T09:00:00.000Z"
+        }}
+      />
+    );
+
+    expect(screen.getByText("Graph summary")).toBeInTheDocument();
+    expect(screen.getByText("exam, graphs")).toBeInTheDocument();
+    expect(screen.getByText("group_algorithms")).toBeInTheDocument();
+    expect(screen.getByText("1.6.2026")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "בחר" }));
     expect(onSelect).toHaveBeenCalledTimes(1);
   });

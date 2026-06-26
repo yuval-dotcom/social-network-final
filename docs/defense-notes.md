@@ -77,6 +77,7 @@ User מפרסם Post בתוך Group. הפיד לא שולף את כל הפוסט
 - מסך הפרופיל מופרד ל-`ProfilePanel`, `ProfileHeader`, `ProfileStats`, `ProfileFriends`, `ProfileGroups`, `ProfileRecentPosts`.
 - מסך ניהול המשתמשים מופרד ל-`UsersPanel` שמחזיק state ופעולות, ולרכיבי תצוגה קטנים: `UserCreateForm`, `UserSearchForm`, `UserEditForm`, `UserResultCard`.
 - מסך ניהול הקבוצות מופרד באותה צורה: `GroupsPanel` מחזיק state ופעולות, ו-`GroupManagementForm`, `GroupManagementSearchForm`, `GroupManagementResultCard` מציגים את החלקים.
+- מסך ניהול הפוסטים מופרד באותה צורה: `PostsPanel` מחזיק state ופעולות, ו-`PostManagementForm`, `PostManagementSearchForm`, `PostManagementResultCard` מציגים את החלקים.
 - הסבר המודלים במסך הניהול מופרד ל-`ModelMap`.
 - `GroupDiscoveryPanel` אחראי לטעינת קבוצות וחיבור הפעולות, אבל החיפוש, כרטיס הקבוצה ופרטי הקבוצה מופרדים ל-`GroupSearchBar`, `GroupCard`, `GroupDetailPanel`.
 - רכיבים קטנים משותפים כמו `Avatar` ו-`TagChip` נמצאים בתיקיית `shared`.
