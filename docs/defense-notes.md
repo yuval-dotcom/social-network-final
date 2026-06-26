@@ -75,6 +75,7 @@ User מפרסם Post בתוך Group. הפיד לא שולף את כל הפוסט
 - `FeedPanel` אחראי לטעינת הפיד וחיבור הנתונים, אבל הטופס, כרטיס הפוסט וה-sidebar מופרדים ל-`FeedComposer`, `FeedPostCard`, `FeedSidebar`.
 - חלקים קטנים נוספים של הפיד מופרדים ל-`FeedProfileCard` ו-`FeedPostActions`.
 - מסך הפרופיל מופרד ל-`ProfilePanel`, `ProfileHeader`, `ProfileStats`, `ProfileFriends`, `ProfileGroups`, `ProfileRecentPosts`.
+- מסך ניהול המשתמשים מופרד ל-`UsersPanel` שמחזיק state ופעולות, ולרכיבי תצוגה קטנים: `UserCreateForm`, `UserSearchForm`, `UserEditForm`, `UserResultCard`.
 - הסבר המודלים במסך הניהול מופרד ל-`ModelMap`.
 - `GroupDiscoveryPanel` אחראי לטעינת קבוצות וחיבור הפעולות, אבל החיפוש, כרטיס הקבוצה ופרטי הקבוצה מופרדים ל-`GroupSearchBar`, `GroupCard`, `GroupDetailPanel`.
 - רכיבים קטנים משותפים כמו `Avatar` ו-`TagChip` נמצאים בתיקיית `shared`.

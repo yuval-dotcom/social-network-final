@@ -8,6 +8,7 @@ import { GroupDetailPanel } from "./groups/GroupDetailPanel.jsx";
 import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
 import { ModelMap } from "./management/ModelMap.jsx";
 import { Avatar } from "./shared/Avatar.jsx";
+import { UserResultCard } from "./users/UserResultCard.jsx";
 
 describe("small UI components", () => {
   it("renders a reusable avatar initial", () => {
@@ -64,6 +65,31 @@ describe("small UI components", () => {
     expect(screen.getByText("User")).toBeInTheDocument();
     expect(screen.getByText("Group")).toBeInTheDocument();
     expect(screen.getByText("Post")).toBeInTheDocument();
+  });
+
+  it("renders user result cards as separate management parts", () => {
+    const onSelect = vi.fn();
+    render(
+      <UserResultCard
+        copy={languages.he}
+        isSelected
+        onSelect={onSelect}
+        user={{
+          id: "user_dana",
+          username: "dana",
+          displayName: "Dana Levi",
+          major: "Computer Science",
+          role: "student",
+          groupIds: ["group_algorithms"]
+        }}
+      />
+    );
+
+    expect(screen.getByText("Dana Levi")).toBeInTheDocument();
+    expect(screen.getByText("@dana")).toBeInTheDocument();
+    expect(screen.getByText("Computer Science")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "בחר" }));
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it("renders group cards with separate select and join actions", () => {

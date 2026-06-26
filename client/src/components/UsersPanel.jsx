@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { UserCreateForm } from "./users/UserCreateForm.jsx";
+import { UserEditForm } from "./users/UserEditForm.jsx";
+import { UserResultCard } from "./users/UserResultCard.jsx";
+import { UserSearchForm } from "./users/UserSearchForm.jsx";
 
 export function UsersPanel({ copy }) {
   const [create, setCreate] = useState({ username: "", password: "", displayName: "", major: "" });
@@ -94,73 +98,20 @@ export function UsersPanel({ copy }) {
       </div>
       <p className="hint">{copy.crud.userCreateHint}</p>
       <div className="form-layout">
-        <div className="form-section">
-          <h3>{copy.crud.userCreateSection}</h3>
-          <form className="form-grid" onSubmit={createUser}>
-            <label>{copy.crud.newUsername}<input name="username" value={create.username} onChange={setCreateField} required /></label>
-            <label>{copy.crud.temporaryPassword}<input name="password" type="password" value={create.password} onChange={setCreateField} required minLength={6} /></label>
-            <label>{copy.crud.newDisplayName}<input name="displayName" value={create.displayName} onChange={setCreateField} required /></label>
-            <label>{copy.crud.newMajor}<input name="major" value={create.major} onChange={setCreateField} /></label>
-            <button type="submit" className="primary-button">{copy.crud.create}</button>
-          </form>
-        </div>
-        <div className="form-section">
-          <h3>{copy.crud.searchSection}</h3>
-          <form className="form-grid" onSubmit={searchUsers}>
-            <label>{copy.crud.keyword}<input name="q" value={search.q} onChange={setSearchField} /></label>
-            <label>{copy.fields.major}<input name="major" value={search.major} onChange={setSearchField} /></label>
-            <label>{copy.crud.role}<input name="role" value={search.role} onChange={setSearchField} /></label>
-            <button type="submit" className="secondary-button">{copy.crud.search}</button>
-          </form>
-        </div>
-        <div className="form-section">
-          <div className="form-section-heading">
-            <h3>{copy.crud.editSection}</h3>
-            <span className={edit.id ? "selection-pill" : "selection-pill muted"}>
-              {edit.id ? `${copy.crud.selectedItem}: ${edit.id}` : copy.crud.noSelection}
-            </span>
-          </div>
-          <form className="form-grid" onSubmit={updateUser}>
-            <label>{copy.crud.id}<input name="id" value={edit.id} onChange={setEditField} required /></label>
-            <label>{copy.fields.displayName}<input name="displayName" value={edit.displayName} onChange={setEditField} required /></label>
-            <label>{copy.crud.bio}<input name="bio" value={edit.bio} onChange={setEditField} /></label>
-            <button type="submit" className="primary-button">{copy.crud.update}</button>
-            <button type="button" className="secondary-button" onClick={deleteUser}>{copy.crud.delete}</button>
-          </form>
-        </div>
+        <UserCreateForm copy={copy} create={create} onChange={setCreateField} onSubmit={createUser} />
+        <UserSearchForm copy={copy} search={search} onChange={setSearchField} onSubmit={searchUsers} />
+        <UserEditForm copy={copy} edit={edit} onChange={setEditField} onDelete={deleteUser} onSubmit={updateUser} />
       </div>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.usersTitle}>
         {users.map((user) => (
-          <li className={`result-card ${edit.id === user.id ? "is-selected" : ""}`} key={user.id}>
-            <div className="result-card-header">
-              <div>
-                <strong className="result-title">{user.displayName || user.username}</strong>
-                <span className="result-subtitle">@{user.username}</span>
-              </div>
-              <button type="button" className="compact-button" onClick={() => selectUser(user)}>
-                {copy.crud.select}
-              </button>
-            </div>
-            <dl className="result-meta">
-              <div>
-                <dt>{copy.crud.id}</dt>
-                <dd className="result-id">{user.id}</dd>
-              </div>
-              <div>
-                <dt>{copy.fields.major}</dt>
-                <dd>{user.major || "-"}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.role}</dt>
-                <dd>{user.role || "-"}</dd>
-              </div>
-              <div>
-                <dt>{copy.crud.groupsTitle}</dt>
-                <dd>{user.groupIds?.length || 0}</dd>
-              </div>
-            </dl>
-          </li>
+          <UserResultCard
+            copy={copy}
+            isSelected={edit.id === user.id}
+            key={user.id}
+            onSelect={() => selectUser(user)}
+            user={user}
+          />
         ))}
       </ul>
     </section>
