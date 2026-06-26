@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch-path=src src/server.js",
+    "dev:memory": "DATABASE_MODE=memory node --watch-path=src src/server.js",
     "start": "node src/server.js",
     "seed": "node src/seed/runSeed.js",
     "test": "vitest run"

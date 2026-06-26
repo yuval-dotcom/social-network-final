@@ -49,6 +49,13 @@ VITE_SOCKET_URL=http://localhost:4000
 אם Atlas לא זמין בזמן פיתוח מקומי, אפשר להריץ דמו זמני עם `DATABASE_MODE=memory`.
 ברירת המחדל וההגשה נשארות `DATABASE_MODE=mongo`.
 
+להרצת דמו מקומי בלי Atlas:
+
+```bash
+npm run dev:server:memory
+npm run dev:client
+```
+
 ## יצירת MongoDB Atlas
 
 1. נכנסים ל-MongoDB Atlas ויוצרים פרויקט חדש.

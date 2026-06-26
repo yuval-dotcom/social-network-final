@@ -7,6 +7,7 @@
 - `server`: Node.js + Express.
 - `client`: React Web רגיל בגרסת 19.2.x עם Vite.
 - `MongoDB Atlas`: מסד הנתונים.
+- בזמן פיתוח מקומי אפשר להריץ `DATABASE_MODE=memory` לדמו בלי תלות ברשת, אבל מצב ההגשה הרשמי נשאר MongoDB.
 
 בשרת יש הפרדה לפי MVC:
 
