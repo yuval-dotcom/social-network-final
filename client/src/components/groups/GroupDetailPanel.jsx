@@ -87,7 +87,7 @@ export function GroupDetailPanel({ copy, currentUser, group, message, posts, sta
     <aside className="group-detail-panel" aria-label={copy.groups.detailTitle}>
       <div className="group-detail-hero">
         <div>
-          <p className="eyebrow">{copy.groups.detailEyebrow}</p>
+          <p className="eyebrow">{copy.groups.detailTitle}</p>
           <h3>{group.name}</h3>
           <p>{group.description || copy.groups.noDescription}</p>
         </div>

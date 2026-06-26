@@ -81,6 +81,7 @@ describe("GroupDiscoveryPanel", () => {
     expect(screen.getByText("Computer Science")).toBeInTheDocument();
     expect(screen.getByText("דורשת אישור")).toBeInTheDocument();
     expect(screen.getAllByText("Dana Levi").length).toBeGreaterThan(0);
+    expect(screen.getByText("פרטי קבוצה")).toBeInTheDocument();
     expect(screen.getByText("I uploaded a short summary for graph algorithms.")).toBeInTheDocument();
   });
 
