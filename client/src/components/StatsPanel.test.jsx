@@ -21,6 +21,6 @@ describe("StatsPanel", () => {
 
     await waitFor(() => expect(api.postsByMonth).toHaveBeenCalled());
     expect(screen.getByText("הגרפים נטענו.")).toBeInTheDocument();
-    expect(document.querySelectorAll("rect").length).toBeGreaterThan(0);
+    await waitFor(() => expect(document.querySelectorAll("rect").length).toBeGreaterThan(0));
   });
 });

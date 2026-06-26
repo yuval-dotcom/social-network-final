@@ -12,6 +12,7 @@ import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
 import { ModelMap } from "./management/ModelMap.jsx";
 import { PostManagementResultCard } from "./posts/PostManagementResultCard.jsx";
 import { Avatar } from "./shared/Avatar.jsx";
+import { D3BarChart } from "./stats/D3BarChart.jsx";
 import { UserResultCard } from "./users/UserResultCard.jsx";
 
 describe("small UI components", () => {
@@ -104,6 +105,13 @@ describe("small UI components", () => {
     expect(screen.getByText("Can we study at 18:00?")).toBeInTheDocument();
     expect(screen.getByText("Dana Levi")).toBeInTheDocument();
     expect(screen.getByText("Yes, I will join.").closest(".chat-message")).toHaveClass("is-mine");
+  });
+
+  it("renders a D3 chart as a reusable SVG component", () => {
+    render(<D3BarChart data={[{ month: "2026-06", count: 3 }]} labelKey="month" title="פוסטים לפי חודש" />);
+
+    expect(screen.getByLabelText("פוסטים לפי חודש")).toBeInTheDocument();
+    expect(document.querySelectorAll("rect").length).toBeGreaterThan(0);
   });
 
   it("renders user result cards as separate management parts", () => {

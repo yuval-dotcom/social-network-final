@@ -82,6 +82,7 @@ User מפרסם Post בתוך Group. הפיד לא שולף את כל הפוסט
 - הסבר המודלים במסך הניהול מופרד ל-`ModelMap`.
 - `GroupDiscoveryPanel` אחראי לטעינת קבוצות וחיבור הפעולות, אבל החיפוש, כרטיס הקבוצה ופרטי הקבוצה מופרדים ל-`GroupSearchBar`, `GroupCard`, `GroupDetailPanel`.
 - `ChatPanel` אחראי לחיבור Socket.io ולניהול הודעות, ו-`ChatSidebar`, `ChatRoomControls`, `ChatTranscript`, `ChatComposer` מציגים את חלקי הצ'אט.
+- `StatsPanel` טוען נתונים מהשרת, ו-`D3BarChart` הוא הרכיב שמצייר את ה-SVG באמצעות D3.
 - רכיבים קטנים משותפים כמו `Avatar` ו-`TagChip` נמצאים בתיקיית `shared`.
 - ההפרדה מקלה על בדיקות, שינוי עיצוב, והסבר בהגנה.
 
