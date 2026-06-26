@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { languages } from "../i18n.js";
+import { useForm } from "../hooks/useForm.js";
 import { MainNavigation } from "./app/MainNavigation.jsx";
 import { AuthModeSwitch } from "./auth/AuthModeSwitch.jsx";
 import { ChatTranscript } from "./chat/ChatTranscript.jsx";
@@ -14,8 +15,16 @@ import { ModelMap } from "./management/ModelMap.jsx";
 import { VideoPreview } from "./media/VideoPreview.jsx";
 import { PostManagementResultCard } from "./posts/PostManagementResultCard.jsx";
 import { Avatar } from "./shared/Avatar.jsx";
+import { ErrorBoundary } from "./shared/ErrorBoundary.jsx";
+import { CardSkeleton, LoadingSkeleton } from "./shared/LoadingSkeleton.jsx";
+import { ThemeToggle } from "./shared/ThemeToggle.jsx";
 import { D3BarChart } from "./stats/D3BarChart.jsx";
 import { UserResultCard } from "./users/UserResultCard.jsx";
+
+afterEach(() => {
+  localStorage.clear();
+  document.documentElement.dataset.theme = "light";
+});
 
 describe("small UI components", () => {
   it("renders a reusable avatar initial", () => {
@@ -38,6 +47,73 @@ describe("small UI components", () => {
     expect(screen.getByRole("button", { name: "התחברות" })).toHaveClass("active");
     fireEvent.click(screen.getByRole("button", { name: "הרשמה" }));
     expect(onModeChange).toHaveBeenCalledWith("register");
+  });
+
+  it("toggles the theme with Hebrew labels", () => {
+    render(<ThemeToggle copy={languages.he} />);
+
+    const toggle = screen.getByRole("button", { name: "מצב כהה" });
+    expect(document.documentElement.dataset.theme).toBe("light");
+
+    fireEvent.click(toggle);
+
+    expect(document.documentElement.dataset.theme).toBe("dark");
+    expect(localStorage.getItem("studycircle_theme")).toBe("dark");
+    expect(screen.getByRole("button", { name: "מצב בהיר" })).toBeInTheDocument();
+  });
+
+  it("renders loading placeholders as separate reusable parts", () => {
+    const { container } = render(
+      <>
+        <LoadingSkeleton lines={4} />
+        <CardSkeleton count={2} />
+      </>
+    );
+
+    expect(screen.getByLabelText("Loading")).toHaveAttribute("aria-busy", "true");
+    expect(container.querySelectorAll(".skeleton-card")).toHaveLength(2);
+    expect(container.querySelectorAll(".skeleton-line").length).toBeGreaterThanOrEqual(4);
+  });
+
+  it("catches render errors with the shared error boundary", () => {
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+    function BrokenPart() {
+      throw new Error("Demo crash");
+    }
+
+    render(
+      <ErrorBoundary title="שגיאה" message="נפילה נשלטת" retryLabel="נסה שוב">
+        <BrokenPart />
+      </ErrorBoundary>
+    );
+
+    expect(screen.getByRole("heading", { name: "שגיאה" })).toBeInTheDocument();
+    expect(screen.getByText("נפילה נשלטת")).toBeInTheDocument();
+    consoleError.mockRestore();
+  });
+
+  it("updates and resets form fields with the shared form hook", () => {
+    function DemoForm() {
+      const { values, handleChange, reset } = useForm({ title: "" });
+      return (
+        <form>
+          <label>
+            Title
+            <input name="title" value={values.title} onChange={handleChange} />
+          </label>
+          <button type="button" onClick={reset}>Reset</button>
+          <output>{values.title}</output>
+        </form>
+      );
+    }
+
+    render(<DemoForm />);
+
+    fireEvent.change(screen.getByLabelText("Title"), { target: { value: "Algorithms" } });
+    expect(screen.getByText("Algorithms")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+    expect(screen.queryByText("Algorithms")).not.toBeInTheDocument();
   });
 
   it("renders the main navigation as a separate app part", () => {
