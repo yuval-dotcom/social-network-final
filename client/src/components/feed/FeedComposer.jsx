@@ -30,6 +30,15 @@ export function FeedComposer({
           required
         />
       </label>
+      <label className="feed-composer-attachment">
+        {copy.feed.videoUrlLabel}
+        <input
+          name="mediaUrl"
+          value={composer.mediaUrl}
+          onChange={onChange}
+          placeholder={copy.feed.videoUrlPlaceholder}
+        />
+      </label>
       <div className="feed-composer-controls">
         <label>
           {copy.feed.groupLabel}

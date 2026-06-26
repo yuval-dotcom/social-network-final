@@ -436,6 +436,7 @@ button:disabled {
 }
 
 .wide-feed-field,
+.feed-composer-attachment,
 .feed-composer-controls label {
   color: #1e293b;
   display: grid;
@@ -444,6 +445,7 @@ button:disabled {
 }
 
 .wide-feed-field textarea,
+.feed-composer-attachment input,
 .feed-composer-controls input,
 .feed-composer-controls select {
   background: #f8fafc;
@@ -466,6 +468,13 @@ button:disabled {
 
 .feed-composer-controls button {
   white-space: nowrap;
+}
+
+.feed-composer-attachment {
+  background: #f8fbfc;
+  border: 1px solid #e3edf1;
+  border-radius: 8px;
+  padding: 12px;
 }
 
 .feed-state {

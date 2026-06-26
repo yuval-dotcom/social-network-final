@@ -79,6 +79,7 @@ describe("FeedPanel", () => {
 
   it("publishes a new post from the feed composer", async () => {
     api.feed.mockResolvedValue({ posts: [] });
+    const videoUrl = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
     api.createPost.mockResolvedValue({
       post: {
         id: "post_new",
@@ -86,8 +87,8 @@ describe("FeedPanel", () => {
         groupId: "group_algorithms",
         content: "Uploaded a focused exam summary.",
         tags: ["exam", "summary"],
-        mediaUrl: "",
-        mediaType: "",
+        mediaUrl: videoUrl,
+        mediaType: "video",
         createdAt: "2026-06-22T08:00:00.000Z"
       }
     });
@@ -101,16 +102,20 @@ describe("FeedPanel", () => {
     fireEvent.change(screen.getByLabelText("תגיות"), {
       target: { value: "exam, summary" }
     });
+    fireEvent.change(screen.getByLabelText("וידאו אופציונלי"), {
+      target: { value: videoUrl }
+    });
     fireEvent.click(screen.getByRole("button", { name: "פרסום פוסט" }));
 
     await waitFor(() => expect(api.createPost).toHaveBeenCalledWith({
       groupId: "group_algorithms",
       content: "Uploaded a focused exam summary.",
       tags: ["exam", "summary"],
-      mediaUrl: "",
-      mediaType: ""
+      mediaUrl: videoUrl,
+      mediaType: "video"
     }));
     expect(await screen.findByText("Uploaded a focused exam summary.")).toBeInTheDocument();
+    expect(document.querySelector(".feed-video")).toHaveAttribute("src", videoUrl);
     expect(screen.getByText("הפוסט פורסם בפיד.")).toBeInTheDocument();
   });
 });

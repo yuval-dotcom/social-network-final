@@ -8,7 +8,8 @@ import { FeedSidebar } from "./feed/FeedSidebar.jsx";
 const defaultComposer = {
   groupId: "group_algorithms",
   content: "",
-  tags: "study, exam"
+  tags: "study, exam",
+  mediaUrl: ""
 };
 
 function indexById(items) {
@@ -79,8 +80,8 @@ export function FeedPanel({ copy, currentUser }) {
         groupId: composer.groupId,
         content: composer.content,
         tags: splitTags(composer.tags),
-        mediaUrl: "",
-        mediaType: ""
+        mediaUrl: composer.mediaUrl.trim(),
+        mediaType: composer.mediaUrl.trim() ? "video" : ""
       });
       setPosts((current) => [result.post, ...current]);
       setComposer((current) => ({ ...defaultComposer, groupId: current.groupId }));
