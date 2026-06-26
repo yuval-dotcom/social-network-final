@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { splitCommaList } from "../utils/dataHelpers.js";
 import { PostManagementForm } from "./posts/PostManagementForm.jsx";
 import { PostManagementResultCard } from "./posts/PostManagementResultCard.jsx";
 import { PostManagementSearchForm } from "./posts/PostManagementSearchForm.jsx";
@@ -20,7 +21,7 @@ export function PostsPanel({ copy }) {
   }
 
   function payload() {
-    return { ...post, tags: post.tags.split(",").map((tag) => tag.trim()).filter(Boolean) };
+    return { ...post, tags: splitCommaList(post.tags) };
   }
 
   function selectPost(item) {

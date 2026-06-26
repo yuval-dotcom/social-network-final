@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { indexById, splitCommaList } from "../utils/dataHelpers.js";
 import { MyPostCard } from "./my-posts/MyPostCard.jsx";
 import { MyPostEditor } from "./my-posts/MyPostEditor.jsx";
 import { MyPostsSummary } from "./my-posts/MyPostsSummary.jsx";
@@ -10,14 +11,6 @@ const emptyEditor = {
   content: "",
   tags: ""
 };
-
-function indexById(items) {
-  return Object.fromEntries((items || []).map((item) => [item.id, item]));
-}
-
-function splitTags(value) {
-  return value.split(",").map((tag) => tag.trim()).filter(Boolean);
-}
 
 export function MyPostsPanel({ copy }) {
   const [posts, setPosts] = useState([]);
@@ -83,7 +76,7 @@ export function MyPostsPanel({ copy }) {
     try {
       const result = await api.updatePost(editor.id, {
         content: editor.content,
-        tags: splitTags(editor.tags)
+        tags: splitCommaList(editor.tags)
       });
       setPosts((current) => current.map((post) => (post.id === editor.id ? result.post : post)));
       startEdit(result.post);

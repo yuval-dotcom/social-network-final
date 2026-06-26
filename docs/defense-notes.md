@@ -87,6 +87,7 @@ User מפרסם Post בתוך Group. הפיד לא שולף את כל הפוסט
 - `StatsPanel` טוען נתונים מהשרת, ו-`D3BarChart` הוא הרכיב שמצייר את ה-SVG באמצעות D3.
 - `MediaPanel` מחזיק ערכי טופס פשוטים, ו-`CanvasBadge` ו-`VideoPreview` מממשים בנפרד את דרישות Canvas ו-Video.
 - רכיבים קטנים משותפים כמו `Avatar` ו-`TagChip` נמצאים בתיקיית `shared`.
+- פונקציות עזר טהורות כמו `indexById` ו-`splitCommaList` נמצאות ב-`client/src/utils`, כדי לא לערבב חישובי נתונים קטנים בתוך JSX.
 - ההפרדה מקלה על בדיקות, שינוי עיצוב, והסבר בהגנה.
 
 ## מסך גילוי קבוצות

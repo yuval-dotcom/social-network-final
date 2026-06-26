@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
+import { indexById, splitCommaList } from "../utils/dataHelpers.js";
 import { FeedComposer } from "./feed/FeedComposer.jsx";
 import { FeedPostCard } from "./feed/FeedPostCard.jsx";
 import { FeedSidebar } from "./feed/FeedSidebar.jsx";
@@ -11,14 +12,6 @@ const defaultComposer = {
   tags: "study, exam",
   mediaUrl: ""
 };
-
-function indexById(items) {
-  return Object.fromEntries((items || []).map((item) => [item.id, item]));
-}
-
-function splitTags(value) {
-  return value.split(",").map((tag) => tag.trim()).filter(Boolean);
-}
 
 export function FeedPanel({ copy, currentUser }) {
   const [posts, setPosts] = useState([]);
@@ -76,7 +69,7 @@ export function FeedPanel({ copy, currentUser }) {
       const result = await api.createPost({
         groupId: composer.groupId,
         content: composer.content,
-        tags: splitTags(composer.tags),
+        tags: splitCommaList(composer.tags),
         mediaUrl: composer.mediaUrl.trim(),
         mediaType: composer.mediaUrl.trim() ? "video" : ""
       });
