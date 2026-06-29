@@ -6,4 +6,3 @@ export function errorHandler(error, req, res, next) {
     message: error.message || "Unexpected server error"
   });
 }
-

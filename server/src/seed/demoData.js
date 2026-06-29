@@ -1,4 +1,6 @@
-export async function buildDemoData({ hashPassword = async (password) => `hash:${password}` } = {}) {
+export async function buildDemoData({
+  hashPassword = async (password) => `hash:${password}`
+} = {}) {
   const passwordHash = await hashPassword("demo123");
   const now = new Date("2026-06-21T10:00:00.000Z");
 
@@ -122,4 +124,3 @@ export async function buildDemoData({ hashPassword = async (password) => `hash:$
 
   return { users, groups, posts, chatMessages };
 }
-

@@ -33,4 +33,3 @@ export function textSearchFilter(fields, query) {
     $or: fields.map((field) => ({ [field]: regex }))
   };
 }
-

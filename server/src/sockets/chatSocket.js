@@ -36,4 +36,3 @@ export function registerChatSocket(io, { db, messages }) {
     });
   });
 }
-

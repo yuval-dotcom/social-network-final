@@ -25,9 +25,11 @@ import { createAuthService } from "./services/authService.js";
 export function createApp({ db } = {}) {
   const app = express();
 
-  app.use(cors({
-    origin: createCorsOriginDelegate()
-  }));
+  app.use(
+    cors({
+      origin: createCorsOriginDelegate()
+    })
+  );
   app.use(express.json());
 
   app.use("/api/health", healthRouter);

@@ -25,7 +25,9 @@ describe("auth service", () => {
 
     await auth.register({ username: "dana", password: "secret123", displayName: "Dana" });
 
-    await expect(auth.register({ username: "Dana", password: "secret123", displayName: "Dana" })).rejects.toMatchObject({
+    await expect(
+      auth.register({ username: "Dana", password: "secret123", displayName: "Dana" })
+    ).rejects.toMatchObject({
       status: 409
     });
   });
@@ -40,7 +42,9 @@ describe("auth service", () => {
     expect(login.token).toBeTruthy();
     expect(login.user.passwordHash).toBeUndefined();
 
-    await expect(auth.login({ username: "dana", password: "wrong-password" })).rejects.toMatchObject({
+    await expect(
+      auth.login({ username: "dana", password: "wrong-password" })
+    ).rejects.toMatchObject({
       status: 401
     });
   });

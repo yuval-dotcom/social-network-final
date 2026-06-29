@@ -27,7 +27,9 @@ function signToken(user, jwtSecret) {
 export function createAuthService({ db, jwtSecret }) {
   return {
     async register(input) {
-      const username = String(input.username || "").trim().toLowerCase();
+      const username = String(input.username || "")
+        .trim()
+        .toLowerCase();
       const password = String(input.password || "");
 
       if (!username) throw httpError(400, "Username is required");
@@ -47,7 +49,9 @@ export function createAuthService({ db, jwtSecret }) {
     },
 
     async login(input) {
-      const username = String(input.username || "").trim().toLowerCase();
+      const username = String(input.username || "")
+        .trim()
+        .toLowerCase();
       const password = String(input.password || "");
       const user = await userRepository.findByUsername(db, username);
 
@@ -71,4 +75,3 @@ export function createAuthService({ db, jwtSecret }) {
     }
   };
 }
-

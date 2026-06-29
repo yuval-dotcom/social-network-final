@@ -6,4 +6,3 @@ describe("server smoke test", () => {
     expect(serverSmoke()).toBe("server-ready");
   });
 });
-

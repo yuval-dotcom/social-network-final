@@ -26,13 +26,9 @@ describe("express app foundation", () => {
   it("passes unknown routes to the error handler", () => {
     let capturedError;
 
-    notFound(
-      { method: "GET", originalUrl: "/api/missing-route" },
-      {},
-      (error) => {
-        capturedError = error;
-      }
-    );
+    notFound({ method: "GET", originalUrl: "/api/missing-route" }, {}, (error) => {
+      capturedError = error;
+    });
 
     expect(capturedError.status).toBe(404);
     expect(capturedError.message).toContain("Route not found");

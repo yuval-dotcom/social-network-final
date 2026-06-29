@@ -8,9 +8,8 @@ import { createDemoMemoryDatabase } from "./config/memoryDatabase.js";
 import { chatMessageRepository } from "./repositories/chatMessageRepository.js";
 import { registerChatSocket } from "./sockets/chatSocket.js";
 
-const db = env.databaseMode === "memory"
-  ? await createDemoMemoryDatabase()
-  : await connectDatabase();
+const db =
+  env.databaseMode === "memory" ? await createDemoMemoryDatabase() : await connectDatabase();
 const app = createApp({ db });
 const httpServer = createServer(app);
 const io = new Server(httpServer, {

@@ -8,11 +8,9 @@ import { buildDemoData } from "./demoData.js";
 
 async function upsertMany(db, collectionName, documents) {
   for (const document of documents) {
-    await db.collection(collectionName).updateOne(
-      { _id: document._id },
-      { $set: document },
-      { upsert: true }
-    );
+    await db
+      .collection(collectionName)
+      .updateOne({ _id: document._id }, { $set: document }, { upsert: true });
   }
 }
 
@@ -26,4 +24,3 @@ await upsertMany(db, CHAT_MESSAGE_COLLECTION, data.chatMessages);
 await closeDatabase();
 
 console.log("StudyCircle demo data was seeded successfully.");
-

@@ -69,7 +69,10 @@ function createMemoryCollection(initialDocuments = []) {
         sort(sortSpec) {
           return {
             async toArray() {
-              return sortDocuments(documents.filter((document) => matches(document, filter)), sortSpec);
+              return sortDocuments(
+                documents.filter((document) => matches(document, filter)),
+                sortSpec
+              );
             }
           };
         },

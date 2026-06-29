@@ -1,9 +1,6 @@
 import { env } from "./env.js";
 
-const LOCAL_CLIENT_ORIGINS = [
-  "http://localhost:5173",
-  "http://127.0.0.1:5173"
-];
+const LOCAL_CLIENT_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"];
 
 export function getAllowedClientOrigins() {
   return [...new Set([env.clientOrigin, ...LOCAL_CLIENT_ORIGINS].filter(Boolean))];
