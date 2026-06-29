@@ -2,24 +2,17 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { languages } from "../i18n.js";
 import { useForm } from "../hooks/useForm.js";
-import { MainNavigation } from "./app/MainNavigation.jsx";
-import { AuthModeSwitch } from "./auth/AuthModeSwitch.jsx";
-import { ChatTranscript } from "./chat/ChatTranscript.jsx";
-import { FeedPostCard } from "./feed/FeedPostCard.jsx";
-import { FeedProfileCard } from "./feed/FeedProfileCard.jsx";
-import { GroupCard } from "./groups/GroupCard.jsx";
-import { GroupDetailPanel } from "./groups/GroupDetailPanel.jsx";
-import { GroupManagementResultCard } from "./groups/GroupManagementResultCard.jsx";
-import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
-import { ModelMap } from "./management/ModelMap.jsx";
-import { VideoPreview } from "./media/VideoPreview.jsx";
-import { PostManagementResultCard } from "./posts/PostManagementResultCard.jsx";
-import { Avatar } from "./shared/Avatar.jsx";
-import { ErrorBoundary } from "./shared/ErrorBoundary.jsx";
-import { CardSkeleton, LoadingSkeleton } from "./shared/LoadingSkeleton.jsx";
-import { ThemeToggle } from "./shared/ThemeToggle.jsx";
-import { D3BarChart } from "./stats/D3BarChart.jsx";
-import { UserResultCard } from "./users/UserResultCard.jsx";
+import { MainNavigation } from "./app";
+import { AuthModeSwitch } from "./auth";
+import { ChatTranscript } from "./chat";
+import { FeedPostCard, FeedProfileCard } from "./feed";
+import { GroupCard, GroupDetailPanel, GroupManagementResultCard, GroupSearchBar } from "./groups";
+import { ModelMap } from "./management";
+import { VideoPreview } from "./media";
+import { PostManagementResultCard } from "./posts";
+import { Avatar, CardSkeleton, ErrorBoundary, LoadingSkeleton, ThemeToggle } from "./shared";
+import { D3BarChart } from "./stats";
+import { UserResultCard } from "./users";
 
 afterEach(() => {
   localStorage.clear();
@@ -94,12 +87,12 @@ describe("small UI components", () => {
 
   it("updates and resets form fields with the shared form hook", () => {
     function DemoForm() {
-      const { values, handleChange, reset } = useForm({ title: "" });
+      const { values, onChange, reset } = useForm({ title: "" });
       return (
         <form>
           <label>
             Title
-            <input name="title" value={values.title} onChange={handleChange} />
+            <input name="title" value={values.title} onChange={onChange} />
           </label>
           <button type="button" onClick={reset}>Reset</button>
           <output>{values.title}</output>

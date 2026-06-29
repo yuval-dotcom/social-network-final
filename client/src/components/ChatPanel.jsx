@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createChatClient } from "../realtime/chatClient.js";
-import { ChatComposer } from "./chat/ChatComposer.jsx";
-import { ChatRoomControls } from "./chat/ChatRoomControls.jsx";
-import { ChatSidebar } from "./chat/ChatSidebar.jsx";
-import { ChatTranscript } from "./chat/ChatTranscript.jsx";
+import { ChatComposer, ChatRoomControls, ChatSidebar, ChatTranscript } from "./chat";
 
 export function ChatPanel({ copy, currentUser, clientFactory = createChatClient }) {
   const clientRef = useRef(null);

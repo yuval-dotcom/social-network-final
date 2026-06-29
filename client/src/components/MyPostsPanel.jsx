@@ -3,17 +3,16 @@ import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { useForm } from "../hooks/useForm.js";
 import { indexById, splitCommaList } from "../utils/dataHelpers.js";
-import { CardSkeleton } from "./shared/LoadingSkeleton.jsx";
-import { MyPostCard } from "./my-posts/MyPostCard.jsx";
-import { MyPostEditor } from "./my-posts/MyPostEditor.jsx";
-import { MyPostsSummary } from "./my-posts/MyPostsSummary.jsx";
+import { CardSkeleton } from "./shared";
+import { MyPostCard, MyPostEditor, MyPostsSummary } from "./my-posts";
 
 const emptyEditor = { id: "", content: "", tags: "" };
 
 export function MyPostsPanel({ copy }) {
+  const editor = useForm(emptyEditor);
+  
   const [posts, setPosts] = useState([]);
   const [groupsById, setGroupsById] = useState({});
-  const { values: editor, handleChange: updateEditor, setValues: setEditor } = useForm(emptyEditor);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -54,7 +53,7 @@ export function MyPostsPanel({ copy }) {
   }
 
   function startEdit(post) {
-    setEditor({
+    editor.setValues({
       id: post.id,
       content: post.content || "",
       tags: Array.isArray(post.tags) ? post.tags.join(", ") : ""
@@ -63,16 +62,16 @@ export function MyPostsPanel({ copy }) {
 
   async function savePost(event) {
     event.preventDefault();
-    if (!editor.id) return;
+    if (!editor.values.id) return;
     setMessage("");
     setIsSaving(true);
 
     try {
-      const result = await api.updatePost(editor.id, {
-        content: editor.content,
-        tags: splitCommaList(editor.tags)
+      const result = await api.updatePost(editor.values.id, {
+        content: editor.values.content,
+        tags: splitCommaList(editor.values.tags)
       });
-      setPosts((current) => current.map((post) => (post.id === editor.id ? result.post : post)));
+      setPosts((current) => current.map((post) => (post.id === editor.values.id ? result.post : post)));
       startEdit(result.post);
       setMessage(copy.myPosts.updated);
     } catch (error) {
@@ -87,7 +86,7 @@ export function MyPostsPanel({ copy }) {
     try {
       await api.deletePost(postId);
       setPosts((current) => current.filter((post) => post.id !== postId));
-      if (editor.id === postId) setEditor(emptyEditor);
+      if (editor.values.id === postId) editor.reset();
       setMessage(copy.myPosts.deleted);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
@@ -116,7 +115,7 @@ export function MyPostsPanel({ copy }) {
               copy={copy}
               post={post}
               groupName={groupName(post.groupId)}
-              isSelected={editor.id === post.id}
+              isSelected={editor.values.id === post.id}
               onEdit={() => startEdit(post)}
               onDelete={() => deletePost(post.id)}
               key={post.id}
@@ -128,11 +127,11 @@ export function MyPostsPanel({ copy }) {
           <MyPostsSummary copy={copy} stats={stats} />
           <MyPostEditor
             copy={copy}
-            editor={editor}
+            editor={editor.values}
             isSaving={isSaving}
-            onChange={updateEditor}
+            onChange={editor.onChange}
             onSubmit={savePost}
-            onCancel={() => setEditor(emptyEditor)}
+            onCancel={editor.reset}
           />
           {message && <p className="form-message">{message}</p>}
         </div>

@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import { api } from "../api/http.js";
 import { getApiErrorMessage } from "../api/apiError.js";
-import { CardSkeleton } from "./shared/LoadingSkeleton.jsx";
-import { ProfileFriends } from "./profile/ProfileFriends.jsx";
-import { ProfileGroups } from "./profile/ProfileGroups.jsx";
-import { ProfileHeader } from "./profile/ProfileHeader.jsx";
-import { ProfileRecentPosts } from "./profile/ProfileRecentPosts.jsx";
-import { ProfileStats } from "./profile/ProfileStats.jsx";
+import { CardSkeleton } from "./shared";
+import { ProfileFriends, ProfileGroups, ProfileHeader, ProfileRecentPosts, ProfileStats } from "./profile";
 
 function userId(user) {
   return user?.id || user?._id || user?.sub || "";

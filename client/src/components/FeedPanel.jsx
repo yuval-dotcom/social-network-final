@@ -3,10 +3,8 @@ import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { useForm } from "../hooks/useForm.js";
 import { indexById, splitCommaList } from "../utils/dataHelpers.js";
-import { CardSkeleton } from "./shared/LoadingSkeleton.jsx";
-import { FeedComposer } from "./feed/FeedComposer.jsx";
-import { FeedPostCard } from "./feed/FeedPostCard.jsx";
-import { FeedSidebar } from "./feed/FeedSidebar.jsx";
+import { CardSkeleton } from "./shared";
+import { FeedComposer, FeedPostCard, FeedSidebar } from "./feed";
 
 const defaultComposer = {
   groupId: "group_algorithms",
@@ -16,10 +14,11 @@ const defaultComposer = {
 };
 
 export function FeedPanel({ copy, currentUser }) {
+  const composer = useForm(defaultComposer);
+  
   const [posts, setPosts] = useState([]);
   const [groups, setGroups] = useState([]);
   const [usersById, setUsersById] = useState({});
-  const { values: composer, handleChange: updateComposer, setValues: setComposer } = useForm(defaultComposer);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
@@ -65,14 +64,14 @@ export function FeedPanel({ copy, currentUser }) {
     setIsPosting(true);
     try {
       const result = await api.createPost({
-        groupId: composer.groupId,
-        content: composer.content,
-        tags: splitCommaList(composer.tags),
-        mediaUrl: composer.mediaUrl.trim(),
-        mediaType: composer.mediaUrl.trim() ? "video" : ""
+        groupId: composer.values.groupId,
+        content: composer.values.content,
+        tags: splitCommaList(composer.values.tags),
+        mediaUrl: composer.values.mediaUrl.trim(),
+        mediaType: composer.values.mediaUrl.trim() ? "video" : ""
       });
       setPosts((current) => [result.post, ...current]);
-      setComposer((current) => ({ ...defaultComposer, groupId: current.groupId }));
+      composer.setValues((current) => ({ ...defaultComposer, groupId: current.groupId }));
       setMessage(copy.feed.posted);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.feed.failed));
@@ -109,10 +108,10 @@ export function FeedPanel({ copy, currentUser }) {
           <FeedComposer
             copy={copy}
             currentUser={currentUser}
-            composer={composer}
+            composer={composer.values}
             groupOptions={groupOptions}
             isPosting={isPosting}
-            onChange={updateComposer}
+            onChange={composer.onChange}
             onSubmit={publishPost}
           />
 

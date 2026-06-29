@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { api } from "../api/http.js";
 import { saveSession } from "../api/tokenStorage.js";
-import { AuthForm } from "./auth/AuthForm.jsx";
-import { AuthModeSwitch } from "./auth/AuthModeSwitch.jsx";
-import { AuthStory } from "./auth/AuthStory.jsx";
-import { AuthTopbar } from "./auth/AuthTopbar.jsx";
-import { ThemeToggle } from "./shared/ThemeToggle.jsx";
+import { useForm } from "../hooks/useForm.js";
+import { AuthForm, AuthModeSwitch, AuthStory, AuthTopbar } from "./auth";
+import { ThemeToggle } from "./shared";
 
 const initialForm = {
   username: "",
@@ -15,15 +13,11 @@ const initialForm = {
 };
 
 export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel }) {
+  const form = useForm(initialForm);
   const [mode, setMode] = useState("login");
-  const [form, setForm] = useState(initialForm);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isRegisterMode = mode === "register";
-
-  function updateField(event) {
-    setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
-  }
 
   async function submit(event) {
     event.preventDefault();
@@ -32,14 +26,14 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
 
     try {
       if (isRegisterMode) {
-        await api.register(form);
+        await api.register(form.values);
         setMessage(copy.auth.registered);
         setMode("login");
-        setForm(initialForm);
+        form.reset();
         return;
       }
 
-      const result = await api.login({ username: form.username, password: form.password });
+      const result = await api.login({ username: form.values.username, password: form.values.password });
       saveSession(result.token, result.user);
       onAuth(result.user);
       setMessage(copy.auth.loggedIn);
@@ -70,10 +64,10 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
 
           <AuthForm
             copy={copy}
-            form={form}
+            form={form.values}
             isRegisterMode={isRegisterMode}
             isSubmitting={isSubmitting}
-            onChange={updateField}
+            onChange={form.onChange}
             onSubmit={submit}
           />
 

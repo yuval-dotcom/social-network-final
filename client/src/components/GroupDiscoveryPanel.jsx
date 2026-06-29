@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { useForm } from "../hooks/useForm.js";
-import { CardSkeleton } from "./shared/LoadingSkeleton.jsx";
-import { GroupCard } from "./groups/GroupCard.jsx";
-import { GroupDetailPanel } from "./groups/GroupDetailPanel.jsx";
-import { GroupSearchBar } from "./groups/GroupSearchBar.jsx";
+import { CardSkeleton } from "./shared";
+import { GroupCard, GroupDetailPanel, GroupSearchBar } from "./groups";
 
 const defaultFilters = { q: "", category: "", privacy: "" };
 
@@ -18,7 +16,8 @@ function isPending(group, userId) {
 }
 
 export function GroupDiscoveryPanel({ copy, currentUser }) {
-  const { values: filters, handleChange: updateFilter } = useForm(defaultFilters);
+  const filters = useForm(defaultFilters);
+  
   const [groups, setGroups] = useState([]);
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
@@ -63,7 +62,7 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
     setIsLoading(true);
     setMessage("");
     try {
-      const result = await api.searchGroups(filters);
+      const result = await api.searchGroups(filters.values);
       setGroups(result.groups || []);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
@@ -121,9 +120,9 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
 
       <GroupSearchBar
         copy={copy}
-        filters={filters}
+        filters={filters.values}
         categories={categories}
-        onChange={updateFilter}
+        onChange={filters.onChange}
         onSubmit={searchGroups}
       />
 

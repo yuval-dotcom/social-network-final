@@ -3,26 +3,23 @@ import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { useForm } from "../hooks/useForm.js";
 import { splitCommaList } from "../utils/dataHelpers.js";
-import { PostManagementForm } from "./posts/PostManagementForm.jsx";
-import { PostManagementResultCard } from "./posts/PostManagementResultCard.jsx";
-import { PostManagementSearchForm } from "./posts/PostManagementSearchForm.jsx";
+import { PostManagementForm, PostManagementResultCard, PostManagementSearchForm } from "./posts";
 
 const emptyPost = { id: "", groupId: "", content: "", tags: "", mediaUrl: "", mediaType: "" };
 
 export function PostsPanel({ copy }) {
-  const { values: post, handleChange: updatePostField, setValues: setPost } = useForm(emptyPost);
-  const { values: search, handleChange: updateSearchField } = useForm({
-    q: "", groupId: "", authorId: "", tag: "", from: "", to: ""
-  });
+  const post = useForm(emptyPost);
+  const search = useForm({ q: "", groupId: "", authorId: "", tag: "", from: "", to: "" });
+  
   const [posts, setPosts] = useState([]);
   const [message, setMessage] = useState("");
 
   function payload() {
-    return { ...post, tags: splitCommaList(post.tags) };
+    return { ...post.values, tags: splitCommaList(post.values.tags) };
   }
 
   function selectPost(item) {
-    setPost({
+    post.setValues({
       id: item.id || "",
       groupId: item.groupId || "",
       content: item.content || "",
@@ -32,81 +29,73 @@ export function PostsPanel({ copy }) {
     });
   }
 
-  function clearPost() {
-    setPost(emptyPost);
-  }
-
   function formatDate(value) {
     if (!value) return "-";
     return new Date(value).toLocaleDateString();
   }
 
-  async function listPosts() {
+  async function handleApiCall(apiAction, successMessage) {
+    setMessage("");
     try {
-      setPosts((await api.listPosts()).posts || []);
+      await apiAction();
+      if (successMessage) setMessage(successMessage);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
     }
   }
 
-  async function createPost(event) {
+  function listPosts() {
+    handleApiCall(async () => {
+      const result = await api.listPosts();
+      setPosts(result.posts || []);
+    });
+  }
+
+  function createPost(event) {
     event.preventDefault();
-    try {
+    handleApiCall(async () => {
       const { id, ...createPayload } = payload();
       const result = await api.createPost(createPayload);
       setPosts((current) => [result.post, ...current]);
       selectPost(result.post);
-      setMessage(copy.crud.created);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+    }, copy.crud.created);
   }
 
-  async function searchPosts(event) {
+  function searchPosts(event) {
     event.preventDefault();
-    try {
-      const result = await api.searchPosts(search);
+    handleApiCall(async () => {
+      const result = await api.searchPosts(search.values);
       setPosts(result.posts || []);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+    });
   }
 
-  async function updatePost() {
-    try {
-      const result = await api.updatePost(post.id, payload());
-      setPosts((current) => current.map((item) => (item.id === post.id ? result.post : item)));
-      setMessage(copy.crud.updated);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+  function updatePost() {
+    handleApiCall(async () => {
+      const result = await api.updatePost(post.values.id, payload());
+      setPosts((current) => current.map((item) => (item.id === post.values.id ? result.post : item)));
+    }, copy.crud.updated);
   }
 
-  async function deletePost() {
-    try {
-      await api.deletePost(post.id);
-      setPosts((current) => current.filter((item) => item.id !== post.id));
-      clearPost();
-      setMessage(copy.crud.deleted);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+  function deletePost() {
+    handleApiCall(async () => {
+      await api.deletePost(post.values.id);
+      setPosts((current) => current.filter((item) => item.id !== post.values.id));
+      post.reset();
+    }, copy.crud.deleted);
   }
 
-  async function loadFeed() {
-    try {
-      setPosts((await api.feed()).posts || []);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+  function loadFeed() {
+    handleApiCall(async () => {
+      const result = await api.feed();
+      setPosts(result.posts || []);
+    });
   }
 
-  async function loadMine() {
-    try {
-      setPosts((await api.myPosts()).posts || []);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+  function loadMine() {
+    handleApiCall(async () => {
+      const result = await api.myPosts();
+      setPosts(result.posts || []);
+    });
   }
 
   return (
@@ -122,17 +111,17 @@ export function PostsPanel({ copy }) {
       <div className="form-layout">
         <PostManagementForm
           copy={copy}
-          onChange={updatePostField}
+          onChange={post.onChange}
           onCreate={createPost}
           onDelete={deletePost}
           onUpdate={updatePost}
-          post={post}
+          post={post.values}
         />
         <PostManagementSearchForm
           copy={copy}
-          onChange={updateSearchField}
+          onChange={search.onChange}
           onSubmit={searchPosts}
-          search={search}
+          search={search.values}
         />
       </div>
       {message && <p className="form-message">{message}</p>}
@@ -141,7 +130,7 @@ export function PostsPanel({ copy }) {
           <PostManagementResultCard
             copy={copy}
             formatDate={formatDate}
-            isSelected={post.id === item.id}
+            isSelected={post.values.id === item.id}
             key={item.id}
             onSelect={() => selectPost(item)}
             post={item}

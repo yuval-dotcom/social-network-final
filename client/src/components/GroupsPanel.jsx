@@ -2,20 +2,19 @@ import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { useForm } from "../hooks/useForm.js";
-import { GroupManagementForm } from "./groups/GroupManagementForm.jsx";
-import { GroupManagementResultCard } from "./groups/GroupManagementResultCard.jsx";
-import { GroupManagementSearchForm } from "./groups/GroupManagementSearchForm.jsx";
+import { GroupManagementForm, GroupManagementResultCard, GroupManagementSearchForm } from "./groups";
 
 const emptyGroup = { id: "", name: "", description: "", category: "", privacy: "public", userId: "" };
 
 export function GroupsPanel({ copy }) {
-  const { values: group, handleChange: updateGroupField, setValues: setGroup } = useForm(emptyGroup);
-  const { values: search, handleChange: updateSearchField } = useForm({ q: "", category: "", privacy: "", memberId: "" });
+  const group = useForm(emptyGroup);
+  const search = useForm({ q: "", category: "", privacy: "", memberId: "" });
+  
   const [groups, setGroups] = useState([]);
   const [message, setMessage] = useState("");
 
   function selectGroup(item) {
-    setGroup({
+    group.setValues({
       id: item.id || "",
       name: item.name || "",
       description: item.description || "",
@@ -25,84 +24,73 @@ export function GroupsPanel({ copy }) {
     });
   }
 
-  function clearGroup() {
-    setGroup(emptyGroup);
-  }
-
   function replaceGroup(updatedGroup) {
     setGroups((current) => current.map((item) => (item.id === updatedGroup.id ? updatedGroup : item)));
   }
 
-  async function listGroups() {
+  async function handleApiCall(apiAction, successMessage) {
+    setMessage("");
     try {
-      setGroups(((await api.listGroups()).groups || []));
+      await apiAction();
+      if (successMessage) setMessage(successMessage);
     } catch (error) {
       setMessage(getApiErrorMessage(error, copy.crud.failed));
     }
   }
 
-  async function createGroup(event) {
+  function listGroups() {
+    handleApiCall(async () => {
+      const result = await api.listGroups();
+      setGroups(result.groups || []);
+    });
+  }
+
+  function createGroup(event) {
     event.preventDefault();
-    try {
-      const { id, userId, ...createPayload } = group;
+    handleApiCall(async () => {
+      const { id, userId, ...createPayload } = group.values;
       const result = await api.createGroup(createPayload);
       setGroups((current) => [result.group, ...current]);
       selectGroup(result.group);
-      setMessage(copy.crud.created);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+    }, copy.crud.created);
   }
 
-  async function searchGroups(event) {
+  function searchGroups(event) {
     event.preventDefault();
-    try {
-      const result = await api.searchGroups(search);
+    handleApiCall(async () => {
+      const result = await api.searchGroups(search.values);
       setGroups(result.groups || []);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+    });
   }
 
-  async function updateGroup() {
-    try {
-      const result = await api.updateGroup(group.id, group);
+  function updateGroup() {
+    handleApiCall(async () => {
+      const result = await api.updateGroup(group.values.id, group.values);
       replaceGroup(result.group);
-      setMessage(copy.crud.updated);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+    }, copy.crud.updated);
   }
 
-  async function deleteGroup() {
-    try {
-      await api.deleteGroup(group.id);
-      setGroups((current) => current.filter((item) => item.id !== group.id));
-      clearGroup();
-      setMessage(copy.crud.deleted);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+  function deleteGroup() {
+    handleApiCall(async () => {
+      await api.deleteGroup(group.values.id);
+      setGroups((current) => current.filter((item) => item.id !== group.values.id));
+      group.reset();
+    }, copy.crud.deleted);
   }
 
-  async function joinGroup() {
-    try {
-      const result = await api.joinGroup(group.id);
+  function joinGroup() {
+    handleApiCall(async () => {
+      const result = await api.joinGroup(group.values.id);
       replaceGroup(result.group);
-      setMessage(result.status || copy.crud.updated);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+      setMessage(result.status || copy.crud.updated); // Override default success
+    });
   }
 
-  async function approveMember() {
-    try {
-      const result = await api.approveGroupMember(group.id, group.userId);
+  function approveMember() {
+    handleApiCall(async () => {
+      const result = await api.approveGroupMember(group.values.id, group.values.userId);
       replaceGroup(result.group);
-      setMessage(copy.crud.approved);
-    } catch (error) {
-      setMessage(getApiErrorMessage(error, copy.crud.failed));
-    }
+    }, copy.crud.approved);
   }
 
   return (
@@ -114,9 +102,9 @@ export function GroupsPanel({ copy }) {
       <div className="form-layout">
         <GroupManagementForm
           copy={copy}
-          group={group}
+          group={group.values}
           onApproveMember={approveMember}
-          onChange={updateGroupField}
+          onChange={group.onChange}
           onCreate={createGroup}
           onDelete={deleteGroup}
           onJoin={joinGroup}
@@ -124,9 +112,9 @@ export function GroupsPanel({ copy }) {
         />
         <GroupManagementSearchForm
           copy={copy}
-          onChange={updateSearchField}
+          onChange={search.onChange}
           onSubmit={searchGroups}
-          search={search}
+          search={search.values}
         />
       </div>
       {message && <p className="form-message">{message}</p>}
@@ -135,7 +123,7 @@ export function GroupsPanel({ copy }) {
           <GroupManagementResultCard
             copy={copy}
             group={item}
-            isSelected={group.id === item.id}
+            isSelected={group.values.id === item.id}
             key={item.id}
             onSelect={() => selectGroup(item)}
           />

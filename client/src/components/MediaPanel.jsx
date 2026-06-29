@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { CanvasBadge } from "./media/CanvasBadge.jsx";
-import { VideoPreview } from "./media/VideoPreview.jsx";
+import { CanvasBadge, VideoPreview } from "./media";
 
 export function MediaPanel({ copy }) {
   const [name, setName] = useState("StudyCircle Student");

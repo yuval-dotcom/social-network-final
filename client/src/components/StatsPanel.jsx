@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
-import { LoadingSkeleton } from "./shared/LoadingSkeleton.jsx";
-import { D3BarChart } from "./stats/D3BarChart.jsx";
+import { LoadingSkeleton } from "./shared";
+import { D3BarChart } from "./stats";
 
 export function StatsPanel({ copy }) {
   const [monthData, setMonthData] = useState([]);
