@@ -1,7 +1,7 @@
 const TOKEN_KEY = "studycircle_token";
 const USER_KEY = "studycircle_user";
 
-export function saveToken(token) {
+function saveToken(token) {
   localStorage.setItem(TOKEN_KEY, token);
 }
 
