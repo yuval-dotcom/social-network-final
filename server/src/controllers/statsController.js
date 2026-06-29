@@ -1,5 +1,11 @@
 export function createStatsController({ posts, groups }) {
   return {
+    /**
+     * מחזיר סטטיסטיקה של כמות הפוסטים שפורסמו בכל חודש.
+     * משמש להצגת גרפים אנליטיים בעמוד הסטטיסטיקות של הלקוח.
+     *
+     * @returns {Object} 200 - מערך של אובייקטים {month: "YYYY-MM", count: X}.
+     */
     async postsByMonth(req, res) {
       const allPosts = await posts.list(req.db);
 
@@ -16,6 +22,11 @@ export function createStatsController({ posts, groups }) {
       res.json({ success: true, data: results });
     },
 
+    /**
+     * מחזיר התפלגות של כמות הפוסטים לפי קבוצת לימוד (מי הקבוצה הפעילה ביותר).
+     *
+     * @returns {Object} 200 - מערך מסודר לפי כמות הפוסטים מהגבוה לנמוך {groupId, groupName, count}.
+     */
     async postsByGroup(req, res) {
       const allPosts = await posts.list(req.db);
       const allGroups = await groups.list(req.db);
