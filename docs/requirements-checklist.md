@@ -4,40 +4,40 @@
 
 ## סטטוס כללי
 
-| דרישה | סטטוס | איפה רואים ב-UI | קבצים מרכזיים | בדיקות |
-|---|---|---|---|---|
-| רשת חברתית | מכוסה | פיד, פרופיל, קבוצות, הפוסטים שלי, צ'אט | `client/src/components/FeedPanel.jsx`, `client/src/components/ProfilePanel.jsx`, `client/src/components/GroupDiscoveryPanel.jsx` | `FeedPanel.test.jsx`, `ProfilePanel.test.jsx`, `GroupDiscoveryPanel.test.jsx` |
-| React Web | מכוסה | כל צד הלקוח | `client/src/App.jsx`, `client/src/main.jsx` | `App.test.jsx`, `ComponentParts.test.jsx` |
-| Node.js + Express | מכוסה | דרך כל קריאות ה-API | `server/src/app.js`, `server/src/server.js`, `server/src/routes` | `server/src/app.test.js`, `server/src/smoke.test.js` |
-| MongoDB | מכוסה להגשה, דורש בדיקת Atlas סופית | נתוני הדמו מגיעים מהשרת | `server/src/config/database.js`, `server/src/repositories` | `database.test.js`, `repository.test.js` |
-| MVC | מכוסה | לא UI, זו ארכיטקטורת שרת | `models`, `controllers`, `routes`, `repositories` | בדיקות controllers/models/repositories |
-| לפחות 3 מודלים | מכוסה | ניהול משתמשים, קבוצות, פוסטים | `userModel.js`, `groupModel.js`, `postModel.js` | `modelValidation.test.js` |
-| CRUD לכל מודל | מכוסה | מסך `ניהול` | `UsersPanel.jsx`, `GroupsPanel.jsx`, `PostsPanel.jsx` | `CrudPanels.test.jsx` |
-| List/Search לכל מודל | מכוסה | מסכי הניהול | routes/controllers של users/groups/posts | `CrudPanels.test.jsx`, controller tests |
-| 2 חיפושים מתקדמים עם 3+ פרמטרים | מכוסה | חיפוש קבוצות וחיפוש פוסטים | `GroupManagementSearchForm.jsx`, `PostManagementSearchForm.jsx` | `CrudPanels.test.jsx` |
-| Auth והרשאות | מכוסה | מסך כניסה, התנתקות, פעולות מוגנות | `AuthPanel.jsx`, `authenticate.js`, `authService.js` | `AuthPanel.test.jsx`, `authenticate.test.js`, `authService.test.js` |
-| מנהל קבוצה | מכוסה | מסך קבוצות ומסך ניהול קבוצות | `GroupDetailPanel.jsx`, `groupController.js` | `GroupDiscoveryPanel.test.jsx`, `groupController.test.js` |
-| פרטיות מידע | מכוסה בשרת | פיד וקבוצות פרטיות | `postController.js`, `groupController.js` | `postController.test.js`, `groupController.test.js` |
-| פיד אישי | מכוסה | כפתור `פיד` | `FeedPanel.jsx`, endpoint `/api/posts/feed` | `FeedPanel.test.jsx`, `postController.test.js` |
-| הפוסטים שלי | מכוסה | כפתור `הפוסטים שלי` | `MyPostsPanel.jsx`, endpoint `/api/posts/mine` | `MyPostsPanel.test.jsx` |
-| נתוני דמו | מכוסה | משתמשי demo ופוסטים קיימים | `server/src/seed/demoData.js`, `memoryDatabase.js` | `demoData.test.js`, `memoryDatabase.test.js` |
-| jQuery Ajax | מכוסה | כל קריאות השרת מהלקוח | `client/src/api/http.js` | `http.test.js` |
-| Socket.io Chat | מכוסה | כפתור `צ'אט` | `ChatPanel.jsx`, `chatClient.js`, `chatSocket.js` | `ChatPanel.test.jsx`, `chatSocket.test.js` |
-| D3.js | מכוסה | כפתור `סטטיסטיקות` | `StatsPanel.jsx`, `D3BarChart.jsx`, `statsController.js` | `StatsPanel.test.jsx`, `statsController.test.js` |
-| Video | מכוסה | פיד עם וידאו ומסך `מדיה` | `FeedPostCard.jsx`, `VideoPreview.jsx` | `FeedPanel.test.jsx`, `MediaPanel.test.jsx` |
-| Canvas | מכוסה | כפתור `מדיה` | `CanvasBadge.jsx` | `MediaPanel.test.jsx` |
-| CSS3 | מכוסה | עיצוב כל האפליקציה | `client/src/styles.css` | בדיקה ידנית + build |
-| ולידציות ושגיאות | מכוסה | הודעות שגיאה בטפסים ובשרת | models, controllers, `apiError.js` | `modelValidation.test.js`, controller tests |
-| בדיקות אוטומטיות | מכוסה | לא UI | `client/src/**/*.test.*`, `server/src/**/*.test.*` | `npm test` |
-| Git פתוח ללא סודות | מכוסה | GitHub public repo | `.gitignore`, `.env.example` | בדיקה ידנית של repo |
+| דרישה                           | סטטוס                               | איפה רואים ב-UI                        | קבצים מרכזיים                                                                                                                    | בדיקות                                                                        |
+| ------------------------------- | ----------------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| רשת חברתית                      | מכוסה                               | פיד, פרופיל, קבוצות, הפוסטים שלי, צ'אט | `client/src/components/FeedPanel.jsx`, `client/src/components/ProfilePanel.jsx`, `client/src/components/GroupDiscoveryPanel.jsx` | `FeedPanel.test.jsx`, `ProfilePanel.test.jsx`, `GroupDiscoveryPanel.test.jsx` |
+| React Web                       | מכוסה                               | כל צד הלקוח                            | `client/src/App.jsx`, `client/src/main.jsx`                                                                                      | `App.test.jsx`, `ComponentParts.test.jsx`                                     |
+| Node.js + Express               | מכוסה                               | דרך כל קריאות ה-API                    | `server/src/app.js`, `server/src/server.js`, `server/src/routes`                                                                 | `server/src/app.test.js`, `server/src/smoke.test.js`                          |
+| MongoDB                         | מכוסה להגשה, דורש בדיקת Atlas סופית | נתוני הדמו מגיעים מהשרת                | `server/src/config/database.js`, `server/src/repositories`                                                                       | `database.test.js`, `repository.test.js`                                      |
+| MVC                             | מכוסה                               | לא UI, זו ארכיטקטורת שרת               | `models`, `controllers`, `routes`, `repositories`                                                                                | בדיקות controllers/models/repositories                                        |
+| לפחות 3 מודלים                  | מכוסה                               | ניהול משתמשים, קבוצות, פוסטים          | `userModel.js`, `groupModel.js`, `postModel.js`                                                                                  | `modelValidation.test.js`                                                     |
+| CRUD לכל מודל                   | מכוסה                               | מסך `ניהול`                            | `UsersPanel.jsx`, `GroupsPanel.jsx`, `PostsPanel.jsx`                                                                            | `CrudPanels.test.jsx`                                                         |
+| List/Search לכל מודל            | מכוסה                               | מסכי הניהול                            | routes/controllers של users/groups/posts                                                                                         | `CrudPanels.test.jsx`, controller tests                                       |
+| 2 חיפושים מתקדמים עם 3+ פרמטרים | מכוסה                               | חיפוש קבוצות וחיפוש פוסטים             | `GroupManagementSearchForm.jsx`, `PostManagementSearchForm.jsx`                                                                  | `CrudPanels.test.jsx`                                                         |
+| Auth והרשאות                    | מכוסה                               | מסך כניסה, התנתקות, פעולות מוגנות      | `AuthPanel.jsx`, `authenticate.js`, `authService.js`                                                                             | `AuthPanel.test.jsx`, `authenticate.test.js`, `authService.test.js`           |
+| מנהל קבוצה                      | מכוסה                               | מסך קבוצות ומסך ניהול קבוצות           | `GroupDetailPanel.jsx`, `groupController.js`                                                                                     | `GroupDiscoveryPanel.test.jsx`, `groupController.test.js`                     |
+| פרטיות מידע                     | מכוסה בשרת                          | פיד וקבוצות פרטיות                     | `postController.js`, `groupController.js`                                                                                        | `postController.test.js`, `groupController.test.js`                           |
+| פיד אישי                        | מכוסה                               | כפתור `פיד`                            | `FeedPanel.jsx`, endpoint `/api/posts/feed`                                                                                      | `FeedPanel.test.jsx`, `postController.test.js`                                |
+| הפוסטים שלי                     | מכוסה                               | כפתור `הפוסטים שלי`                    | `MyPostsPanel.jsx`, endpoint `/api/posts/mine`                                                                                   | `MyPostsPanel.test.jsx`                                                       |
+| נתוני דמו                       | מכוסה                               | משתמשי demo ופוסטים קיימים             | `server/src/seed/demoData.js`, `memoryDatabase.js`                                                                               | `demoData.test.js`, `memoryDatabase.test.js`                                  |
+| jQuery Ajax                     | מכוסה                               | כל קריאות השרת מהלקוח                  | `client/src/api/http.js`                                                                                                         | `http.test.js`                                                                |
+| Socket.io Chat                  | מכוסה                               | כפתור `צ'אט`                           | `ChatPanel.jsx`, `chatClient.js`, `chatSocket.js`                                                                                | `ChatPanel.test.jsx`, `chatSocket.test.js`                                    |
+| D3.js                           | מכוסה                               | כפתור `סטטיסטיקות`                     | `StatsPanel.jsx`, `D3BarChart.jsx`, `statsController.js`                                                                         | `StatsPanel.test.jsx`, `statsController.test.js`                              |
+| Video                           | מכוסה                               | פיד עם וידאו ומסך `מדיה`               | `FeedPostCard.jsx`, `VideoPreview.jsx`                                                                                           | `FeedPanel.test.jsx`, `MediaPanel.test.jsx`                                   |
+| Canvas                          | מכוסה                               | כפתור `מדיה`                           | `CanvasBadge.jsx`                                                                                                                | `MediaPanel.test.jsx`                                                         |
+| CSS3                            | מכוסה                               | עיצוב כל האפליקציה                     | `client/src/styles.css`                                                                                                          | בדיקה ידנית + build                                                           |
+| ולידציות ושגיאות                | מכוסה                               | הודעות שגיאה בטפסים ובשרת              | models, controllers, `apiError.js`                                                                                               | `modelValidation.test.js`, controller tests                                   |
+| בדיקות אוטומטיות                | מכוסה                               | לא UI                                  | `client/src/**/*.test.*`, `server/src/**/*.test.*`                                                                               | `npm test`                                                                    |
+| Git פתוח ללא סודות              | מכוסה                               | GitHub public repo                     | `.gitignore`, `.env.example`                                                                                                     | בדיקה ידנית של repo                                                           |
 
 ## שלושת המודלים הרשמיים
 
-| מודל | תפקיד באפליקציה | CRUD UI | חיפוש UI |
-|---|---|---|---|
-| `User` | סטודנט, פרופיל, חברים, קבוצות והרשאות | `ניהול` -> `ניהול משתמשים` | מילת חיפוש, מסלול לימודים, תפקיד |
-| `Group` | קבוצת לימוד, פרטיות, מנהלים וחברים | `ניהול` -> `ניהול קבוצות` | מילת חיפוש, קטגוריה, פרטיות, מזהה חבר |
-| `Post` | תוכן שמשתמש מפרסם בתוך קבוצה | `ניהול` -> `ניהול פוסטים` | מילת חיפוש, קבוצה, כותב, תגית, טווח תאריכים |
+| מודל    | תפקיד באפליקציה                       | CRUD UI                    | חיפוש UI                                    |
+| ------- | ------------------------------------- | -------------------------- | ------------------------------------------- |
+| `User`  | סטודנט, פרופיל, חברים, קבוצות והרשאות | `ניהול` -> `ניהול משתמשים` | מילת חיפוש, מסלול לימודים, תפקיד            |
+| `Group` | קבוצת לימוד, פרטיות, מנהלים וחברים    | `ניהול` -> `ניהול קבוצות`  | מילת חיפוש, קטגוריה, פרטיות, מזהה חבר       |
+| `Post`  | תוכן שמשתמש מפרסם בתוך קבוצה          | `ניהול` -> `ניהול פוסטים`  | מילת חיפוש, קבוצה, כותב, תגית, טווח תאריכים |
 
 ## נקודות שצריך לוודא לפני ההגשה
 

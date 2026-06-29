@@ -66,7 +66,7 @@ npm run dev:client
 6. מחליפים ב-connection string את `<password>` בסיסמה של המשתמש.
 7. שמים את המחרוזת ב-`MONGO_URI` בתוך `.env`.
 
-3. מריצים seed לנתוני דמו:
+8. מריצים seed לנתוני דמו:
 
 ```bash
 npm --prefix server run seed
