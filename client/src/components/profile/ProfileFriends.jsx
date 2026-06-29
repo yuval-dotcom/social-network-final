@@ -1,4 +1,4 @@
-import { Avatar } from "../shared/Avatar.jsx";
+import { Avatar } from "../shared";
 
 export function ProfileFriends({ copy, friends }) {
   return (

@@ -1,4 +1,4 @@
-import { Avatar } from "../shared/Avatar.jsx";
+import { Avatar } from "../shared";
 
 export function ProfileHeader({ copy, profile }) {
   const displayName = profile.displayName || profile.username || copy.feed.unknownUser;

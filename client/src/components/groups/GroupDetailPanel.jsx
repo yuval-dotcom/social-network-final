@@ -1,5 +1,4 @@
-import { Avatar } from "../shared/Avatar.jsx";
-import { TagChip } from "../shared/TagChip.jsx";
+import { Avatar, TagChip } from "../shared";
 
 function userLabel(usersById, userId) {
   const user = usersById.get(userId);

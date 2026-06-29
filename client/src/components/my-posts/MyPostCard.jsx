@@ -1,4 +1,4 @@
-import { TagChip } from "../shared/TagChip.jsx";
+import { TagChip } from "../shared";
 
 export function MyPostCard({ copy, post, groupName, isSelected, onEdit, onDelete }) {
   return (

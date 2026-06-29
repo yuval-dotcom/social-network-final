@@ -1,4 +1,4 @@
-import { TagChip } from "../shared/TagChip.jsx";
+import { TagChip } from "../shared";
 
 export function ProfileRecentPosts({ copy, groupName, posts }) {
   return (

@@ -1,4 +1,4 @@
-import { ThemeToggle } from "../shared/ThemeToggle.jsx";
+import { ThemeToggle } from "../shared";
 
 export function AppTopbar({ copy, currentUser, onLanguageChange, onLogout }) {
   return (

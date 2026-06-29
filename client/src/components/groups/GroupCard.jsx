@@ -1,4 +1,4 @@
-import { TagChip } from "../shared/TagChip.jsx";
+import { TagChip } from "../shared";
 
 export function GroupCard({ copy, group, statusLabel, canJoin, onSelect, onJoin }) {
   return (

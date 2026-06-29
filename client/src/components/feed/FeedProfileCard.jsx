@@ -1,4 +1,4 @@
-import { Avatar } from "../shared/Avatar.jsx";
+import { Avatar } from "../shared";
 
 function uniqueAuthorCount(posts) {
   return new Set((posts || []).map((post) => post.authorId).filter(Boolean)).size;

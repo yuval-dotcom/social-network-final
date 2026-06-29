@@ -1,5 +1,4 @@
-import { Avatar } from "../shared/Avatar.jsx";
-import { TagChip } from "../shared/TagChip.jsx";
+import { Avatar, TagChip } from "../shared";
 import { FeedPostActions } from "./FeedPostActions.jsx";
 
 function formatDate(value, locale) {
