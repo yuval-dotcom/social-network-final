@@ -1,21 +1,13 @@
 export function createAuthController(authService) {
   return {
-    async register(req, res, next) {
-      try {
-        const result = await authService.register(req.body);
-        res.status(201).json({ success: true, ...result });
-      } catch (error) {
-        next(error);
-      }
+    async register(req, res) {
+      const result = await authService.register(req.body);
+      res.status(201).json({ success: true, ...result });
     },
 
-    async login(req, res, next) {
-      try {
-        const result = await authService.login(req.body);
-        res.json({ success: true, ...result });
-      } catch (error) {
-        next(error);
-      }
+    async login(req, res) {
+      const result = await authService.login(req.body);
+      res.json({ success: true, ...result });
     },
 
     me(req, res) {
@@ -23,4 +15,3 @@ export function createAuthController(authService) {
     }
   };
 }
-

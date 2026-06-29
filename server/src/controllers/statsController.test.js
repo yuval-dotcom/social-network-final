@@ -16,9 +16,9 @@ describe("stats controller", () => {
       posts: {
         async list() {
           return [
-            { id: "p1", createdAt: "2026-06-01" },
-            { id: "p2", createdAt: "2026-06-20" },
-            { id: "p3", createdAt: "2026-07-01" }
+            { id: "p1", createdAt: new Date("2026-06-01") },
+            { id: "p2", createdAt: new Date("2026-06-20") },
+            { id: "p3", createdAt: new Date("2026-07-01") }
           ];
         }
       },

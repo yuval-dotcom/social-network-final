@@ -48,13 +48,10 @@ describe("post controller", () => {
       groups: {},
       users: {}
     });
-    let error;
 
-    await controller.update({ db: {}, params: { id: "p1" }, body: {}, user: { sub: "u2", role: "student" } }, createRes(), (nextError) => {
-      error = nextError;
-    });
+    const updatePromise = controller.update({ db: {}, params: { id: "p1" }, body: {}, user: { sub: "u2", role: "student" } }, createRes());
 
-    expect(error.status).toBe(403);
+    await expect(updatePromise).rejects.toHaveProperty("status", 403);
   });
 
   it("builds a feed from friends and joined groups", async () => {

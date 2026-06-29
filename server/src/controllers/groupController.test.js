@@ -36,17 +36,14 @@ describe("group controller", () => {
     const controller = createGroupController({
       groups: {
         async findById() {
-          return { id: "g1", managerIds: ["u1"], memberIds: ["u1"], pendingMemberIds: [] };
+          return { id: "g1", managerIds: ["u2"] };
         }
       }
     });
-    let error;
 
-    await controller.update({ db: {}, params: { id: "g1" }, body: {}, user: { sub: "u2", role: "student" } }, createRes(), (nextError) => {
-      error = nextError;
-    });
+    const updatePromise = controller.update({ db: {}, params: { id: "g1" }, body: {}, user: { sub: "u1", role: "student" } }, createRes());
 
-    expect(error.status).toBe(403);
+    await expect(updatePromise).rejects.toHaveProperty("status", 403);
   });
 
   it("adds private group joins to pending requests", async () => {

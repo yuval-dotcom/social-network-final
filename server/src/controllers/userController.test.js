@@ -41,14 +41,11 @@ describe("user controller", () => {
       }
     });
     const res = createRes();
-    let forbidden;
 
-    await controller.update({ db: {}, params: { id: "u1" }, body: {}, user: { sub: "u1" } }, res, () => {});
-    await controller.update({ db: {}, params: { id: "u2" }, body: {}, user: { sub: "u1" } }, createRes(), (error) => {
-      forbidden = error;
-    });
+    await controller.update({ db: {}, params: { id: "u1" }, body: {}, user: { sub: "u1" } }, res);
+    const updatePromise = controller.update({ db: {}, params: { id: "u2" }, body: {}, user: { sub: "u1" } }, createRes());
 
     expect(res.body.user).toEqual({ id: "u1", displayName: "Dana" });
-    expect(forbidden.status).toBe(403);
+    await expect(updatePromise).rejects.toHaveProperty("status", 403);
   });
 });
