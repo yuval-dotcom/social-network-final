@@ -87,7 +87,9 @@ a:focus-visible {
 }
 
 body {
-  transition: background-color 300ms ease, color 300ms ease;
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
 }
 
 .app-shell {
@@ -118,8 +120,7 @@ body {
   --auth-ink: #12322e;
   --auth-muted: #58706a;
   --auth-warm: #be3455;
-  background:
-    linear-gradient(145deg, #f7fbf8 0%, #edf8f5 58%, #fff4f7 100%);
+  background: linear-gradient(145deg, #f7fbf8 0%, #edf8f5 58%, #fff4f7 100%);
   color: var(--auth-ink);
   min-height: 100dvh;
   padding: 24px;
@@ -133,8 +134,7 @@ body {
   --auth-ink: #e2e8f0;
   --auth-muted: #94a3b8;
   --auth-warm: #fb7185;
-  background:
-    linear-gradient(145deg, #0b1120 0%, #162032 58%, #1a0e1e 100%);
+  background: linear-gradient(145deg, #0b1120 0%, #162032 58%, #1a0e1e 100%);
 }
 
 .auth-page::before {
@@ -259,7 +259,9 @@ body {
   border-radius: 8px;
   min-height: 48px;
   padding: 12px 13px;
-  transition: border-color 180ms ease, box-shadow 180ms ease;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .auth-form input:focus {
@@ -318,7 +320,10 @@ body {
   gap: 24px;
   justify-content: space-between;
   padding: 18px 20px;
-  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+  transition:
+    background 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
 }
 
 .eyebrow {
@@ -369,7 +374,12 @@ button,
   font-weight: 800;
   min-height: 44px;
   text-decoration: none;
-  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease, transform 180ms ease;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 button:not(:disabled):hover,
@@ -619,7 +629,10 @@ button:disabled:hover {
 .chat-user-card,
 .chat-room-card,
 .chat-main {
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
 .feed-post-card:hover,
@@ -1302,7 +1315,9 @@ button:disabled:hover {
 
 .my-post-card {
   padding: 18px;
-  transition: border-color 180ms ease, box-shadow 180ms ease;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .my-post-card.is-selected {
@@ -1572,7 +1587,9 @@ button:disabled:hover {
   border: 1px solid #cbd8dd;
   border-radius: 8px;
   padding: 11px 12px;
-  transition: border-color 180ms ease, box-shadow 180ms ease;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .chat-transcript {
@@ -1680,7 +1697,9 @@ button:disabled:hover {
   border-radius: 7px;
   min-height: 44px;
   padding: 10px 12px;
-  transition: border-color 180ms ease, box-shadow 180ms ease;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .form-grid input:focus,
@@ -1890,7 +1909,9 @@ svg {
   border: 1px solid #cbd8dd;
   border-radius: 7px;
   padding: 10px 12px;
-  transition: border-color 180ms ease, box-shadow 180ms ease;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 canvas,
@@ -2385,7 +2406,8 @@ video {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -2474,7 +2496,10 @@ video {
   justify-content: center;
   min-width: 74px;
   padding: 0 14px;
-  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
 .theme-toggle:hover {
