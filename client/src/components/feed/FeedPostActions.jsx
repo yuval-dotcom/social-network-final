@@ -1,6 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { useState } from "react";
 
-export function FeedPostActions({ copy }) {
+export function FeedPostActions() {
+  const { copy } = useAppContext();
+
   const [isSaved, setIsSaved] = useState(false);
 
   return (

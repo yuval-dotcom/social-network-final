@@ -1,4 +1,7 @@
-export function ProfileStats({ copy, friendsCount, groupsCount, postsCount }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function ProfileStats({ friendsCount, groupsCount, postsCount }) {
+  const { copy } = useAppContext();
+
   const stats = [
     { label: copy.profile.friends, value: friendsCount },
     { label: copy.profile.groups, value: groupsCount },

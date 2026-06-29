@@ -1,8 +1,11 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useEffect, useRef, useState } from "react";
 import { createChatClient } from "../realtime/chatClient.js";
 import { ChatComposer, ChatRoomControls, ChatSidebar, ChatTranscript } from "./chat";
 
-export function ChatPanel({ copy, currentUser, clientFactory = createChatClient }) {
+export function ChatPanel({ clientFactory = createChatClient }) {
+  const { copy, currentUser } = useAppContext();
+
   const clientRef = useRef(null);
   const [roomId, setRoomId] = useState("general");
   const [activeRoomId, setActiveRoomId] = useState("general");
@@ -11,7 +14,8 @@ export function ChatPanel({ copy, currentUser, clientFactory = createChatClient 
   const [messages, setMessages] = useState([]);
   const [status, setStatus] = useState("");
   const senderId = currentUser?.id || currentUser?.username || "";
-  const displayName = currentUser?.displayName || currentUser?.username || copy.chat.currentUserFallback;
+  const displayName =
+    currentUser?.displayName || currentUser?.username || copy.chat.currentUserFallback;
 
   useEffect(() => {
     clientRef.current = clientFactory();
@@ -51,21 +55,24 @@ export function ChatPanel({ copy, currentUser, clientFactory = createChatClient 
     if (!text.trim()) return;
 
     setStatus(copy.chat.sending);
-    clientRef.current.send({ roomId: activeRoomId, senderId, recipientId, text: text.trim() }, (result) => {
-      if (result?.success) {
-        setText("");
-        setStatus(copy.chat.sent);
-        return;
-      }
+    clientRef.current.send(
+      { roomId: activeRoomId, senderId, recipientId, text: text.trim() },
+      (result) => {
+        if (result?.success) {
+          setText("");
+          setStatus(copy.chat.sent);
+          return;
+        }
 
-      setStatus(result?.message || copy.chat.failed);
-    });
+        setStatus(result?.message || copy.chat.failed);
+      }
+    );
   }
 
   return (
     <section className="chat-view" id="chat" aria-label={copy.chat.title}>
       <div className="chat-shell">
-        <ChatSidebar activeRoomId={activeRoomId} copy={copy} displayName={displayName} />
+        <ChatSidebar activeRoomId={activeRoomId} displayName={displayName} />
 
         <div className="chat-main">
           <div className="chat-header">
@@ -80,23 +87,25 @@ export function ChatPanel({ copy, currentUser, clientFactory = createChatClient 
           </div>
 
           <ChatRoomControls
-            copy={copy}
             onRecipientChange={(event) => setRecipientId(event.target.value)}
             onRoomChange={(event) => setRoomId(event.target.value)}
             recipientId={recipientId}
             roomId={roomId}
           />
 
-          <ChatTranscript copy={copy} displayName={displayName} messages={messages} senderId={senderId} />
+          <ChatTranscript displayName={displayName} messages={messages} senderId={senderId} />
 
           <ChatComposer
-            copy={copy}
             onSubmit={sendMessage}
             onTextChange={(event) => setText(event.target.value)}
             text={text}
           />
 
-          {status && <p className="form-message" role="status">{status}</p>}
+          {status && (
+            <p className="form-message" role="status">
+              {status}
+            </p>
+          )}
         </div>
       </div>
     </section>

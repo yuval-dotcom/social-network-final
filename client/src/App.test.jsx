@@ -48,7 +48,9 @@ describe("React shell", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "English" }));
 
-    expect(screen.getByText("Enter your username and password to continue to your personal feed.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Enter your username and password to continue to your personal feed.")
+    ).toBeInTheDocument();
     expect(document.documentElement.dir).toBe("ltr");
   });
 
@@ -83,23 +85,30 @@ describe("React shell", () => {
       ]
     });
     api.listGroups.mockResolvedValue({
-      groups: [{
-        id: "group_algorithms",
-        name: "Algorithms Study Lab",
-        category: "Computer Science",
-        privacy: "public",
-        memberIds: ["user_dana", "user_noam"]
-      }]
+      groups: [
+        {
+          id: "group_algorithms",
+          name: "Algorithms Study Lab",
+          category: "Computer Science",
+          privacy: "public",
+          memberIds: ["user_dana", "user_noam"]
+        }
+      ]
     });
     api.myPosts.mockResolvedValue({
-      posts: [{
-        id: "post_algorithms_1",
-        groupId: "group_algorithms",
-        content: "I uploaded a short summary for graph algorithms.",
-        tags: ["exam"]
-      }]
+      posts: [
+        {
+          id: "post_algorithms_1",
+          groupId: "group_algorithms",
+          content: "I uploaded a short summary for graph algorithms.",
+          tags: ["exam"]
+        }
+      ]
     });
-    localStorage.setItem("studycircle_user", JSON.stringify({ id: "user_dana", username: "dana", displayName: "Dana Levi" }));
+    localStorage.setItem(
+      "studycircle_user",
+      JSON.stringify({ id: "user_dana", username: "dana", displayName: "Dana Levi" })
+    );
 
     render(<App />);
 
@@ -108,11 +117,16 @@ describe("React shell", () => {
     expect(await screen.findByRole("heading", { name: "הפרופיל שלי" })).toBeInTheDocument();
     expect(screen.getByText("Noam Cohen")).toBeInTheDocument();
     expect(screen.getAllByText("Algorithms Study Lab").length).toBeGreaterThan(0);
-    expect(screen.getByText("I uploaded a short summary for graph algorithms.")).toBeInTheDocument();
+    expect(
+      screen.getByText("I uploaded a short summary for graph algorithms.")
+    ).toBeInTheDocument();
   });
 
   it("restores the feed from a stored user session", async () => {
-    localStorage.setItem("studycircle_user", JSON.stringify({ username: "dana", displayName: "Dana Levi" }));
+    localStorage.setItem(
+      "studycircle_user",
+      JSON.stringify({ username: "dana", displayName: "Dana Levi" })
+    );
 
     render(<App />);
 
@@ -122,7 +136,10 @@ describe("React shell", () => {
   });
 
   it("keeps CRUD panels inside the management screen", async () => {
-    localStorage.setItem("studycircle_user", JSON.stringify({ username: "dana", displayName: "Dana Levi" }));
+    localStorage.setItem(
+      "studycircle_user",
+      JSON.stringify({ username: "dana", displayName: "Dana Levi" })
+    );
 
     render(<App />);
 
@@ -142,48 +159,62 @@ describe("React shell", () => {
 
   it("opens a user-facing groups screen separate from CRUD", async () => {
     api.listGroups.mockResolvedValue({
-      groups: [{
-        id: "group_algorithms",
-        name: "Algorithms Study Lab",
-        description: "Exam prep",
-        category: "Computer Science",
-        privacy: "public",
-        memberIds: [],
-        pendingMemberIds: []
-      }]
+      groups: [
+        {
+          id: "group_algorithms",
+          name: "Algorithms Study Lab",
+          description: "Exam prep",
+          category: "Computer Science",
+          privacy: "public",
+          memberIds: [],
+          pendingMemberIds: []
+        }
+      ]
     });
-    localStorage.setItem("studycircle_user", JSON.stringify({ id: "user_dana", username: "dana", displayName: "Dana Levi" }));
+    localStorage.setItem(
+      "studycircle_user",
+      JSON.stringify({ id: "user_dana", username: "dana", displayName: "Dana Levi" })
+    );
 
     render(<App />);
 
     fireEvent.click(screen.getByRole("button", { name: "קבוצות" }));
 
     expect(await screen.findByRole("heading", { name: "גילוי קבוצות" })).toBeInTheDocument();
-    expect((await screen.findAllByRole("heading", { name: "Algorithms Study Lab" })).length).toBeGreaterThan(0);
+    expect(
+      (await screen.findAllByRole("heading", { name: "Algorithms Study Lab" })).length
+    ).toBeGreaterThan(0);
     expect(screen.queryByRole("heading", { name: "ניהול קבוצות" })).not.toBeInTheDocument();
   });
 
   it("opens a personal posts screen separate from CRUD", async () => {
     api.myPosts.mockResolvedValue({
-      posts: [{
-        id: "post_algorithms_1",
-        groupId: "group_algorithms",
-        content: "I uploaded a short summary for graph algorithms.",
-        tags: ["exam"],
-        createdAt: "2026-06-01T09:00:00.000Z"
-      }]
+      posts: [
+        {
+          id: "post_algorithms_1",
+          groupId: "group_algorithms",
+          content: "I uploaded a short summary for graph algorithms.",
+          tags: ["exam"],
+          createdAt: "2026-06-01T09:00:00.000Z"
+        }
+      ]
     });
     api.listGroups.mockResolvedValue({
       groups: [{ id: "group_algorithms", name: "Algorithms Study Lab" }]
     });
-    localStorage.setItem("studycircle_user", JSON.stringify({ id: "user_dana", username: "dana", displayName: "Dana Levi" }));
+    localStorage.setItem(
+      "studycircle_user",
+      JSON.stringify({ id: "user_dana", username: "dana", displayName: "Dana Levi" })
+    );
 
     render(<App />);
 
     fireEvent.click(screen.getByRole("button", { name: "הפוסטים שלי" }));
 
     expect(await screen.findByRole("heading", { name: "הפוסטים שלי" })).toBeInTheDocument();
-    expect(await screen.findByText("I uploaded a short summary for graph algorithms.")).toBeInTheDocument();
+    expect(
+      await screen.findByText("I uploaded a short summary for graph algorithms.")
+    ).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "ניהול פוסטים" })).not.toBeInTheDocument();
   });
 });

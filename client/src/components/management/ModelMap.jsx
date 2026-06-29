@@ -1,4 +1,7 @@
-export function ModelMap({ copy }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function ModelMap() {
+  const { copy } = useAppContext();
+
   return (
     <section className="model-map" aria-labelledby="model-map-title">
       <div className="model-map-heading">

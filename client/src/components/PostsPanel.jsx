@@ -1,3 +1,4 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
@@ -7,10 +8,12 @@ import { PostManagementForm, PostManagementResultCard, PostManagementSearchForm 
 
 const emptyPost = { id: "", groupId: "", content: "", tags: "", mediaUrl: "", mediaType: "" };
 
-export function PostsPanel({ copy }) {
+export function PostsPanel() {
+  const { copy } = useAppContext();
+
   const post = useForm(emptyPost);
   const search = useForm({ q: "", groupId: "", authorId: "", tag: "", from: "", to: "" });
-  
+
   const [posts, setPosts] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -72,7 +75,9 @@ export function PostsPanel({ copy }) {
   function updatePost() {
     handleApiCall(async () => {
       const result = await api.updatePost(post.values.id, payload());
-      setPosts((current) => current.map((item) => (item.id === post.values.id ? result.post : item)));
+      setPosts((current) =>
+        current.map((item) => (item.id === post.values.id ? result.post : item))
+      );
     }, copy.crud.updated);
   }
 
@@ -103,14 +108,19 @@ export function PostsPanel({ copy }) {
       <div className="panel-heading">
         <h2>{copy.crud.postsTitle}</h2>
         <div className="topbar-actions">
-          <button type="button" onClick={listPosts}>{copy.crud.list}</button>
-          <button type="button" onClick={loadFeed}>{copy.crud.feed}</button>
-          <button type="button" onClick={loadMine}>{copy.crud.myPosts}</button>
+          <button type="button" onClick={listPosts}>
+            {copy.crud.list}
+          </button>
+          <button type="button" onClick={loadFeed}>
+            {copy.crud.feed}
+          </button>
+          <button type="button" onClick={loadMine}>
+            {copy.crud.myPosts}
+          </button>
         </div>
       </div>
       <div className="form-layout">
         <PostManagementForm
-          copy={copy}
           onChange={post.onChange}
           onCreate={createPost}
           onDelete={deletePost}
@@ -118,7 +128,6 @@ export function PostsPanel({ copy }) {
           post={post.values}
         />
         <PostManagementSearchForm
-          copy={copy}
           onChange={search.onChange}
           onSubmit={searchPosts}
           search={search.values}
@@ -128,7 +137,6 @@ export function PostsPanel({ copy }) {
       <ul className="result-list" aria-label={copy.crud.postsTitle}>
         {posts.map((item) => (
           <PostManagementResultCard
-            copy={copy}
             formatDate={formatDate}
             isSelected={post.values.id === item.id}
             key={item.id}

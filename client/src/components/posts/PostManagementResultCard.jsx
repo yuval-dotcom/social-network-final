@@ -1,4 +1,7 @@
-export function PostManagementResultCard({ copy, formatDate, isSelected, onSelect, post }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function PostManagementResultCard({ formatDate, isSelected, onSelect, post }) {
+  const { copy } = useAppContext();
+
   return (
     <li className={`result-card ${isSelected ? "is-selected" : ""}`}>
       <div className="result-card-header">

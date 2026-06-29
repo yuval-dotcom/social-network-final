@@ -1,6 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { Avatar } from "../shared";
 
-export function ProfileHeader({ copy, profile }) {
+export function ProfileHeader({ profile }) {
+  const { copy } = useAppContext();
+
   const displayName = profile.displayName || profile.username || copy.feed.unknownUser;
   const major = profile.major || profile.role || copy.profile.defaultMajor;
 

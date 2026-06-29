@@ -1,14 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { Avatar } from "../shared";
 
-export function FeedComposer({
-  copy,
-  currentUser,
-  composer,
-  groupOptions,
-  isPosting,
-  onChange,
-  onSubmit
-}) {
+export function FeedComposer({ composer, groupOptions, isPosting, onChange, onSubmit }) {
+  const { copy, currentUser } = useAppContext();
+
   const displayName = currentUser?.displayName || currentUser?.username || "S";
 
   return (
@@ -44,7 +39,9 @@ export function FeedComposer({
           {copy.feed.groupLabel}
           <select name="groupId" value={composer.groupId} onChange={onChange}>
             {groupOptions.map((group) => (
-              <option key={group.id} value={group.id}>{group.name || group.id}</option>
+              <option key={group.id} value={group.id}>
+                {group.name || group.id}
+              </option>
             ))}
           </select>
         </label>

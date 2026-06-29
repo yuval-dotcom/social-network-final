@@ -1,4 +1,7 @@
-export function ProfileGroups({ copy, groups }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function ProfileGroups({ groups }) {
+  const { copy } = useAppContext();
+
   return (
     <section className="profile-card" aria-labelledby="profile-groups-title">
       <h3 id="profile-groups-title">{copy.profile.studyGroups}</h3>
@@ -10,7 +13,9 @@ export function ProfileGroups({ copy, groups }) {
               <strong>{group.name || group.id}</strong>
               <span>{group.category || copy.feed.groupFallback}</span>
             </div>
-            <em>{group.privacy === "private" ? copy.profile.privateGroup : copy.profile.publicGroup}</em>
+            <em>
+              {group.privacy === "private" ? copy.profile.privateGroup : copy.profile.publicGroup}
+            </em>
           </li>
         ))}
       </ul>

@@ -1,4 +1,7 @@
-export function UserEditForm({ copy, edit, onChange, onDelete, onSubmit }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function UserEditForm({ edit, onChange, onDelete, onSubmit }) {
+  const { copy } = useAppContext();
+
   return (
     <div className="form-section">
       <div className="form-section-heading">
@@ -8,11 +11,24 @@ export function UserEditForm({ copy, edit, onChange, onDelete, onSubmit }) {
         </span>
       </div>
       <form className="form-grid" onSubmit={onSubmit}>
-        <label>{copy.crud.id}<input name="id" value={edit.id} onChange={onChange} required /></label>
-        <label>{copy.fields.displayName}<input name="displayName" value={edit.displayName} onChange={onChange} required /></label>
-        <label>{copy.crud.bio}<input name="bio" value={edit.bio} onChange={onChange} /></label>
-        <button type="submit" className="primary-button">{copy.crud.update}</button>
-        <button type="button" className="secondary-button" onClick={onDelete}>{copy.crud.delete}</button>
+        <label>
+          {copy.crud.id}
+          <input name="id" value={edit.id} onChange={onChange} required />
+        </label>
+        <label>
+          {copy.fields.displayName}
+          <input name="displayName" value={edit.displayName} onChange={onChange} required />
+        </label>
+        <label>
+          {copy.crud.bio}
+          <input name="bio" value={edit.bio} onChange={onChange} />
+        </label>
+        <button type="submit" className="primary-button">
+          {copy.crud.update}
+        </button>
+        <button type="button" className="secondary-button" onClick={onDelete}>
+          {copy.crud.delete}
+        </button>
       </form>
     </div>
   );

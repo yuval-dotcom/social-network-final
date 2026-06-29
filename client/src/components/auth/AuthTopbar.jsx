@@ -1,4 +1,7 @@
-export function AuthTopbar({ copy, languageActionLabel, onLanguageChange, children }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function AuthTopbar({ languageActionLabel, onLanguageChange, children }) {
+  const { copy } = useAppContext();
+
   return (
     <header className="auth-topbar">
       <strong className="auth-brand">{copy.appName}</strong>

@@ -1,3 +1,4 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "studycircle_theme";
@@ -12,7 +13,9 @@ function getInitialTheme() {
   }
 }
 
-export function ThemeToggle({ copy }) {
+export function ThemeToggle() {
+  const { copy } = useAppContext();
+
   const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
@@ -28,9 +31,8 @@ export function ThemeToggle({ copy }) {
     setTheme((current) => (current === "dark" ? "light" : "dark"));
   }
 
-  const label = theme === "dark"
-    ? copy?.actions.lightTheme || "Light"
-    : copy?.actions.darkTheme || "Dark";
+  const label =
+    theme === "dark" ? copy?.actions.lightTheme || "Light" : copy?.actions.darkTheme || "Dark";
 
   return (
     <button

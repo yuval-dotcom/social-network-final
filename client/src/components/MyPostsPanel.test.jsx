@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "../test-utils.jsx";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { api } from "../api/http.js";
 import { languages } from "../i18n.js";
@@ -27,17 +27,21 @@ describe("MyPostsPanel", () => {
     vi.clearAllMocks();
     api.myPosts.mockResolvedValue({ posts: [post] });
     api.listGroups.mockResolvedValue({
-      groups: [{
-        id: "group_algorithms",
-        name: "Algorithms Study Lab"
-      }]
+      groups: [
+        {
+          id: "group_algorithms",
+          name: "Algorithms Study Lab"
+        }
+      ]
     });
   });
 
   it("loads the current user's posts", async () => {
     render(<MyPostsPanel copy={languages.he} />);
 
-    expect(await screen.findByText("I uploaded a short summary for graph algorithms.")).toBeInTheDocument();
+    expect(
+      await screen.findByText("I uploaded a short summary for graph algorithms.")
+    ).toBeInTheDocument();
     expect(screen.getByText("Algorithms Study Lab")).toBeInTheDocument();
     expect(screen.getByText("סיכום אישי")).toBeInTheDocument();
     expect(api.myPosts).toHaveBeenCalledTimes(1);
@@ -63,11 +67,15 @@ describe("MyPostsPanel", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "שמירת שינויים" }));
 
-    await waitFor(() => expect(api.updatePost).toHaveBeenCalledWith("post_algorithms_1", {
-      content: "Updated graph algorithms summary.",
-      tags: ["updated", "graphs"]
-    }));
-    expect(await screen.findByRole("heading", { name: "Updated graph algorithms summary." })).toBeInTheDocument();
+    await waitFor(() =>
+      expect(api.updatePost).toHaveBeenCalledWith("post_algorithms_1", {
+        content: "Updated graph algorithms summary.",
+        tags: ["updated", "graphs"]
+      })
+    );
+    expect(
+      await screen.findByRole("heading", { name: "Updated graph algorithms summary." })
+    ).toBeInTheDocument();
     expect(screen.getByText("הפוסט עודכן.")).toBeInTheDocument();
   });
 
@@ -79,7 +87,9 @@ describe("MyPostsPanel", () => {
     fireEvent.click(screen.getByRole("button", { name: "מחיקה" }));
 
     await waitFor(() => expect(api.deletePost).toHaveBeenCalledWith("post_algorithms_1"));
-    expect(screen.queryByText("I uploaded a short summary for graph algorithms.")).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("I uploaded a short summary for graph algorithms.")
+    ).not.toBeInTheDocument();
     expect(screen.getByText("הפוסט נמחק.")).toBeInTheDocument();
   });
 });

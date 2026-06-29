@@ -1,6 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 const navKeys = ["feed", "profile", "myPosts", "groups", "manage", "chat", "stats", "media"];
 
-export function MainNavigation({ activeView, copy, onViewChange }) {
+export function MainNavigation({ activeView, onViewChange }) {
+  const { copy } = useAppContext();
+
   return (
     <nav className="main-nav" aria-label="Primary">
       {navKeys.map((key) => (

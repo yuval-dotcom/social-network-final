@@ -1,6 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { ThemeToggle } from "../shared";
 
-export function AppTopbar({ copy, currentUser, onLanguageChange, onLogout }) {
+export function AppTopbar({ onLanguageChange, onLogout }) {
+  const { copy, currentUser } = useAppContext();
+
   return (
     <header className="topbar">
       <div>
@@ -8,12 +11,14 @@ export function AppTopbar({ copy, currentUser, onLanguageChange, onLogout }) {
         <h1>{copy.appName}</h1>
       </div>
       <div className="topbar-actions">
-        <ThemeToggle copy={copy} />
+        <ThemeToggle />
         <button type="button" className="ghost-button" onClick={onLanguageChange}>
           {copy.actions.switchLanguage}
         </button>
         <span className="session-banner">{currentUser.displayName || currentUser.username}</span>
-        <button type="button" className="secondary-button" onClick={onLogout}>{copy.actions.logout}</button>
+        <button type="button" className="secondary-button" onClick={onLogout}>
+          {copy.actions.logout}
+        </button>
       </div>
     </header>
   );

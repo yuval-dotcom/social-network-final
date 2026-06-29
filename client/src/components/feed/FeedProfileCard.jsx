@@ -1,10 +1,13 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { Avatar } from "../shared";
 
 function uniqueAuthorCount(posts) {
   return new Set((posts || []).map((post) => post.authorId).filter(Boolean)).size;
 }
 
-export function FeedProfileCard({ copy, currentUser, posts, groupCount }) {
+export function FeedProfileCard({ posts, groupCount }) {
+  const { copy, currentUser } = useAppContext();
+
   const displayName = currentUser?.displayName || currentUser?.username || copy.feed.unknownUser;
   const major = currentUser?.major || currentUser?.role || copy.feed.profileDefaultMajor;
   const stats = [

@@ -14,6 +14,8 @@ import { clearToken, getStoredUser } from "./api/tokenStorage.js";
 import { languages } from "./i18n.js";
 import "./styles.css";
 
+import { AppProvider } from "./contexts/AppContext.jsx";
+
 export default function App() {
   const [language, setLanguage] = useState("he");
   const [currentUser, setCurrentUser] = useState(() => getStoredUser());
@@ -42,12 +44,13 @@ export default function App() {
         retryLabel={copy.errorBoundary.retry}
         title={copy.errorBoundary.title}
       >
-        <AuthPanel
-          copy={copy}
-          languageActionLabel={copy.actions.switchLanguage}
-          onAuth={setCurrentUser}
-          onLanguageChange={switchLanguage}
-        />
+        <AppProvider copy={copy} currentUser={null}>
+          <AuthPanel
+            onAuth={setCurrentUser}
+            onLanguageChange={switchLanguage}
+            languageActionLabel={copy.actions.switchLanguage}
+          />
+        </AppProvider>
       </ErrorBoundary>
     );
   }
@@ -58,21 +61,23 @@ export default function App() {
       retryLabel={copy.errorBoundary.retry}
       title={copy.errorBoundary.title}
     >
-      <main className="app-shell" dir={copy.dir}>
-        <AppTopbar copy={copy} currentUser={currentUser} onLanguageChange={switchLanguage} onLogout={logout} />
-        <MainNavigation activeView={activeView} copy={copy} onViewChange={setActiveView} />
+      <AppProvider copy={copy} currentUser={currentUser}>
+        <main className="app-shell" dir={copy.dir}>
+          <AppTopbar onLanguageChange={switchLanguage} onLogout={logout} />
+          <MainNavigation activeView={activeView} onViewChange={setActiveView} />
 
-        {activeView === "feed" && <FeedPanel copy={copy} currentUser={currentUser} />}
-        {activeView === "profile" && <ProfilePanel copy={copy} currentUser={currentUser} />}
-        {activeView === "myPosts" && <MyPostsPanel copy={copy} />}
-        {activeView === "groups" && <GroupDiscoveryPanel copy={copy} currentUser={currentUser} />}
+          {activeView === "feed" && <FeedPanel />}
+          {activeView === "profile" && <ProfilePanel />}
+          {activeView === "myPosts" && <MyPostsPanel />}
+          {activeView === "groups" && <GroupDiscoveryPanel />}
 
-        {activeView === "manage" && <ManagementView copy={copy} />}
+          {activeView === "manage" && <ManagementView />}
 
-        {activeView === "chat" && <ChatPanel copy={copy} currentUser={currentUser} />}
-        {activeView === "stats" && <StatsPanel copy={copy} />}
-        {activeView === "media" && <MediaPanel copy={copy} />}
-      </main>
+          {activeView === "chat" && <ChatPanel />}
+          {activeView === "stats" && <StatsPanel />}
+          {activeView === "media" && <MediaPanel />}
+        </main>
+      </AppProvider>
     </ErrorBoundary>
   );
 }

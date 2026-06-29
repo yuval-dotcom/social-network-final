@@ -1,3 +1,4 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useState } from "react";
 import { api } from "../api/http.js";
 import { saveSession } from "../api/tokenStorage.js";
@@ -12,7 +13,9 @@ const initialForm = {
   major: ""
 };
 
-export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel }) {
+export function AuthPanel({ onAuth, onLanguageChange, languageActionLabel }) {
+  const { copy } = useAppContext();
+
   const form = useForm(initialForm);
   const [mode, setMode] = useState("login");
   const [message, setMessage] = useState("");
@@ -33,7 +36,10 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
         return;
       }
 
-      const result = await api.login({ username: form.values.username, password: form.values.password });
+      const result = await api.login({
+        username: form.values.username,
+        password: form.values.password
+      });
       saveSession(result.token, result.user);
       onAuth(result.user);
       setMessage(copy.auth.loggedIn);
@@ -46,12 +52,12 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
 
   return (
     <section className="auth-page" dir={copy.dir} id="auth">
-      <AuthTopbar copy={copy} languageActionLabel={languageActionLabel} onLanguageChange={onLanguageChange}>
-        <ThemeToggle copy={copy} />
+      <AuthTopbar languageActionLabel={languageActionLabel} onLanguageChange={onLanguageChange}>
+        <ThemeToggle />
       </AuthTopbar>
 
       <div className="auth-shell">
-        <AuthStory copy={copy} />
+        <AuthStory />
 
         <div className="auth-card">
           <div className="auth-card-heading">
@@ -60,10 +66,9 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
             <p>{isRegisterMode ? copy.authScreen.registerBody : copy.authScreen.loginBody}</p>
           </div>
 
-          <AuthModeSwitch copy={copy} isRegisterMode={isRegisterMode} mode={mode} onModeChange={setMode} />
+          <AuthModeSwitch isRegisterMode={isRegisterMode} mode={mode} onModeChange={setMode} />
 
           <AuthForm
-            copy={copy}
             form={form.values}
             isRegisterMode={isRegisterMode}
             isSubmitting={isSubmitting}
@@ -71,7 +76,11 @@ export function AuthPanel({ copy, onAuth, onLanguageChange, languageActionLabel 
             onSubmit={submit}
           />
 
-          {message && <p className="form-message" role="status">{message}</p>}
+          {message && (
+            <p className="form-message" role="status">
+              {message}
+            </p>
+          )}
         </div>
       </div>
     </section>

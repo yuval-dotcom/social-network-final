@@ -1,19 +1,26 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { Avatar, TagChip } from "../shared";
 import { FeedPostActions } from "./FeedPostActions.jsx";
 
 function formatDate(value, locale) {
   if (!value) return "";
-  return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
+  return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(
+    new Date(value)
+  );
 }
 
-export function FeedPostCard({ copy, post, authorName, groupName, locale }) {
+export function FeedPostCard({ post, authorName, groupName, locale }) {
+  const { copy } = useAppContext();
+
   return (
     <article className="feed-post-card">
       <div className="feed-post-header">
         <Avatar name={authorName} />
         <div>
           <strong>{authorName}</strong>
-          <span>{groupName} · {formatDate(post.createdAt, locale)}</span>
+          <span>
+            {groupName} · {formatDate(post.createdAt, locale)}
+          </span>
         </div>
       </div>
       <p>{post.content}</p>
@@ -29,7 +36,7 @@ export function FeedPostCard({ copy, post, authorName, groupName, locale }) {
           ))}
         </div>
       )}
-      <FeedPostActions copy={copy} />
+      <FeedPostActions />
     </article>
   );
 }

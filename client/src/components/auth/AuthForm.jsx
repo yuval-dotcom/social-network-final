@@ -1,11 +1,20 @@
-export function AuthForm({ copy, form, isRegisterMode, isSubmitting, onChange, onSubmit }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function AuthForm({ form, isRegisterMode, isSubmitting, onChange, onSubmit }) {
+  const { copy } = useAppContext();
+
   const submitLabel = isRegisterMode ? copy.auth.registerSubmit : copy.auth.loginSubmit;
 
   return (
     <form className="auth-form" onSubmit={onSubmit}>
       <label>
         {copy.fields.username}
-        <input name="username" value={form.username} onChange={onChange} autoComplete="username" required />
+        <input
+          name="username"
+          value={form.username}
+          onChange={onChange}
+          autoComplete="username"
+          required
+        />
       </label>
       <label>
         {copy.fields.password}
@@ -23,11 +32,22 @@ export function AuthForm({ copy, form, isRegisterMode, isSubmitting, onChange, o
         <>
           <label>
             {copy.fields.displayName}
-            <input name="displayName" value={form.displayName} onChange={onChange} autoComplete="name" required />
+            <input
+              name="displayName"
+              value={form.displayName}
+              onChange={onChange}
+              autoComplete="name"
+              required
+            />
           </label>
           <label>
             {copy.fields.major}
-            <input name="major" value={form.major} onChange={onChange} autoComplete="organization-title" />
+            <input
+              name="major"
+              value={form.major}
+              onChange={onChange}
+              autoComplete="organization-title"
+            />
           </label>
         </>
       )}

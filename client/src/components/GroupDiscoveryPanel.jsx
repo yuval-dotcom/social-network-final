@@ -1,3 +1,4 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
@@ -15,9 +16,11 @@ function isPending(group, userId) {
   return Boolean(userId && group.pendingMemberIds?.includes(userId));
 }
 
-export function GroupDiscoveryPanel({ copy, currentUser }) {
+export function GroupDiscoveryPanel() {
+  const { copy, currentUser } = useAppContext();
+
   const filters = useForm(defaultFilters);
-  
+
   const [groups, setGroups] = useState([]);
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
@@ -27,7 +30,9 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
   const userId = currentUser?.id || currentUser?.sub || "";
 
   const selectedGroup = groups.find((group) => group.id === selectedGroupId) || groups[0];
-  const categories = Array.from(new Set(groups.map((group) => group.category).filter(Boolean))).sort();
+  const categories = Array.from(
+    new Set(groups.map((group) => group.category).filter(Boolean))
+  ).sort();
   const stats = {
     total: groups.length,
     publicCount: groups.filter((group) => group.privacy === "public").length,
@@ -113,13 +118,17 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
           <h2>{copy.groups.title}</h2>
           <p>{copy.groups.subtitle}</p>
         </div>
-        <button type="button" className="secondary-button" onClick={loadGroups} disabled={isLoading}>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={loadGroups}
+          disabled={isLoading}
+        >
           {copy.groups.refresh}
         </button>
       </div>
 
       <GroupSearchBar
-        copy={copy}
         filters={filters.values}
         categories={categories}
         onChange={filters.onChange}
@@ -132,7 +141,6 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
           {!isLoading && groups.length === 0 && <p className="feed-state">{copy.groups.empty}</p>}
           {groups.map((group) => (
             <GroupCard
-              copy={copy}
               group={group}
               statusLabel={groupStatus(group)}
               canJoin={canJoin(group)}
@@ -144,8 +152,6 @@ export function GroupDiscoveryPanel({ copy, currentUser }) {
         </div>
 
         <GroupDetailPanel
-          copy={copy}
-          currentUser={currentUser}
           group={selectedGroup}
           message={message}
           onApproveMember={approveMember}

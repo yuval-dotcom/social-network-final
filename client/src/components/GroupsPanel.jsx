@@ -1,15 +1,29 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { useForm } from "../hooks/useForm.js";
-import { GroupManagementForm, GroupManagementResultCard, GroupManagementSearchForm } from "./groups";
+import {
+  GroupManagementForm,
+  GroupManagementResultCard,
+  GroupManagementSearchForm
+} from "./groups";
 
-const emptyGroup = { id: "", name: "", description: "", category: "", privacy: "public", userId: "" };
+const emptyGroup = {
+  id: "",
+  name: "",
+  description: "",
+  category: "",
+  privacy: "public",
+  userId: ""
+};
 
-export function GroupsPanel({ copy }) {
+export function GroupsPanel() {
+  const { copy } = useAppContext();
+
   const group = useForm(emptyGroup);
   const search = useForm({ q: "", category: "", privacy: "", memberId: "" });
-  
+
   const [groups, setGroups] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -25,7 +39,9 @@ export function GroupsPanel({ copy }) {
   }
 
   function replaceGroup(updatedGroup) {
-    setGroups((current) => current.map((item) => (item.id === updatedGroup.id ? updatedGroup : item)));
+    setGroups((current) =>
+      current.map((item) => (item.id === updatedGroup.id ? updatedGroup : item))
+    );
   }
 
   async function handleApiCall(apiAction, successMessage) {
@@ -97,11 +113,12 @@ export function GroupsPanel({ copy }) {
     <section className="panel" id="groups">
       <div className="panel-heading">
         <h2>{copy.crud.groupsTitle}</h2>
-        <button type="button" onClick={listGroups}>{copy.crud.list}</button>
+        <button type="button" onClick={listGroups}>
+          {copy.crud.list}
+        </button>
       </div>
       <div className="form-layout">
         <GroupManagementForm
-          copy={copy}
           group={group.values}
           onApproveMember={approveMember}
           onChange={group.onChange}
@@ -111,7 +128,6 @@ export function GroupsPanel({ copy }) {
           onUpdate={updateGroup}
         />
         <GroupManagementSearchForm
-          copy={copy}
           onChange={search.onChange}
           onSubmit={searchGroups}
           search={search.values}
@@ -121,7 +137,6 @@ export function GroupsPanel({ copy }) {
       <ul className="result-list" aria-label={copy.crud.groupsTitle}>
         {groups.map((item) => (
           <GroupManagementResultCard
-            copy={copy}
             group={item}
             isSelected={group.values.id === item.id}
             key={item.id}

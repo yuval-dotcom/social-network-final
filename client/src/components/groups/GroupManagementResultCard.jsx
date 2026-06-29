@@ -1,4 +1,7 @@
-export function GroupManagementResultCard({ copy, group, isSelected, onSelect }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function GroupManagementResultCard({ group, isSelected, onSelect }) {
+  const { copy } = useAppContext();
+
   return (
     <li className={`result-card ${isSelected ? "is-selected" : ""}`}>
       <div className="result-card-header">

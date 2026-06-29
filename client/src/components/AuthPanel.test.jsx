@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "../test-utils.jsx";
 import { describe, expect, it, vi } from "vitest";
 import { api } from "../api/http.js";
 import { languages } from "../i18n.js";
@@ -33,7 +33,9 @@ describe("AuthPanel", () => {
     fireEvent.change(screen.getByLabelText("סיסמה"), { target: { value: "secret123" } });
     fireEvent.click(screen.getByRole("button", { name: "כניסה ל-StudyCircle" }));
 
-    await waitFor(() => expect(api.login).toHaveBeenCalledWith({ username: "dana", password: "secret123" }));
+    await waitFor(() =>
+      expect(api.login).toHaveBeenCalledWith({ username: "dana", password: "secret123" })
+    );
     expect(onAuth).toHaveBeenCalledWith({ username: "dana" });
   });
 

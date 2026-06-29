@@ -1,4 +1,7 @@
-export function ChatRoomControls({ copy, onRecipientChange, onRoomChange, recipientId, roomId }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function ChatRoomControls({ onRecipientChange, onRoomChange, recipientId, roomId }) {
+  const { copy } = useAppContext();
+
   return (
     <div className="chat-room-controls">
       <label>

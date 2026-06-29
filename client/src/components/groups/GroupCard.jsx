@@ -1,6 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { TagChip } from "../shared";
 
-export function GroupCard({ copy, group, statusLabel, canJoin, onSelect, onJoin }) {
+export function GroupCard({ group, statusLabel, canJoin, onSelect, onJoin }) {
+  const { copy } = useAppContext();
+
   return (
     <article className="group-card">
       <div className="group-card-topline">

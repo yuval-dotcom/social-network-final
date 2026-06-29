@@ -1,14 +1,17 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { useForm } from "../hooks/useForm.js";
 import { UserCreateForm, UserEditForm, UserResultCard, UserSearchForm } from "./users";
 
-export function UsersPanel({ copy }) {
+export function UsersPanel() {
+  const { copy } = useAppContext();
+
   const create = useForm({ username: "", password: "", displayName: "", major: "" });
   const search = useForm({ q: "", major: "", role: "" });
   const edit = useForm({ id: "", displayName: "", bio: "" });
-  
+
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -57,11 +60,13 @@ export function UsersPanel({ copy }) {
   function updateUser(event) {
     event.preventDefault();
     handleApiCall(async () => {
-      const result = await api.updateUser(edit.values.id, { 
-        displayName: edit.values.displayName, 
-        bio: edit.values.bio 
+      const result = await api.updateUser(edit.values.id, {
+        displayName: edit.values.displayName,
+        bio: edit.values.bio
       });
-      setUsers((current) => current.map((user) => (user.id === edit.values.id ? result.user : user)));
+      setUsers((current) =>
+        current.map((user) => (user.id === edit.values.id ? result.user : user))
+      );
     }, copy.crud.updated);
   }
 
@@ -77,19 +82,25 @@ export function UsersPanel({ copy }) {
     <section className="panel" id="users">
       <div className="panel-heading">
         <h2>{copy.crud.usersTitle}</h2>
-        <button type="button" onClick={listUsers}>{copy.crud.list}</button>
+        <button type="button" onClick={listUsers}>
+          {copy.crud.list}
+        </button>
       </div>
       <p className="hint">{copy.crud.userCreateHint}</p>
       <div className="form-layout">
-        <UserCreateForm copy={copy} create={create.values} onChange={create.onChange} onSubmit={createUser} />
-        <UserSearchForm copy={copy} search={search.values} onChange={search.onChange} onSubmit={searchUsers} />
-        <UserEditForm copy={copy} edit={edit.values} onChange={edit.onChange} onDelete={deleteUser} onSubmit={updateUser} />
+        <UserCreateForm create={create.values} onChange={create.onChange} onSubmit={createUser} />
+        <UserSearchForm search={search.values} onChange={search.onChange} onSubmit={searchUsers} />
+        <UserEditForm
+          edit={edit.values}
+          onChange={edit.onChange}
+          onDelete={deleteUser}
+          onSubmit={updateUser}
+        />
       </div>
       {message && <p className="form-message">{message}</p>}
       <ul className="result-list" aria-label={copy.crud.usersTitle}>
         {users.map((user) => (
           <UserResultCard
-            copy={copy}
             isSelected={edit.values.id === user.id}
             key={user.id}
             onSelect={() => selectUser(user)}

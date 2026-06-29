@@ -1,10 +1,13 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
 import { LoadingSkeleton } from "./shared";
 import { D3BarChart } from "./stats";
 
-export function StatsPanel({ copy }) {
+export function StatsPanel() {
+  const { copy } = useAppContext();
+
   const [monthData, setMonthData] = useState([]);
   const [groupData, setGroupData] = useState([]);
   const [message, setMessage] = useState("");
@@ -14,7 +17,10 @@ export function StatsPanel({ copy }) {
     setIsLoading(true);
     setMessage("");
     try {
-      const [monthResult, groupResult] = await Promise.all([api.postsByMonth(), api.postsByGroup()]);
+      const [monthResult, groupResult] = await Promise.all([
+        api.postsByMonth(),
+        api.postsByGroup()
+      ]);
       setMonthData(monthResult.data || []);
       setGroupData(groupResult.data || []);
       setMessage(copy.stats.loaded);

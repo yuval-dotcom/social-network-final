@@ -1,3 +1,4 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
@@ -13,9 +14,11 @@ const defaultComposer = {
   mediaUrl: ""
 };
 
-export function FeedPanel({ copy, currentUser }) {
+export function FeedPanel() {
+  const { copy, currentUser } = useAppContext();
+
   const composer = useForm(defaultComposer);
-  
+
   const [posts, setPosts] = useState([]);
   const [groups, setGroups] = useState([]);
   const [usersById, setUsersById] = useState({});
@@ -106,8 +109,6 @@ export function FeedPanel({ copy, currentUser }) {
       <div className="feed-layout">
         <div className="feed-main">
           <FeedComposer
-            copy={copy}
-            currentUser={currentUser}
             composer={composer.values}
             groupOptions={groupOptions}
             isPosting={isPosting}
@@ -122,7 +123,6 @@ export function FeedPanel({ copy, currentUser }) {
           <div className="feed-list">
             {posts.map((post) => (
               <FeedPostCard
-                copy={copy}
                 post={post}
                 authorName={userName(post.authorId)}
                 groupName={groupName(post.groupId)}
@@ -133,12 +133,7 @@ export function FeedPanel({ copy, currentUser }) {
           </div>
         </div>
 
-        <FeedSidebar
-          copy={copy}
-          currentUser={currentUser}
-          groupOptions={groupOptions}
-          posts={posts}
-        />
+        <FeedSidebar groupOptions={groupOptions} posts={posts} />
       </div>
     </section>
   );

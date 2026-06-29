@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "../test-utils.jsx";
 import { describe, expect, it, vi } from "vitest";
 import { languages } from "../i18n.js";
 import { ChatPanel } from "./ChatPanel.jsx";
@@ -8,7 +8,9 @@ describe("ChatPanel", () => {
     let messageHandler;
     const fakeClient = {
       join: vi.fn(),
-      loadHistory: vi.fn((roomId, callback) => callback([{ id: "m1", senderId: "u1", text: "hello" }])),
+      loadHistory: vi.fn((roomId, callback) =>
+        callback([{ id: "m1", senderId: "u1", text: "hello" }])
+      ),
       send: vi.fn((payload, callback) => callback({ success: true })),
       onMessage: vi.fn((callback) => {
         messageHandler = callback;
@@ -16,13 +18,9 @@ describe("ChatPanel", () => {
       disconnect: vi.fn()
     };
 
-    render(
-      <ChatPanel
-        copy={languages.he}
-        currentUser={{ id: "user_dana", username: "dana", displayName: "Dana Levi" }}
-        clientFactory={() => fakeClient}
-      />
-    );
+    render(<ChatPanel clientFactory={() => fakeClient} />, {
+      currentUser: { id: "user_dana", username: "dana", displayName: "Dana Levi" }
+    });
 
     expect(fakeClient.join).toHaveBeenCalledWith("general");
     expect(fakeClient.loadHistory).toHaveBeenCalledWith("general", expect.any(Function));

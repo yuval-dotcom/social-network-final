@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "../test-utils.jsx";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { api } from "../api/http.js";
 import { languages } from "../i18n.js";
@@ -74,20 +74,24 @@ describe("GroupDiscoveryPanel", () => {
   });
 
   it("renders groups as discoverable cards", async () => {
-    render(<GroupDiscoveryPanel copy={languages.he} currentUser={currentUser} />);
+    render(<GroupDiscoveryPanel copy={languages.he} />, { currentUser });
 
-    expect((await screen.findAllByRole("heading", { name: "Algorithms Study Lab" })).length).toBeGreaterThan(0);
+    expect(
+      (await screen.findAllByRole("heading", { name: "Algorithms Study Lab" })).length
+    ).toBeGreaterThan(0);
     expect(screen.getByText("Campus Design Circle")).toBeInTheDocument();
     expect(screen.getByText("Computer Science")).toBeInTheDocument();
     expect(screen.getByText("דורשת אישור")).toBeInTheDocument();
     expect(screen.getAllByText("Dana Levi").length).toBeGreaterThan(0);
     expect(screen.getByText("פרטי קבוצה")).toBeInTheDocument();
-    expect(screen.getByText("I uploaded a short summary for graph algorithms.")).toBeInTheDocument();
+    expect(
+      screen.getByText("I uploaded a short summary for graph algorithms.")
+    ).toBeInTheDocument();
   });
 
   it("searches groups with three visible filters", async () => {
     api.searchGroups.mockResolvedValue({ groups: [groups[0]] });
-    render(<GroupDiscoveryPanel copy={languages.he} currentUser={currentUser} />);
+    render(<GroupDiscoveryPanel copy={languages.he} />, { currentUser });
 
     await screen.findAllByRole("heading", { name: "Algorithms Study Lab" });
     fireEvent.change(screen.getByLabelText("מילת חיפוש"), { target: { value: "algo" } });
@@ -95,11 +99,13 @@ describe("GroupDiscoveryPanel", () => {
     fireEvent.change(screen.getByLabelText("פרטיות"), { target: { value: "public" } });
     fireEvent.click(screen.getByRole("button", { name: "חיפוש קבוצות" }));
 
-    await waitFor(() => expect(api.searchGroups).toHaveBeenCalledWith({
-      q: "algo",
-      category: "Computer Science",
-      privacy: "public"
-    }));
+    await waitFor(() =>
+      expect(api.searchGroups).toHaveBeenCalledWith({
+        q: "algo",
+        category: "Computer Science",
+        privacy: "public"
+      })
+    );
   });
 
   it("joins public groups from the discovery screen", async () => {
@@ -110,12 +116,9 @@ describe("GroupDiscoveryPanel", () => {
         memberIds: ["user_noam", "user_dana", "user_maya"]
       }
     });
-    render(
-      <GroupDiscoveryPanel
-        copy={languages.he}
-        currentUser={{ id: "user_maya", username: "maya", displayName: "Maya Bar" }}
-      />
-    );
+    render(<GroupDiscoveryPanel copy={languages.he} />, {
+      currentUser: { id: "user_maya", username: "maya", displayName: "Maya Bar" }
+    });
 
     await screen.findAllByRole("heading", { name: "Algorithms Study Lab" });
     fireEvent.click(screen.getAllByRole("button", { name: "הצטרפות" })[0]);
@@ -134,21 +137,22 @@ describe("GroupDiscoveryPanel", () => {
       }
     });
 
-    render(
-      <GroupDiscoveryPanel
-        copy={languages.he}
-        currentUser={{ id: "user_maya", username: "maya", displayName: "Maya Bar", role: "admin" }}
-      />
-    );
+    render(<GroupDiscoveryPanel copy={languages.he} />, {
+      currentUser: { id: "user_maya", username: "maya", displayName: "Maya Bar", role: "admin" }
+    });
 
     await screen.findAllByRole("heading", { name: "Algorithms Study Lab" });
     fireEvent.click(screen.getAllByRole("button", { name: "פרטים" })[1]);
 
-    expect(screen.getAllByRole("heading", { name: "Campus Design Circle" }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("heading", { name: "Campus Design Circle" }).length).toBeGreaterThan(
+      0
+    );
     expect(screen.getByText("Noam Cohen")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "אישור בקשה" }));
 
-    await waitFor(() => expect(api.approveGroupMember).toHaveBeenCalledWith("group_design", "user_noam"));
+    await waitFor(() =>
+      expect(api.approveGroupMember).toHaveBeenCalledWith("group_design", "user_noam")
+    );
     expect(await screen.findByText("המשתמש אושר ונוסף לחברי הקבוצה.")).toBeInTheDocument();
   });
 });

@@ -1,14 +1,27 @@
-export function GroupSearchBar({ copy, filters, categories, onChange, onSubmit }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function GroupSearchBar({ filters, categories, onChange, onSubmit }) {
+  const { copy } = useAppContext();
+
   return (
     <>
       <form className="group-search-bar" onSubmit={onSubmit}>
         <label>
           {copy.crud.keyword}
-          <input name="q" value={filters.q} onChange={onChange} placeholder={copy.groups.keywordPlaceholder} />
+          <input
+            name="q"
+            value={filters.q}
+            onChange={onChange}
+            placeholder={copy.groups.keywordPlaceholder}
+          />
         </label>
         <label>
           {copy.crud.category}
-          <input name="category" value={filters.category} onChange={onChange} list="group-categories" />
+          <input
+            name="category"
+            value={filters.category}
+            onChange={onChange}
+            list="group-categories"
+          />
         </label>
         <label>
           {copy.crud.privacy}
@@ -18,10 +31,14 @@ export function GroupSearchBar({ copy, filters, categories, onChange, onSubmit }
             <option value="private">{copy.groups.privatePrivacy}</option>
           </select>
         </label>
-        <button type="submit" className="primary-button">{copy.groups.search}</button>
+        <button type="submit" className="primary-button">
+          {copy.groups.search}
+        </button>
       </form>
       <datalist id="group-categories">
-        {categories.map((category) => <option value={category} key={category} />)}
+        {categories.map((category) => (
+          <option value={category} key={category} />
+        ))}
       </datalist>
     </>
   );

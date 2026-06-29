@@ -1,6 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { TagChip } from "../shared";
 
-export function ProfileRecentPosts({ copy, groupName, posts }) {
+export function ProfileRecentPosts({ groupName, posts }) {
+  const { copy } = useAppContext();
+
   return (
     <section className="profile-card profile-posts-card" aria-labelledby="profile-posts-title">
       <h3 id="profile-posts-title">{copy.profile.recentPosts}</h3>

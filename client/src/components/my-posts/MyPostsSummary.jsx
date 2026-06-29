@@ -1,4 +1,7 @@
-export function MyPostsSummary({ copy, stats }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function MyPostsSummary({ stats }) {
+  const { copy } = useAppContext();
+
   return (
     <aside className="my-posts-summary" aria-label={copy.myPosts.summaryTitle}>
       <div>
@@ -6,9 +9,18 @@ export function MyPostsSummary({ copy, stats }) {
         <p>{copy.myPosts.summaryBody}</p>
       </div>
       <div className="group-stats">
-        <span><strong>{stats.total}</strong>{copy.myPosts.total}</span>
-        <span><strong>{stats.tagged}</strong>{copy.myPosts.tagged}</span>
-        <span><strong>{stats.groups}</strong>{copy.myPosts.groups}</span>
+        <span>
+          <strong>{stats.total}</strong>
+          {copy.myPosts.total}
+        </span>
+        <span>
+          <strong>{stats.tagged}</strong>
+          {copy.myPosts.tagged}
+        </span>
+        <span>
+          <strong>{stats.groups}</strong>
+          {copy.myPosts.groups}
+        </span>
       </div>
     </aside>
   );

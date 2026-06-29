@@ -1,4 +1,7 @@
-export function VideoPreview({ copy, onVideoUrlChange, videoUrl }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function VideoPreview({ onVideoUrlChange, videoUrl }) {
+  const { copy } = useAppContext();
+
   return (
     <div>
       <label>

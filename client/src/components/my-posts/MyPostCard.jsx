@@ -1,6 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { TagChip } from "../shared";
 
-export function MyPostCard({ copy, post, groupName, isSelected, onEdit, onDelete }) {
+export function MyPostCard({ post, groupName, isSelected, onEdit, onDelete }) {
+  const { copy } = useAppContext();
+
   return (
     <article className={`my-post-card ${isSelected ? "is-selected" : ""}`}>
       <div className="my-post-card-header">
@@ -19,7 +22,9 @@ export function MyPostCard({ copy, post, groupName, isSelected, onEdit, onDelete
       </div>
       {post.tags?.length > 0 && (
         <div className="feed-tags" aria-label={copy.feed.tagsLabel}>
-          {post.tags.map((tag) => <TagChip key={tag}>{tag}</TagChip>)}
+          {post.tags.map((tag) => (
+            <TagChip key={tag}>{tag}</TagChip>
+          ))}
         </div>
       )}
     </article>

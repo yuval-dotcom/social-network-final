@@ -1,9 +1,12 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { GroupsPanel } from "../GroupsPanel.jsx";
 import { PostsPanel } from "../PostsPanel.jsx";
 import { UsersPanel } from "../UsersPanel.jsx";
 import { ModelMap } from "./ModelMap.jsx";
 
-export function ManagementView({ copy }) {
+export function ManagementView() {
+  const { copy } = useAppContext();
+
   return (
     <section className="management-view" id="manage">
       <div className="management-intro">
@@ -21,10 +24,10 @@ export function ManagementView({ copy }) {
           <strong>React + jQuery Ajax</strong>
         </div>
       </div>
-      <ModelMap copy={copy} />
-      <UsersPanel copy={copy} />
-      <GroupsPanel copy={copy} />
-      <PostsPanel copy={copy} />
+      <ModelMap />
+      <UsersPanel />
+      <GroupsPanel />
+      <PostsPanel />
     </section>
   );
 }

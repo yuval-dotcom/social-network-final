@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "../test-utils.jsx";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { api } from "../api/http.js";
 import { languages } from "../i18n.js";
@@ -44,7 +44,9 @@ describe("CRUD panels", () => {
     fireEvent.change(screen.getByLabelText("תפקיד"), { target: { value: "student" } });
     fireEvent.click(screen.getByRole("button", { name: "חיפוש" }));
 
-    await waitFor(() => expect(api.searchUsers).toHaveBeenCalledWith({ q: "dana", major: "CS", role: "student" }));
+    await waitFor(() =>
+      expect(api.searchUsers).toHaveBeenCalledWith({ q: "dana", major: "CS", role: "student" })
+    );
   });
 
   it("creates users from the management UI", async () => {
@@ -63,15 +65,19 @@ describe("CRUD panels", () => {
     fireEvent.change(screen.getByLabelText("שם משתמש חדש"), { target: { value: "ron" } });
     fireEvent.change(screen.getByLabelText("סיסמה זמנית"), { target: { value: "demo123" } });
     fireEvent.change(screen.getByLabelText("שם מלא חדש"), { target: { value: "Ron Amir" } });
-    fireEvent.change(screen.getByLabelText("מסלול לימודים חדש"), { target: { value: "Computer Science" } });
+    fireEvent.change(screen.getByLabelText("מסלול לימודים חדש"), {
+      target: { value: "Computer Science" }
+    });
     fireEvent.click(screen.getByRole("button", { name: "יצירה" }));
 
-    await waitFor(() => expect(api.register).toHaveBeenCalledWith({
-      username: "ron",
-      password: "demo123",
-      displayName: "Ron Amir",
-      major: "Computer Science"
-    }));
+    await waitFor(() =>
+      expect(api.register).toHaveBeenCalledWith({
+        username: "ron",
+        password: "demo123",
+        displayName: "Ron Amir",
+        major: "Computer Science"
+      })
+    );
     expect(screen.getByText("Ron Amir")).toBeInTheDocument();
     expect(screen.getByText("נוצר בהצלחה.")).toBeInTheDocument();
     expect(screen.getByLabelText("סיסמה זמנית")).toHaveValue("");
@@ -88,15 +94,17 @@ describe("CRUD panels", () => {
 
   it("fills the user edit form from a selected result card", async () => {
     api.listUsers.mockResolvedValue({
-      users: [{
-        id: "user_dana",
-        username: "dana",
-        displayName: "Dana Levi",
-        bio: "Likes algorithms",
-        major: "Computer Science",
-        role: "student",
-        groupIds: ["group_algorithms"]
-      }]
+      users: [
+        {
+          id: "user_dana",
+          username: "dana",
+          displayName: "Dana Levi",
+          bio: "Likes algorithms",
+          major: "Computer Science",
+          role: "student",
+          groupIds: ["group_algorithms"]
+        }
+      ]
     });
     render(<UsersPanel copy={languages.he} />);
 
@@ -113,15 +121,17 @@ describe("CRUD panels", () => {
 
   it("removes deleted users from the visible list", async () => {
     api.listUsers.mockResolvedValue({
-      users: [{
-        id: "user_temp",
-        username: "temp",
-        displayName: "Temp User",
-        bio: "",
-        major: "Testing",
-        role: "student",
-        groupIds: []
-      }]
+      users: [
+        {
+          id: "user_temp",
+          username: "temp",
+          displayName: "Temp User",
+          bio: "",
+          major: "Testing",
+          role: "student",
+          groupIds: []
+        }
+      ]
     });
     api.deleteUser.mockResolvedValue({ success: true });
     render(<UsersPanel copy={languages.he} />);
@@ -150,32 +160,38 @@ describe("CRUD panels", () => {
     });
     render(<GroupsPanel copy={languages.he} />);
 
-    fireEvent.change(screen.getByLabelText("מזהה", { exact: true }), { target: { value: "manual_group" } });
+    fireEvent.change(screen.getByLabelText("מזהה", { exact: true }), {
+      target: { value: "manual_group" }
+    });
     fireEvent.change(screen.getByLabelText("שם"), { target: { value: "Math" } });
     fireEvent.change(screen.getAllByLabelText("קטגוריה")[0], { target: { value: "Math" } });
     fireEvent.click(screen.getByRole("button", { name: "יצירה" }));
 
-    await waitFor(() => expect(api.createGroup).toHaveBeenCalledWith({
-      name: "Math",
-      description: "",
-      category: "Math",
-      privacy: "public"
-    }));
+    await waitFor(() =>
+      expect(api.createGroup).toHaveBeenCalledWith({
+        name: "Math",
+        description: "",
+        category: "Math",
+        privacy: "public"
+      })
+    );
     expect(screen.getByText("פריט נבחר: g1")).toBeInTheDocument();
   });
 
   it("fills the group form from a selected result card", async () => {
     api.listGroups.mockResolvedValue({
-      groups: [{
-        id: "group_design",
-        name: "Campus Design Circle",
-        description: "Portfolio feedback",
-        category: "Design",
-        privacy: "private",
-        ownerId: "user_maya",
-        memberIds: ["user_maya"],
-        pendingMemberIds: ["user_noam"]
-      }]
+      groups: [
+        {
+          id: "group_design",
+          name: "Campus Design Circle",
+          description: "Portfolio feedback",
+          category: "Design",
+          privacy: "private",
+          ownerId: "user_maya",
+          memberIds: ["user_maya"],
+          pendingMemberIds: ["user_noam"]
+        }
+      ]
     });
     render(<GroupsPanel copy={languages.he} />);
 
@@ -188,21 +204,25 @@ describe("CRUD panels", () => {
     expect(screen.getAllByLabelText("קטגוריה")[0]).toHaveValue("Design");
     expect(screen.getByLabelText("מזהה משתמש")).toHaveValue("user_noam");
     expect(screen.getByText("פריט נבחר: group_design")).toBeInTheDocument();
-    expect(screen.getByText("Campus Design Circle").closest(".result-card")).toHaveClass("is-selected");
+    expect(screen.getByText("Campus Design Circle").closest(".result-card")).toHaveClass(
+      "is-selected"
+    );
   });
 
   it("updates group result cards after editing", async () => {
     api.listGroups.mockResolvedValue({
-      groups: [{
-        id: "group_temp",
-        name: "Temp Group",
-        description: "",
-        category: "Testing",
-        privacy: "public",
-        ownerId: "user_dana",
-        memberIds: ["user_dana"],
-        pendingMemberIds: []
-      }]
+      groups: [
+        {
+          id: "group_temp",
+          name: "Temp Group",
+          description: "",
+          category: "Testing",
+          privacy: "public",
+          ownerId: "user_dana",
+          memberIds: ["user_dana"],
+          pendingMemberIds: []
+        }
+      ]
     });
     api.updateGroup.mockResolvedValue({
       group: {
@@ -243,33 +263,39 @@ describe("CRUD panels", () => {
     });
     render(<PostsPanel copy={languages.he} />);
 
-    fireEvent.change(screen.getByLabelText("מזהה", { exact: true }), { target: { value: "manual_post" } });
+    fireEvent.change(screen.getByLabelText("מזהה", { exact: true }), {
+      target: { value: "manual_post" }
+    });
     fireEvent.change(screen.getAllByLabelText("מזהה קבוצה")[0], { target: { value: "g1" } });
     fireEvent.change(screen.getByLabelText("תוכן"), { target: { value: "Exam tips" } });
     fireEvent.click(screen.getByRole("button", { name: "יצירה" }));
 
-    await waitFor(() => expect(api.createPost).toHaveBeenCalledWith({
-      groupId: "g1",
-      content: "Exam tips",
-      tags: [],
-      mediaUrl: "",
-      mediaType: ""
-    }));
+    await waitFor(() =>
+      expect(api.createPost).toHaveBeenCalledWith({
+        groupId: "g1",
+        content: "Exam tips",
+        tags: [],
+        mediaUrl: "",
+        mediaType: ""
+      })
+    );
     expect(screen.getByText("פריט נבחר: p1")).toBeInTheDocument();
   });
 
   it("fills the post form from a selected result card", async () => {
     api.listPosts.mockResolvedValue({
-      posts: [{
-        id: "post_algorithms_1",
-        groupId: "group_algorithms",
-        authorId: "user_dana",
-        content: "Graph summary",
-        tags: ["exam", "graphs"],
-        mediaUrl: "",
-        mediaType: "",
-        createdAt: "2026-06-01T09:00:00.000Z"
-      }]
+      posts: [
+        {
+          id: "post_algorithms_1",
+          groupId: "group_algorithms",
+          authorId: "user_dana",
+          content: "Graph summary",
+          tags: ["exam", "graphs"],
+          mediaUrl: "",
+          mediaType: "",
+          createdAt: "2026-06-01T09:00:00.000Z"
+        }
+      ]
     });
     render(<PostsPanel copy={languages.he} />);
 
@@ -291,16 +317,18 @@ describe("CRUD panels", () => {
 
   it("removes deleted posts from the visible list", async () => {
     api.listPosts.mockResolvedValue({
-      posts: [{
-        id: "post_temp",
-        groupId: "group_algorithms",
-        authorId: "user_dana",
-        content: "Temporary post",
-        tags: ["qa"],
-        mediaUrl: "",
-        mediaType: "",
-        createdAt: "2026-06-01T09:00:00.000Z"
-      }]
+      posts: [
+        {
+          id: "post_temp",
+          groupId: "group_algorithms",
+          authorId: "user_dana",
+          content: "Temporary post",
+          tags: ["qa"],
+          mediaUrl: "",
+          mediaType: "",
+          createdAt: "2026-06-01T09:00:00.000Z"
+        }
+      ]
     });
     api.deletePost.mockResolvedValue({ success: true });
     render(<PostsPanel copy={languages.he} />);

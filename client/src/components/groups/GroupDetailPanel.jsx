@@ -1,3 +1,4 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { Avatar, TagChip } from "../shared";
 
 function userLabel(usersById, userId) {
@@ -39,7 +40,8 @@ function PeopleList({ title, emptyText, ids, usersById, actionForUser }) {
   );
 }
 
-function GroupPostPreviewList({ copy, posts }) {
+function GroupPostPreviewList({ posts }) {
+  const { copy } = useAppContext();
   return (
     <div className="group-detail-section">
       <h4>{copy.groups.recentPosts}</h4>
@@ -64,7 +66,9 @@ function GroupPostPreviewList({ copy, posts }) {
   );
 }
 
-export function GroupDetailPanel({ copy, currentUser, group, message, posts, stats, users, onApproveMember }) {
+export function GroupDetailPanel({ group, message, posts, stats, users, onApproveMember }) {
+  const { copy, currentUser } = useAppContext();
+
   if (!group) {
     return (
       <aside className="group-detail-panel" aria-label={copy.groups.detailTitle}>
@@ -111,9 +115,18 @@ export function GroupDetailPanel({ copy, currentUser, group, message, posts, sta
       </dl>
 
       <div className="group-network-stats" aria-label={copy.groups.spotlightTitle}>
-        <span><strong>{stats.total}</strong>{copy.groups.totalGroups}</span>
-        <span><strong>{stats.publicCount}</strong>{copy.groups.publicGroups}</span>
-        <span><strong>{stats.myGroups}</strong>{copy.groups.myGroups}</span>
+        <span>
+          <strong>{stats.total}</strong>
+          {copy.groups.totalGroups}
+        </span>
+        <span>
+          <strong>{stats.publicCount}</strong>
+          {copy.groups.publicGroups}
+        </span>
+        <span>
+          <strong>{stats.myGroups}</strong>
+          {copy.groups.myGroups}
+        </span>
       </div>
 
       <PeopleList
@@ -131,20 +144,24 @@ export function GroupDetailPanel({ copy, currentUser, group, message, posts, sta
       />
 
       <PeopleList
-        actionForUser={(userId) => (
+        actionForUser={(userId) =>
           canManage ? (
-            <button type="button" className="compact-button" onClick={() => onApproveMember(group.id, userId)}>
+            <button
+              type="button"
+              className="compact-button"
+              onClick={() => onApproveMember(group.id, userId)}
+            >
               {copy.groups.approveRequest}
             </button>
           ) : null
-        )}
+        }
         emptyText={copy.groups.noPendingRequests}
         ids={pendingMemberIds}
         title={copy.groups.pendingRequests}
         usersById={usersById}
       />
 
-      <GroupPostPreviewList copy={copy} posts={groupPosts} />
+      <GroupPostPreviewList posts={groupPosts} />
 
       {canManage && <p className="group-manager-note">{copy.groups.managerNote}</p>}
       {message && <p className="form-message">{message}</p>}

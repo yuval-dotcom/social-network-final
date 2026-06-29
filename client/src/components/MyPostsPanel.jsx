@@ -1,3 +1,4 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { api } from "../api/http.js";
@@ -8,9 +9,11 @@ import { MyPostCard, MyPostEditor, MyPostsSummary } from "./my-posts";
 
 const emptyEditor = { id: "", content: "", tags: "" };
 
-export function MyPostsPanel({ copy }) {
+export function MyPostsPanel() {
+  const { copy } = useAppContext();
+
   const editor = useForm(emptyEditor);
-  
+
   const [posts, setPosts] = useState([]);
   const [groupsById, setGroupsById] = useState({});
   const [message, setMessage] = useState("");
@@ -26,10 +29,7 @@ export function MyPostsPanel({ copy }) {
   async function loadMyPosts() {
     setIsLoading(true);
     setMessage("");
-    const [postsResult, groupsResult] = await Promise.allSettled([
-      api.myPosts(),
-      api.listGroups()
-    ]);
+    const [postsResult, groupsResult] = await Promise.allSettled([api.myPosts(), api.listGroups()]);
 
     if (postsResult.status === "rejected") {
       setMessage(getApiErrorMessage(postsResult.reason, copy.crud.failed));
@@ -71,7 +71,9 @@ export function MyPostsPanel({ copy }) {
         content: editor.values.content,
         tags: splitCommaList(editor.values.tags)
       });
-      setPosts((current) => current.map((post) => (post.id === editor.values.id ? result.post : post)));
+      setPosts((current) =>
+        current.map((post) => (post.id === editor.values.id ? result.post : post))
+      );
       startEdit(result.post);
       setMessage(copy.myPosts.updated);
     } catch (error) {
@@ -101,7 +103,12 @@ export function MyPostsPanel({ copy }) {
           <h2>{copy.myPosts.title}</h2>
           <p>{copy.myPosts.subtitle}</p>
         </div>
-        <button type="button" className="secondary-button" onClick={loadMyPosts} disabled={isLoading}>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={loadMyPosts}
+          disabled={isLoading}
+        >
           {copy.myPosts.refresh}
         </button>
       </div>
@@ -112,7 +119,6 @@ export function MyPostsPanel({ copy }) {
           {!isLoading && posts.length === 0 && <p className="feed-state">{copy.myPosts.empty}</p>}
           {posts.map((post) => (
             <MyPostCard
-              copy={copy}
               post={post}
               groupName={groupName(post.groupId)}
               isSelected={editor.values.id === post.id}
@@ -124,9 +130,8 @@ export function MyPostsPanel({ copy }) {
         </div>
 
         <div className="my-posts-side">
-          <MyPostsSummary copy={copy} stats={stats} />
+          <MyPostsSummary stats={stats} />
           <MyPostEditor
-            copy={copy}
             editor={editor.values}
             isSaving={isSaving}
             onChange={editor.onChange}

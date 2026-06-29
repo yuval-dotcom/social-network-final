@@ -1,8 +1,15 @@
+import { useAppContext } from "../contexts/AppContext.jsx";
 import { useEffect, useState } from "react";
 import { api } from "../api/http.js";
 import { getApiErrorMessage } from "../api/apiError.js";
 import { CardSkeleton } from "./shared";
-import { ProfileFriends, ProfileGroups, ProfileHeader, ProfileRecentPosts, ProfileStats } from "./profile";
+import {
+  ProfileFriends,
+  ProfileGroups,
+  ProfileHeader,
+  ProfileRecentPosts,
+  ProfileStats
+} from "./profile";
 
 function userId(user) {
   return user?.id || user?._id || user?.sub || "";
@@ -10,7 +17,10 @@ function userId(user) {
 
 function findProfile(users, currentUser) {
   const currentId = userId(currentUser);
-  return users.find((user) => userId(user) === currentId || user.username === currentUser?.username) || currentUser;
+  return (
+    users.find((user) => userId(user) === currentId || user.username === currentUser?.username) ||
+    currentUser
+  );
 }
 
 function findFriends(users, profile) {
@@ -21,10 +31,14 @@ function findFriends(users, profile) {
 function findGroups(groups, profile) {
   const profileId = userId(profile);
   const groupIds = profile?.groupIds || [];
-  return groups.filter((group) => groupIds.includes(group.id) || group.memberIds?.includes(profileId));
+  return groups.filter(
+    (group) => groupIds.includes(group.id) || group.memberIds?.includes(profileId)
+  );
 }
 
-export function ProfilePanel({ copy, currentUser }) {
+export function ProfilePanel() {
+  const { copy, currentUser } = useAppContext();
+
   const [profile, setProfile] = useState(currentUser || {});
   const [friends, setFriends] = useState([]);
   const [groups, setGroups] = useState([]);
@@ -74,7 +88,12 @@ export function ProfilePanel({ copy, currentUser }) {
           <h2>{copy.profile.title}</h2>
           <p>{copy.profile.body}</p>
         </div>
-        <button type="button" className="secondary-button" onClick={loadProfile} disabled={isLoading}>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={loadProfile}
+          disabled={isLoading}
+        >
           {copy.profile.refresh}
         </button>
       </div>
@@ -85,9 +104,8 @@ export function ProfilePanel({ copy, currentUser }) {
       {!isLoading && (
         <div className="profile-layout">
           <div className="profile-side">
-            <ProfileHeader copy={copy} profile={profile} />
+            <ProfileHeader profile={profile} />
             <ProfileStats
-              copy={copy}
               friendsCount={friends.length}
               groupsCount={groups.length}
               postsCount={posts.length}
@@ -95,9 +113,9 @@ export function ProfilePanel({ copy, currentUser }) {
           </div>
 
           <div className="profile-main">
-            <ProfileFriends copy={copy} friends={friends} />
-            <ProfileGroups copy={copy} groups={groups} />
-            <ProfileRecentPosts copy={copy} groupName={groupName} posts={posts} />
+            <ProfileFriends friends={friends} />
+            <ProfileGroups groups={groups} />
+            <ProfileRecentPosts groupName={groupName} posts={posts} />
           </div>
         </div>
       )}

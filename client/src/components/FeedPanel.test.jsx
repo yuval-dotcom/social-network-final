@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "../test-utils.jsx";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { api } from "../api/http.js";
 import { languages } from "../i18n.js";
@@ -19,11 +19,13 @@ describe("FeedPanel", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     api.listGroups.mockResolvedValue({
-      groups: [{
-        id: "group_algorithms",
-        name: "Algorithms Study Lab",
-        category: "Computer Science"
-      }]
+      groups: [
+        {
+          id: "group_algorithms",
+          name: "Algorithms Study Lab",
+          category: "Computer Science"
+        }
+      ]
     });
     api.listUsers.mockResolvedValue({
       users: [
@@ -35,19 +37,23 @@ describe("FeedPanel", () => {
 
   it("renders published posts as the main social feed", async () => {
     api.feed.mockResolvedValue({
-      posts: [{
-        id: "post_algorithms_2",
-        authorId: "user_noam",
-        groupId: "group_algorithms",
-        content: "Who wants to solve dynamic programming questions tonight?",
-        tags: ["practice", "dp"],
-        createdAt: "2026-06-12T17:30:00.000Z"
-      }]
+      posts: [
+        {
+          id: "post_algorithms_2",
+          authorId: "user_noam",
+          groupId: "group_algorithms",
+          content: "Who wants to solve dynamic programming questions tonight?",
+          tags: ["practice", "dp"],
+          createdAt: "2026-06-12T17:30:00.000Z"
+        }
+      ]
     });
 
-    render(<FeedPanel copy={languages.he} currentUser={currentUser} />);
+    render(<FeedPanel copy={languages.he} />, { currentUser: currentUser });
 
-    expect(await screen.findByText("Who wants to solve dynamic programming questions tonight?")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Who wants to solve dynamic programming questions tonight?")
+    ).toBeInTheDocument();
     expect(screen.getByText("Noam Cohen")).toBeInTheDocument();
     expect(screen.getAllByText(/Algorithms Study Lab/).length).toBeGreaterThan(0);
     expect(screen.getByText("practice")).toBeInTheDocument();
@@ -59,17 +65,19 @@ describe("FeedPanel", () => {
 
   it("supports a local save action on a feed post card", async () => {
     api.feed.mockResolvedValue({
-      posts: [{
-        id: "post_algorithms_2",
-        authorId: "user_noam",
-        groupId: "group_algorithms",
-        content: "Who wants to solve dynamic programming questions tonight?",
-        tags: ["practice"],
-        createdAt: "2026-06-12T17:30:00.000Z"
-      }]
+      posts: [
+        {
+          id: "post_algorithms_2",
+          authorId: "user_noam",
+          groupId: "group_algorithms",
+          content: "Who wants to solve dynamic programming questions tonight?",
+          tags: ["practice"],
+          createdAt: "2026-06-12T17:30:00.000Z"
+        }
+      ]
     });
 
-    render(<FeedPanel copy={languages.he} currentUser={currentUser} />);
+    render(<FeedPanel copy={languages.he} />, { currentUser: currentUser });
 
     const saveButton = await screen.findByRole("button", { name: "שמירה" });
     fireEvent.click(saveButton);
@@ -93,7 +101,7 @@ describe("FeedPanel", () => {
       }
     });
 
-    render(<FeedPanel copy={languages.he} currentUser={currentUser} />);
+    render(<FeedPanel copy={languages.he} />, { currentUser: currentUser });
 
     await screen.findByText("אין עדיין פוסטים להצגה.");
     fireEvent.change(screen.getByLabelText("תוכן הפוסט"), {
@@ -107,13 +115,15 @@ describe("FeedPanel", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "פרסום פוסט" }));
 
-    await waitFor(() => expect(api.createPost).toHaveBeenCalledWith({
-      groupId: "group_algorithms",
-      content: "Uploaded a focused exam summary.",
-      tags: ["exam", "summary"],
-      mediaUrl: videoUrl,
-      mediaType: "video"
-    }));
+    await waitFor(() =>
+      expect(api.createPost).toHaveBeenCalledWith({
+        groupId: "group_algorithms",
+        content: "Uploaded a focused exam summary.",
+        tags: ["exam", "summary"],
+        mediaUrl: videoUrl,
+        mediaType: "video"
+      })
+    );
     expect(await screen.findByText("Uploaded a focused exam summary.")).toBeInTheDocument();
     expect(document.querySelector(".feed-video")).toHaveAttribute("src", videoUrl);
     expect(screen.getByText("הפוסט פורסם בפיד.")).toBeInTheDocument();

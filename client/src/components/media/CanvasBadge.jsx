@@ -1,3 +1,4 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { useEffect, useRef } from "react";
 
 function drawStudentBadge(canvas, name) {
@@ -18,7 +19,9 @@ function drawStudentBadge(canvas, name) {
   context.fillRect(24, 112, 180, 12);
 }
 
-export function CanvasBadge({ copy, drawCount, name, onNameChange }) {
+export function CanvasBadge({ drawCount, name, onNameChange }) {
+  const { copy } = useAppContext();
+
   const canvasRef = useRef(null);
 
   useEffect(() => {

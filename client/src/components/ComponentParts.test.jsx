@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "../test-utils.jsx";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { languages } from "../i18n.js";
 import { useForm } from "../hooks/useForm.js";
@@ -94,7 +94,9 @@ describe("small UI components", () => {
             Title
             <input name="title" value={values.title} onChange={onChange} />
           </label>
-          <button type="button" onClick={reset}>Reset</button>
+          <button type="button" onClick={reset}>
+            Reset
+          </button>
           <output>{values.title}</output>
         </form>
       );
@@ -136,7 +138,9 @@ describe("small UI components", () => {
 
     expect(screen.getByText("Noam Cohen")).toBeInTheDocument();
     expect(screen.getByText(/Algorithms Study Lab/)).toBeInTheDocument();
-    expect(screen.getByText("Who wants to solve dynamic programming questions tonight?")).toBeInTheDocument();
+    expect(
+      screen.getByText("Who wants to solve dynamic programming questions tonight?")
+    ).toBeInTheDocument();
     expect(screen.getByText("practice")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "שמירה" }));
     expect(screen.getByRole("button", { name: "נשמר" })).toBeInTheDocument();
@@ -146,10 +150,10 @@ describe("small UI components", () => {
     render(
       <FeedProfileCard
         copy={languages.he}
-        currentUser={{ displayName: "Dana Levi", major: "Computer Science" }}
         posts={[{ authorId: "user_dana" }, { authorId: "user_noam" }]}
         groupCount={2}
-      />
+      />,
+      { currentUser: { displayName: "Dana Levi", major: "Computer Science" } }
     );
 
     expect(screen.getByText("הפרופיל שלך")).toBeInTheDocument();
@@ -188,7 +192,13 @@ describe("small UI components", () => {
   });
 
   it("renders a D3 chart as a reusable SVG component", () => {
-    render(<D3BarChart data={[{ month: "2026-06", count: 3 }]} labelKey="month" title="פוסטים לפי חודש" />);
+    render(
+      <D3BarChart
+        data={[{ month: "2026-06", count: 3 }]}
+        labelKey="month"
+        title="פוסטים לפי חודש"
+      />
+    );
 
     expect(screen.getByLabelText("פוסטים לפי חודש")).toBeInTheDocument();
     expect(document.querySelectorAll("rect").length).toBeGreaterThan(0);
@@ -204,7 +214,10 @@ describe("small UI components", () => {
     );
 
     expect(screen.getByLabelText("קישור וידאו")).toHaveValue("https://example.com/demo.mp4");
-    expect(screen.getByLabelText("נגן וידאו")).toHaveAttribute("src", "https://example.com/demo.mp4");
+    expect(screen.getByLabelText("נגן וידאו")).toHaveAttribute(
+      "src",
+      "https://example.com/demo.mp4"
+    );
   });
 
   it("renders user result cards as separate management parts", () => {
@@ -321,7 +334,6 @@ describe("small UI components", () => {
     render(
       <GroupDetailPanel
         copy={languages.he}
-        currentUser={{ id: "user_maya", role: "admin" }}
         group={{
           id: "group_design",
           name: "Campus Design Circle",
@@ -334,24 +346,29 @@ describe("small UI components", () => {
         }}
         message=""
         onApproveMember={onApproveMember}
-        posts={[{
-          id: "post_design_1",
-          groupId: "group_design",
-          content: "Please review this short portfolio video before class.",
-          tags: ["portfolio"]
-        }]}
+        posts={[
+          {
+            id: "post_design_1",
+            groupId: "group_design",
+            content: "Please review this short portfolio video before class.",
+            tags: ["portfolio"]
+          }
+        ]}
         stats={{ total: 2, publicCount: 1, myGroups: 1 }}
         users={[
           { id: "user_maya", username: "maya", displayName: "Maya Bar" },
           { id: "user_noam", username: "noam", displayName: "Noam Cohen" }
         ]}
-      />
+      />,
+      { currentUser: { id: "user_maya", role: "admin" } }
     );
 
     expect(screen.getByRole("heading", { name: "Campus Design Circle" })).toBeInTheDocument();
     expect(screen.getAllByText("Maya Bar").length).toBeGreaterThan(0);
     expect(screen.getByText("Noam Cohen")).toBeInTheDocument();
-    expect(screen.getByText("Please review this short portfolio video before class.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Please review this short portfolio video before class.")
+    ).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "אישור בקשה" }));
     expect(onApproveMember).toHaveBeenCalledWith("group_design", "user_noam");
   });

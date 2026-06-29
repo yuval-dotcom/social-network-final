@@ -1,6 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { Avatar } from "../shared";
 
-export function ChatSidebar({ activeRoomId, copy, displayName }) {
+export function ChatSidebar({ activeRoomId, displayName }) {
+  const { copy } = useAppContext();
+
   return (
     <aside className="chat-sidebar" aria-label={copy.chat.roomListLabel}>
       <div className="chat-user-card">

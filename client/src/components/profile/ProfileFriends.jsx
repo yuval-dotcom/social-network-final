@@ -1,6 +1,9 @@
+import { useAppContext } from "../../contexts/AppContext.jsx";
 import { Avatar } from "../shared";
 
-export function ProfileFriends({ copy, friends }) {
+export function ProfileFriends({ friends }) {
+  const { copy } = useAppContext();
+
   return (
     <section className="profile-card" aria-labelledby="profile-friends-title">
       <h3 id="profile-friends-title">{copy.profile.friendList}</h3>

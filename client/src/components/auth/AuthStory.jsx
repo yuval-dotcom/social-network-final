@@ -1,4 +1,7 @@
-export function AuthStory({ copy }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function AuthStory() {
+  const { copy } = useAppContext();
+
   return (
     <div className="auth-story" aria-label={copy.authScreen.storyLabel}>
       <p className="eyebrow">{copy.tagline}</p>

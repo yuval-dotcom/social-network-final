@@ -1,4 +1,7 @@
-export function MyPostEditor({ copy, editor, isSaving, onChange, onSubmit, onCancel }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function MyPostEditor({ editor, isSaving, onChange, onSubmit, onCancel }) {
+  const { copy } = useAppContext();
+
   if (!editor.id) {
     return (
       <div className="my-post-editor empty">

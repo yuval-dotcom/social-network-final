@@ -1,4 +1,7 @@
-export function UserResultCard({ copy, isSelected, onSelect, user }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function UserResultCard({ isSelected, onSelect, user }) {
+  const { copy } = useAppContext();
+
   return (
     <li className={`result-card ${isSelected ? "is-selected" : ""}`}>
       <div className="result-card-header">

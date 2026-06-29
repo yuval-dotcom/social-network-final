@@ -15,9 +15,13 @@ export class ErrorBoundary extends Component {
       return (
         <div className="error-boundary">
           <div className="error-boundary-card">
-            <span className="error-boundary-mark" aria-hidden="true">!</span>
+            <span className="error-boundary-mark" aria-hidden="true">
+              !
+            </span>
             <h2>{this.props.title || "Something went wrong"}</h2>
-            <p>{this.props.message || this.state.error?.message || "An unexpected error occurred."}</p>
+            <p>
+              {this.props.message || this.state.error?.message || "An unexpected error occurred."}
+            </p>
             <button
               type="button"
               className="primary-button"

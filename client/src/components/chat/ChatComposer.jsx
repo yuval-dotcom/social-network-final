@@ -1,4 +1,7 @@
-export function ChatComposer({ copy, onSubmit, onTextChange, text }) {
+import { useAppContext } from "../../contexts/AppContext.jsx";
+export function ChatComposer({ onSubmit, onTextChange, text }) {
+  const { copy } = useAppContext();
+
   return (
     <form className="chat-composer" onSubmit={onSubmit}>
       <label>
@@ -10,7 +13,9 @@ export function ChatComposer({ copy, onSubmit, onTextChange, text }) {
           required
         />
       </label>
-      <button type="submit" className="primary-button">{copy.chat.send}</button>
+      <button type="submit" className="primary-button">
+        {copy.chat.send}
+      </button>
     </form>
   );
 }
