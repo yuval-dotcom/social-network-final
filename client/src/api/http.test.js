@@ -1,37 +1,46 @@
-import $ from "jquery";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { apiRequest } from "./http.js";
 
-describe("jQuery Ajax API layer", () => {
+describe("Native Fetch API layer", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     localStorage.clear();
   });
 
-  it("sends requests through $.ajax", () => {
-    const ajaxSpy = vi.spyOn($, "ajax").mockResolvedValue({ success: true });
+  it("sends requests through fetch", async () => {
+    const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true })
+    });
 
-    apiRequest("/health");
+    await apiRequest("/health");
 
-    expect(ajaxSpy).toHaveBeenCalledWith(
+    expect(fetchSpy).toHaveBeenCalledWith(
+      "http://localhost:4000/api/health",
       expect.objectContaining({
-        url: "http://localhost:4000/api/health",
         method: "GET"
       })
     );
   });
 
-  it("adds bearer token headers and JSON bodies", () => {
+  it("adds bearer token headers and JSON bodies", async () => {
     localStorage.setItem("studycircle_token", "abc123");
-    const ajaxSpy = vi.spyOn($, "ajax").mockResolvedValue({ success: true });
+    const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true })
+    });
 
-    apiRequest("/groups", { method: "POST", data: { name: "Math" } });
+    await apiRequest("/groups", { method: "POST", data: { name: "Math" } });
 
-    expect(ajaxSpy).toHaveBeenCalledWith(
+    expect(fetchSpy).toHaveBeenCalledWith(
+      "http://localhost:4000/api/groups",
       expect.objectContaining({
         method: "POST",
-        data: JSON.stringify({ name: "Math" }),
-        headers: { Authorization: "Bearer abc123" }
+        body: JSON.stringify({ name: "Math" }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer abc123"
+        }
       })
     );
   });

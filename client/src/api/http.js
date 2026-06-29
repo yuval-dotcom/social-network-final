@@ -1,16 +1,26 @@
-import $ from "jquery";
 import { getToken } from "./tokenStorage.js";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api";
 
-export function apiRequest(path, { method = "GET", data, token = getToken() } = {}) {
-  return $.ajax({
-    url: `${API_BASE_URL}${path}`,
+export async function apiRequest(path, { method = "GET", data, token = getToken() } = {}) {
+  const headers = { "Content-Type": "application/json" };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const response = await fetch(`${API_BASE_URL}${path}`, {
     method,
-    contentType: "application/json",
-    data: data ? JSON.stringify(data) : undefined,
-    headers: token ? { Authorization: `Bearer ${token}` } : {}
+    headers,
+    body: data ? JSON.stringify(data) : undefined,
   });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(payload.message || "API request failed");
+    error.status = response.status;
+    error.responseJSON = payload;
+    throw error;
+  }
+
+  return payload;
 }
 
 export const api = {
