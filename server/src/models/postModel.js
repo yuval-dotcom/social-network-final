@@ -1,4 +1,9 @@
-import { normalizeStringArray, optionalText, requireText, textSearchFilter } from "../utils/modelValidation.js";
+import {
+  normalizeStringArray,
+  optionalText,
+  requireText,
+  textSearchFilter
+} from "../utils/modelValidation.js";
 
 export const POST_COLLECTION = "posts";
 
@@ -44,4 +49,3 @@ export function buildPostSearchFilter({ q, groupId, authorId, tag, from, to } = 
 export function canEditPost(post, userId) {
   return Boolean(post && post.authorId === userId);
 }
-

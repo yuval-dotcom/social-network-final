@@ -19,7 +19,9 @@ describe("official model repositories", () => {
 
     expect(created.passwordHash).toBeUndefined();
     expect(await userRepository.list(db)).toHaveLength(1);
-    expect(await userRepository.search(db, { q: "dana", major: "Computer Science" })).toHaveLength(1);
+    expect(await userRepository.search(db, { q: "dana", major: "Computer Science" })).toHaveLength(
+      1
+    );
 
     const updated = await userRepository.update(db, created.id, { bio: "Second year student" });
     expect(updated.bio).toBe("Second year student");
@@ -37,7 +39,13 @@ describe("official model repositories", () => {
     });
 
     expect(created.privacy).toBe("private");
-    expect(await groupRepository.search(db, { category: "Computer Science", privacy: "private", memberId: "u1" })).toHaveLength(1);
+    expect(
+      await groupRepository.search(db, {
+        category: "Computer Science",
+        privacy: "private",
+        memberId: "u1"
+      })
+    ).toHaveLength(1);
   });
 
   it("creates and searches posts", async () => {

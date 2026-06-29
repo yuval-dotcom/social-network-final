@@ -1,4 +1,9 @@
-import { normalizeStringArray, optionalText, requireText, textSearchFilter } from "../utils/modelValidation.js";
+import {
+  normalizeStringArray,
+  optionalText,
+  requireText,
+  textSearchFilter
+} from "../utils/modelValidation.js";
 
 export const USER_COLLECTION = "users";
 
@@ -22,7 +27,8 @@ export function buildUserDocument(input) {
 export function buildUserUpdate(input) {
   const update = {};
 
-  if (input.displayName !== undefined) update.displayName = requireText(input.displayName, "displayName");
+  if (input.displayName !== undefined)
+    update.displayName = requireText(input.displayName, "displayName");
   if (input.email !== undefined) update.email = optionalText(input.email).toLowerCase();
   if (input.bio !== undefined) update.bio = optionalText(input.bio);
   if (input.avatarUrl !== undefined) update.avatarUrl = optionalText(input.avatarUrl);
@@ -47,4 +53,3 @@ export function publicUser(user) {
   const { passwordHash, ...safeUser } = user;
   return safeUser;
 }
-

@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { buildGroupDocument, buildGroupSearchFilter, isGroupManager, isGroupMember } from "./groupModel.js";
+import {
+  buildGroupDocument,
+  buildGroupSearchFilter,
+  isGroupManager,
+  isGroupMember
+} from "./groupModel.js";
 import { buildPostDocument, buildPostSearchFilter, canEditPost } from "./postModel.js";
 import { buildUserDocument, buildUserSearchFilter, publicUser } from "./userModel.js";
 
@@ -44,14 +49,22 @@ describe("core StudyCircle models", () => {
   });
 
   it("requires important fields", () => {
-    expect(() => buildUserDocument({ username: "", passwordHash: "x", displayName: "x" })).toThrow("username");
-    expect(() => buildGroupDocument({ name: "x", category: "", ownerId: "u1" })).toThrow("category");
-    expect(() => buildPostDocument({ authorId: "u1", groupId: "g1", content: "" })).toThrow("content");
+    expect(() => buildUserDocument({ username: "", passwordHash: "x", displayName: "x" })).toThrow(
+      "username"
+    );
+    expect(() => buildGroupDocument({ name: "x", category: "", ownerId: "u1" })).toThrow(
+      "category"
+    );
+    expect(() => buildPostDocument({ authorId: "u1", groupId: "g1", content: "" })).toThrow(
+      "content"
+    );
   });
 
   it("builds search filters for the three official models", () => {
     expect(buildUserSearchFilter({ q: "dan", major: "CS" }).major).toBe("CS");
-    expect(buildGroupSearchFilter({ category: "Math", privacy: "private" }).privacy).toBe("private");
+    expect(buildGroupSearchFilter({ category: "Math", privacy: "private" }).privacy).toBe(
+      "private"
+    );
     expect(buildPostSearchFilter({ groupId: "g1", authorId: "u1", tag: "exam" })).toMatchObject({
       groupId: "g1",
       authorId: "u1",

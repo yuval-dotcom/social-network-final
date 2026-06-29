@@ -1,4 +1,9 @@
-import { POST_COLLECTION, buildPostDocument, buildPostSearchFilter, buildPostUpdate } from "../models/postModel.js";
+import {
+  POST_COLLECTION,
+  buildPostDocument,
+  buildPostSearchFilter,
+  buildPostUpdate
+} from "../models/postModel.js";
 import { createCrudRepository } from "./crudRepository.js";
 
 export const postRepository = createCrudRepository({
@@ -7,4 +12,3 @@ export const postRepository = createCrudRepository({
   buildUpdate: buildPostUpdate,
   buildSearchFilter: buildPostSearchFilter
 });
-

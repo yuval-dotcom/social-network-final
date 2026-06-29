@@ -18,4 +18,3 @@ export const chatMessageRepository = {
     return documents.map(serializeDocument);
   }
 };
-

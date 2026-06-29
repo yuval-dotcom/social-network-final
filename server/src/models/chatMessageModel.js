@@ -11,4 +11,3 @@ export function buildChatMessageDocument(input) {
     createdAt: input.createdAt || new Date()
   };
 }
-

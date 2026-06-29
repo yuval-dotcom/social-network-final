@@ -1,4 +1,9 @@
-import { normalizeStringArray, optionalText, requireText, textSearchFilter } from "../utils/modelValidation.js";
+import {
+  normalizeStringArray,
+  optionalText,
+  requireText,
+  textSearchFilter
+} from "../utils/modelValidation.js";
 
 export const GROUP_COLLECTION = "groups";
 export const GROUP_PRIVACY = ["public", "private"];
@@ -32,7 +37,8 @@ export function buildGroupUpdate(input) {
   }
   if (input.managerIds !== undefined) update.managerIds = normalizeStringArray(input.managerIds);
   if (input.memberIds !== undefined) update.memberIds = normalizeStringArray(input.memberIds);
-  if (input.pendingMemberIds !== undefined) update.pendingMemberIds = normalizeStringArray(input.pendingMemberIds);
+  if (input.pendingMemberIds !== undefined)
+    update.pendingMemberIds = normalizeStringArray(input.pendingMemberIds);
 
   update.updatedAt = new Date();
   return update;
@@ -54,4 +60,3 @@ export function isGroupManager(group, userId) {
 export function isGroupMember(group, userId) {
   return Boolean(group?.memberIds?.includes(userId));
 }
-

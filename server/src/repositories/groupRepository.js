@@ -1,4 +1,9 @@
-import { GROUP_COLLECTION, buildGroupDocument, buildGroupSearchFilter, buildGroupUpdate } from "../models/groupModel.js";
+import {
+  GROUP_COLLECTION,
+  buildGroupDocument,
+  buildGroupSearchFilter,
+  buildGroupUpdate
+} from "../models/groupModel.js";
 import { createCrudRepository } from "./crudRepository.js";
 
 export const groupRepository = createCrudRepository({
@@ -7,4 +12,3 @@ export const groupRepository = createCrudRepository({
   buildUpdate: buildGroupUpdate,
   buildSearchFilter: buildGroupSearchFilter
 });
-
