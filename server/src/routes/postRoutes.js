@@ -15,4 +15,3 @@ export function createPostRouter({ postController, authenticate }) {
 
   return router;
 }
-

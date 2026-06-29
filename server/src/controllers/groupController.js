@@ -67,7 +67,11 @@ export function createGroupController({ groups }) {
           : { memberIds: unique([...(group.memberIds || []), userId]) };
 
       const updatedGroup = await groups.update(req.db, req.params.id, update);
-      res.json({ success: true, group: updatedGroup, status: group.privacy === "private" ? "pending" : "joined" });
+      res.json({
+        success: true,
+        group: updatedGroup,
+        status: group.privacy === "private" ? "pending" : "joined"
+      });
     },
 
     async approve(req, res) {

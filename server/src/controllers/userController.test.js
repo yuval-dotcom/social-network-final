@@ -43,7 +43,10 @@ describe("user controller", () => {
     const res = createRes();
 
     await controller.update({ db: {}, params: { id: "u1" }, body: {}, user: { sub: "u1" } }, res);
-    const updatePromise = controller.update({ db: {}, params: { id: "u2" }, body: {}, user: { sub: "u1" } }, createRes());
+    const updatePromise = controller.update(
+      { db: {}, params: { id: "u2" }, body: {}, user: { sub: "u1" } },
+      createRes()
+    );
 
     expect(res.body.user).toEqual({ id: "u1", displayName: "Dana" });
     await expect(updatePromise).rejects.toHaveProperty("status", 403);

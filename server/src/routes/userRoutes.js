@@ -12,4 +12,3 @@ export function createUserRouter({ userController, authenticate }) {
 
   return router;
 }
-

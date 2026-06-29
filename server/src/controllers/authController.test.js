@@ -52,4 +52,3 @@ describe("auth controller", () => {
     expect(res.body).toEqual({ success: true, user: { sub: "u1", username: "dana" } });
   });
 });
-

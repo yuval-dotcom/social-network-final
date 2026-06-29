@@ -9,4 +9,3 @@ export function createAuthRouter({ authController, authenticate }) {
 
   return router;
 }
-

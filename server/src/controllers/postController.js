@@ -67,7 +67,8 @@ export function createPostController({ posts, groups, users }) {
       for (const post of allPosts) {
         const group = await groups.findById(req.db, post.groupId);
         const isFriendPost = allowedAuthors.has(post.authorId);
-        const isMemberGroupPost = allowedGroups.has(post.groupId) || isGroupMember(group, req.user.sub);
+        const isMemberGroupPost =
+          allowedGroups.has(post.groupId) || isGroupMember(group, req.user.sub);
 
         if ((isFriendPost || isMemberGroupPost) && canViewGroupContent(group, req.user.sub)) {
           feedPosts.push(post);

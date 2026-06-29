@@ -22,7 +22,8 @@ export function createUserController({ users }) {
     },
 
     async update(req, res) {
-      if (!canManageUser(req, req.params.id)) throw httpError(403, "You can update only your own profile");
+      if (!canManageUser(req, req.params.id))
+        throw httpError(403, "You can update only your own profile");
 
       const user = await users.update(req.db, req.params.id, req.body);
       if (!user) throw httpError(404, "User not found");
@@ -31,7 +32,8 @@ export function createUserController({ users }) {
     },
 
     async remove(req, res) {
-      if (!canManageUser(req, req.params.id)) throw httpError(403, "You can delete only your own profile");
+      if (!canManageUser(req, req.params.id))
+        throw httpError(403, "You can delete only your own profile");
 
       const removed = await users.remove(req.db, req.params.id);
       if (!removed) throw httpError(404, "User not found");

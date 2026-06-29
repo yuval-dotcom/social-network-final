@@ -9,4 +9,3 @@ export function createStatsRouter({ statsController, authenticate }) {
 
   return router;
 }
-

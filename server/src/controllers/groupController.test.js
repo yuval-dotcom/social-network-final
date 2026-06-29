@@ -41,7 +41,10 @@ describe("group controller", () => {
       }
     });
 
-    const updatePromise = controller.update({ db: {}, params: { id: "g1" }, body: {}, user: { sub: "u1", role: "student" } }, createRes());
+    const updatePromise = controller.update(
+      { db: {}, params: { id: "g1" }, body: {}, user: { sub: "u1", role: "student" } },
+      createRes()
+    );
 
     await expect(updatePromise).rejects.toHaveProperty("status", 403);
   });
@@ -50,7 +53,13 @@ describe("group controller", () => {
     const controller = createGroupController({
       groups: {
         async findById() {
-          return { id: "g1", privacy: "private", managerIds: ["u1"], memberIds: ["u1"], pendingMemberIds: [] };
+          return {
+            id: "g1",
+            privacy: "private",
+            managerIds: ["u1"],
+            memberIds: ["u1"],
+            pendingMemberIds: []
+          };
         },
         async update(db, id, update) {
           return update;

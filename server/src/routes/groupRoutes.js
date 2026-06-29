@@ -15,4 +15,3 @@ export function createGroupRouter({ groupController, authenticate }) {
 
   return router;
 }
-

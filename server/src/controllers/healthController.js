@@ -5,4 +5,3 @@ export function getHealth(req, res) {
     status: "ok"
   });
 }
-

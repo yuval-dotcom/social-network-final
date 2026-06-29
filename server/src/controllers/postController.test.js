@@ -32,7 +32,11 @@ describe("post controller", () => {
     });
     const res = createRes();
 
-    await controller.create({ db: {}, body: { groupId: "g1", content: "hello" }, user: { sub: "u1" } }, res, () => {});
+    await controller.create(
+      { db: {}, body: { groupId: "g1", content: "hello" }, user: { sub: "u1" } },
+      res,
+      () => {}
+    );
 
     expect(res.statusCode).toBe(201);
     expect(res.body.post.authorId).toBe("u1");
@@ -49,7 +53,10 @@ describe("post controller", () => {
       users: {}
     });
 
-    const updatePromise = controller.update({ db: {}, params: { id: "p1" }, body: {}, user: { sub: "u2", role: "student" } }, createRes());
+    const updatePromise = controller.update(
+      { db: {}, params: { id: "p1" }, body: {}, user: { sub: "u2", role: "student" } },
+      createRes()
+    );
 
     await expect(updatePromise).rejects.toHaveProperty("status", 403);
   });
