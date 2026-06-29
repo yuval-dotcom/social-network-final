@@ -1,23 +1,21 @@
+import $ from "jquery";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { apiRequest } from "./http.js";
 
-describe("Native Fetch API layer", () => {
+describe("jQuery Ajax API layer", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     localStorage.clear();
   });
 
-  it("sends requests through fetch", async () => {
-    const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue({
-      ok: true,
-      json: async () => ({ success: true })
-    });
+  it("sends requests through $.ajax", async () => {
+    const ajaxSpy = vi.spyOn($, "ajax").mockResolvedValue({ success: true });
 
     await apiRequest("/health");
 
-    expect(fetchSpy).toHaveBeenCalledWith(
-      "http://localhost:4000/api/health",
+    expect(ajaxSpy).toHaveBeenCalledWith(
       expect.objectContaining({
+        url: "http://localhost:4000/api/health",
         method: "GET"
       })
     );
@@ -25,22 +23,32 @@ describe("Native Fetch API layer", () => {
 
   it("adds bearer token headers and JSON bodies", async () => {
     localStorage.setItem("studycircle_token", "abc123");
-    const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue({
-      ok: true,
-      json: async () => ({ success: true })
-    });
+    const ajaxSpy = vi.spyOn($, "ajax").mockResolvedValue({ success: true });
 
     await apiRequest("/groups", { method: "POST", data: { name: "Math" } });
 
-    expect(fetchSpy).toHaveBeenCalledWith(
-      "http://localhost:4000/api/groups",
+    expect(ajaxSpy).toHaveBeenCalledWith(
       expect.objectContaining({
+        url: "http://localhost:4000/api/groups",
         method: "POST",
-        body: JSON.stringify({ name: "Math" }),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer abc123"
-        }
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify({ name: "Math" }),
+        headers: { Authorization: "Bearer abc123" }
+      })
+    );
+  });
+
+  it("does not send an auth header when token is disabled", async () => {
+    localStorage.setItem("studycircle_token", "abc123");
+    const ajaxSpy = vi.spyOn($, "ajax").mockResolvedValue({ success: true });
+
+    await apiRequest("/auth/login", { method: "POST", data: { username: "dana" }, token: "" });
+
+    expect(ajaxSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        headers: {},
+        url: "http://localhost:4000/api/auth/login"
       })
     );
   });
