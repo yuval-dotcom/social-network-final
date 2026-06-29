@@ -186,7 +186,8 @@ export const languages = {
       modelMapTitle: "שלושת המודלים באפליקציה",
       modelMapBody: "זה המקום שמראה בצורה פשוטה איך המודלים של MongoDB הופכים לחוויית רשת חברתית.",
       modelFlowTitle: "הקשר המרכזי",
-      modelFlowBody: "User מפרסם Post בתוך Group. הפיד מציג רק פוסטים מקבוצות וחברים שהמשתמש רשאי לראות, וההרשאות נאכפות גם בשרת.",
+      modelFlowBody:
+        "User מפרסם Post בתוך Group. הפיד מציג רק פוסטים מקבוצות וחברים שהמשתמש רשאי לראות, וההרשאות נאכפות גם בשרת.",
       models: [
         {
           name: "User",
@@ -212,7 +213,8 @@ export const languages = {
       usersTitle: "ניהול משתמשים",
       groupsTitle: "ניהול קבוצות",
       postsTitle: "ניהול פוסטים",
-      userCreateHint: "אפשר ליצור משתמש חדש גם מכאן וגם דרך מסך ההרשמה. הסיסמה נשלחת לשרת ונשמרת כ-hash.",
+      userCreateHint:
+        "אפשר ליצור משתמש חדש גם מכאן וגם דרך מסך ההרשמה. הסיסמה נשלחת לשרת ונשמרת כ-hash.",
       searchSection: "חיפוש וסינון",
       editSection: "עריכה ומחיקה",
       createEditSection: "יצירה ועריכה",
@@ -362,12 +364,14 @@ export const languages = {
     feed: {
       eyebrow: "Main screen",
       title: "Your feed",
-      subtitle: "See posts from groups and friends, and publish a new update like a real social network.",
+      subtitle:
+        "See posts from groups and friends, and publish a new update like a real social network.",
       loading: "Loading posts...",
       empty: "There are no posts to show yet.",
       refresh: "Refresh feed",
       composerTitle: "What are you studying today?",
-      demoHint: "In the demo, publish to Algorithms Study Lab and the post appears here immediately.",
+      demoHint:
+        "In the demo, publish to Algorithms Study Lab and the post appears here immediately.",
       contentLabel: "Post content",
       placeholder: "Share a question, summary, exam tip, or request for help...",
       groupLabel: "Post in group",
@@ -382,13 +386,15 @@ export const languages = {
       savePost: "Save",
       savedPost: "Saved",
       profileTitle: "Your profile",
-      profileSubtitle: "The feed is personalized by the signed-in user, friends, and visible groups.",
+      profileSubtitle:
+        "The feed is personalized by the signed-in user, friends, and visible groups.",
       profileDefaultMajor: "Student",
       profilePosts: "Feed posts",
       profileGroups: "Groups",
       profileAuthors: "Authors",
       sidebarTitle: "Active groups",
-      sidebarBody: "The feed is built from group posts the user is allowed to see and from friends.",
+      sidebarBody:
+        "The feed is built from group posts the user is allowed to see and from friends.",
       groupFallback: "Study group",
       unknownUser: "User",
       unknownGroup: "Group"
@@ -397,7 +403,8 @@ export const languages = {
       eyebrow: "Personal area",
       title: "My profile",
       body: "One view of the signed-in user, friends, study groups, and recent posts.",
-      subtitle: "The profile connects your identity, the groups you belong to, and the content you published.",
+      subtitle:
+        "The profile connects your identity, the groups you belong to, and the content you published.",
       refresh: "Refresh profile",
       loading: "Loading profile...",
       failed: "Profile loading failed.",
@@ -419,7 +426,8 @@ export const languages = {
     myPosts: {
       eyebrow: "Personal area",
       title: "My posts",
-      subtitle: "See only the posts you published, with edit and delete actions outside the CRUD screens.",
+      subtitle:
+        "See only the posts you published, with edit and delete actions outside the CRUD screens.",
       refresh: "Refresh posts",
       loading: "Loading your posts...",
       empty: "You have not published posts yet.",
@@ -433,7 +441,8 @@ export const languages = {
       editorTitle: "Edit post",
       noSelection: "Choose a post from the list to edit it.",
       summaryTitle: "Personal summary",
-      summaryBody: "This screen implements the My Posts requirement as a normal user experience, separate from management.",
+      summaryBody:
+        "This screen implements the My Posts requirement as a normal user experience, separate from management.",
       total: "Posts",
       tagged: "Tagged",
       groups: "Groups"
@@ -441,7 +450,8 @@ export const languages = {
     groups: {
       eyebrow: "Study communities",
       title: "Discover groups",
-      subtitle: "Find groups by topic, privacy, or keyword, and join without opening the management screens.",
+      subtitle:
+        "Find groups by topic, privacy, or keyword, and join without opening the management screens.",
       refresh: "Refresh groups",
       search: "Search groups",
       loading: "Loading groups...",
@@ -460,7 +470,8 @@ export const languages = {
       join: "Join",
       requestJoin: "Request to join",
       spotlightTitle: "Group snapshot",
-      spotlightBody: "This is the normal user experience. Full CRUD screens remain under management.",
+      spotlightBody:
+        "This is the normal user experience. Full CRUD screens remain under management.",
       totalGroups: "Groups",
       publicGroups: "Public",
       myGroups: "Mine",
@@ -491,9 +502,11 @@ export const languages = {
       body: "The full CRUD screens for users, groups, and posts live here so the main screen stays a clean social feed while every course requirement remains accessible through the UI.",
       modelMapEyebrow: "Defense explanation",
       modelMapTitle: "The three application models",
-      modelMapBody: "This section shows how the MongoDB models become a real social-network experience.",
+      modelMapBody:
+        "This section shows how the MongoDB models become a real social-network experience.",
       modelFlowTitle: "Core relationship",
-      modelFlowBody: "A User publishes a Post inside a Group. The feed returns only posts from friends and groups the user is allowed to see, and permissions are enforced on the server.",
+      modelFlowBody:
+        "A User publishes a Post inside a Group. The feed returns only posts from friends and groups the user is allowed to see, and permissions are enforced on the server.",
       models: [
         {
           name: "User",
@@ -519,7 +532,8 @@ export const languages = {
       usersTitle: "Users management",
       groupsTitle: "Groups management",
       postsTitle: "Posts management",
-      userCreateHint: "Users can be created here and through the registration screen. The password is sent to the server and stored as a hash.",
+      userCreateHint:
+        "Users can be created here and through the registration screen. The password is sent to the server and stored as a hash.",
       searchSection: "Search and filters",
       editSection: "Edit and delete",
       createEditSection: "Create and edit",

@@ -23,4 +23,3 @@ export function createChatClient({ url = SOCKET_URL, ioFactory = io } = {}) {
     }
   };
 }
-

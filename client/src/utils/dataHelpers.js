@@ -3,5 +3,8 @@ export function indexById(items) {
 }
 
 export function splitCommaList(value) {
-  return value.split(",").map((item) => item.trim()).filter(Boolean);
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 }

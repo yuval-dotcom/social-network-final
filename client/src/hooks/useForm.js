@@ -5,7 +5,7 @@ export function useForm(initialValues) {
 
   function onChange(event) {
     const { name, value } = event.target;
-    setValues(current => ({ ...current, [name]: value }));
+    setValues((current) => ({ ...current, [name]: value }));
   }
 
   function reset() {

@@ -9,7 +9,7 @@ export async function apiRequest(path, { method = "GET", data, token = getToken(
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method,
     headers,
-    body: data ? JSON.stringify(data) : undefined,
+    body: data ? JSON.stringify(data) : undefined
   });
 
   const payload = await response.json().catch(() => ({}));
